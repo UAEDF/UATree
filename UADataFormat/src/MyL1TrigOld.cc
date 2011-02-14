@@ -1,0 +1,17 @@
+
+#include "MyL1TrigOld.h"
+
+ClassImp(MyL1TrigOld)
+
+MyL1TrigOld::MyL1TrigOld()
+{ }
+
+MyL1TrigOld::~MyL1TrigOld()
+{ }
+
+/*
+void MyL1TrigOld::Reset()
+{
+
+}
+*/
