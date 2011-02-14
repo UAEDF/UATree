@@ -140,9 +140,9 @@ Bool_t UABaseTree::GetLooseCaloJetId(const MyCaloJet& myjet , const string& raw_
 
   //-- retrieve the parameters
 
-  HPD_CutUp = ParaSetLooseCaloJetID_.getParameter<double>("HPD_CutUp");
-  n90hits_CutLow = ParaSetLooseCaloJetID_.getParameter<int>("n90hits_CutLow");
-  fem_CutLow = ParaSetLooseCaloJetID_.getParameter<double>("fem_CutLow");
+  HPD_CutUp = ParaSetLooseCaloJetID_.getUntrackedParameter<double>("HPD_CutUp",0);
+  n90hits_CutLow = ParaSetLooseCaloJetID_.getUntrackedParameter<int>("n90hits_CutLow",0);
+  fem_CutLow = ParaSetLooseCaloJetID_.getUntrackedParameter<double>("fem_CutLow",0);
 
   //-- loose selection for Calo jet
 
@@ -151,7 +151,7 @@ Bool_t UABaseTree::GetLooseCaloJetId(const MyCaloJet& myjet , const string& raw_
   //-- loose jet id
   if(myjet.HPD < HPD_CutUp && myjet.n90hits > n90hits_CutLow) {
     //cout << &((myjet.mapjet)[string("gf")]);
-    if(fabs(myjet.mapjet.find(raw_coll)->second.v.Eta()) < 2.6) { //FIXME: depends on raw eta here !!
+    if(fabs(myjet.mapjet.find(raw_coll)->second.v.Eta()) < 2.4) { //FIXME: depends on raw eta here !!
       if(myjet.fem > fem_CutLow) accept = true;
     }
 
@@ -176,12 +176,12 @@ Bool_t UABaseTree::GetTightCaloJetId(const MyCaloJet& myjet , const string& raw_
 
   //-- retrieve the parameters
 
-  HPD_CutUp = ParaSetTightCaloJetID_.getParameter<double>("HPD_CutUp");
-  n90hits_CutLow = ParaSetTightCaloJetID_.getParameter<int>("n90hits_CutLow");
-  RBX_CutUp = ParaSetTightCaloJetID_.getParameter<double>("RBX_CutUp");
-  sigma_eta_CutLow = ParaSetTightCaloJetID_.getParameter<double>("sigma_eta_CutLow");
-  sigma_phi_CutLow = ParaSetTightCaloJetID_.getParameter<double>("sigma_phi_CutLow");
-  fem_CutLow = ParaSetTightCaloJetID_.getParameter<double>("fem_CutLow");
+  HPD_CutUp = ParaSetTightCaloJetID_.getUntrackedParameter<double>("HPD_CutUp",0);
+  n90hits_CutLow = ParaSetTightCaloJetID_.getUntrackedParameter<int>("n90hits_CutLow",0);
+  RBX_CutUp = ParaSetTightCaloJetID_.getUntrackedParameter<double>("RBX_CutUp",0);
+  sigma_eta_CutLow = ParaSetTightCaloJetID_.getUntrackedParameter<double>("sigma_eta_CutLow",0);
+  sigma_phi_CutLow = ParaSetTightCaloJetID_.getUntrackedParameter<double>("sigma_phi_CutLow",0);
+  fem_CutLow = ParaSetTightCaloJetID_.getUntrackedParameter<double>("fem_CutLow",0);
 
   //-- tight selection for Calo jet
 
@@ -192,7 +192,7 @@ Bool_t UABaseTree::GetTightCaloJetId(const MyCaloJet& myjet , const string& raw_
      && myjet.sigma_eta > sigma_eta_CutLow && myjet.sigma_phi > sigma_phi_CutLow) {
 
     //-- inside tracker acceptance depends on fem
-    if(fabs(myjet.mapjet.find(raw_coll)->second.v.Eta()) < 2.6) { //FIXME: depends on raw eta here !!
+    if(fabs(myjet.mapjet.find(raw_coll)->second.v.Eta()) < 2.4) { //FIXME: depends on raw eta here !!
       if(myjet.fem > fem_CutLow) accept = true;
     }
 
