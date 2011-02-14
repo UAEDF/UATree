@@ -29,8 +29,8 @@
 #include "DataFormats/Common/interface/TriggerResults.h"
 #include "HLTrigger/HLTcore/interface/HLTConfigProvider.h"
 
-
-
+// Track
+#include "DataFormats/TrackReco/interface/Track.h"
 
 
 // ChPartTree Analysis class decleration
@@ -105,11 +105,15 @@ class UABaseTree : public EDAnalyzer {
       
       virtual void GetRecoTracks(   const Event& , const string , vector<MyTracks>& );
       virtual void GetAllTracks(    const Event& );
+      virtual void FillTrack(       const Track& , MyTracks& );
       virtual void GetRecoVertex(   const Event& , const string , vector<MyVertex>& ); 
       virtual void GetAllVertices(  const Event& ); 
       
       virtual void GetRecoCaloJets( const Event& , const EventSetup& , const PSet& , vector<MyCaloJet>& );
       virtual void GetAllCaloJets(  const Event& , const EventSetup& );
+      
+      virtual void GetRecoPFJets(   const Event& , const EventSetup& , const PSet& , vector<MyPFJet>& );
+      virtual void GetAllPFJets(    const Event& , const EventSetup& );
       
       // --------------------   Get All Parameters   --------------------
       virtual void GetParameters( const ParameterSet& );
@@ -123,6 +127,8 @@ class UABaseTree : public EDAnalyzer {
       bool hasFired(const std::string& , const TriggerNames& trigNames, const TriggerResults& ) const;
       Bool_t GetLooseCaloJetId(const MyCaloJet& , const string& );
       Bool_t GetTightCaloJetId(const MyCaloJet& , const string& );
+      Bool_t GetLoosePFJetId(  const MyPFJet&   , const string& );
+      Bool_t GetTightPFJetId(  const MyPFJet&   , const string& );
 
 
 
@@ -146,6 +152,7 @@ class UABaseTree : public EDAnalyzer {
       vector<InputTag> tracks_ ;
       vector<InputTag> vertices_ ;
       vector<PSet>     vcalojets_;
+      vector<PSet>     vpfjets_;
       
       //for fwdGap
       double energyThresholdHB_ ;
@@ -165,6 +172,8 @@ class UABaseTree : public EDAnalyzer {
       //for jet ID
       PSet ParaSetLooseCaloJetID_;
       PSet ParaSetTightCaloJetID_;
+      PSet ParaSetLoosePFJetID_;
+      PSet ParaSetTightPFJetID_;
       
       
       string outputfilename_ ;
@@ -201,6 +210,7 @@ class UABaseTree : public EDAnalyzer {
 
 
       map<string,vector<MyCaloJet> > allCaloJets;
+      map<string,vector<MyPFJet> >   allPFJets;
 
 
 
