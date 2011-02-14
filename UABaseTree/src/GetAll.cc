@@ -24,7 +24,7 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   if(storeL1TrigOld_)		    GetL1TrigOld(iEvent);
   
  
-  GetMITEvtSel(iEvent);
+  if(storeMITEvtSel_)               GetMITEvtSel(iEvent);
 
 
   // Reset vtx id and vector
