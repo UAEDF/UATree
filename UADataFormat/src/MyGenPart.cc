@@ -12,7 +12,7 @@ void MyGenPart::Reset(){
   /*v      = TLorentzVector(0,0,0,0);
   charge = 0;*/
   
-  (*((MyPart*) this)).Reset();
+  this->MyPart::Reset();
   pdgId  = 0;
   status = 0;
   mo1    = -1;
@@ -28,7 +28,7 @@ void MyGenPart::Print(){
   cout << "E      : " << this->v.E()  << endl;
   cout << "charge : " << this->charge << endl;*/
   
-  (*((MyPart*) this)).Print();
+  this->MyPart::Print();
 
   cout << "pdgId  : " << this->pdgId <<endl;
   cout << "status : " << this->status <<endl;

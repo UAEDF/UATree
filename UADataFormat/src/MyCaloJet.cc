@@ -11,7 +11,7 @@ MyCaloJet::~MyCaloJet(){}
 
 void MyCaloJet::Print(){
 
-  (*((MyJet*) this)).Print();
+  this->MyJet::Print();
   
   cout << "fem:       " << fem       << endl;  
   cout << "eem_EB:    " << eem_EB    << endl; 
@@ -37,7 +37,7 @@ void MyCaloJet::Print(){
 
 void MyCaloJet::Reset(){
 
-  (*((MyJet*) this)).Reset();
+  this->MyJet::Reset();
   
   fem        = 0;
   eem_EB     = 0;

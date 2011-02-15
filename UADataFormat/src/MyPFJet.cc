@@ -11,7 +11,7 @@ MyPFJet::~MyPFJet(){}
 
 void MyPFJet::Print(){
 
-  (*((MyJet*) this)).Print();
+  this->MyJet::Print();
   
   cout << "fhad_ch      : " << fhad_ch	    << endl;  
   cout << "fhad_ne      : " << fhad_ne	    << endl; 
@@ -32,7 +32,7 @@ void MyPFJet::Print(){
 
 void MyPFJet::Reset(){
 
-  (*((MyJet*) this)).Reset();
+  this->MyJet::Reset();
   
   fhad_ch       = 0;
   fhad_ne       = 0;
