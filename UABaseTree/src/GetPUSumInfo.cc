@@ -11,7 +11,7 @@
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
 
-bool PUSumInfoDebug = true ;
+bool PUSumInfoDebug = false ;
 
 void UABaseTree::GetPUSumInfo(const edm::Event& iEvent)
 {
@@ -20,7 +20,7 @@ void UABaseTree::GetPUSumInfo(const edm::Event& iEvent)
    
    edm::Handle<PileupSummaryInfo> puInfoH;
    try {
-     iEvent.getByLabel("addPileupInfo",puInfoH);
+     iEvent.getByLabel(pusuminfo_,puInfoH);
      pusuminfo.nPU = puInfoH->getPU_NumInteractions();
      cout << "nPU = " << puInfoH->getPU_NumInteractions() << " " << pusuminfo.nPU << endl;
      for(int i=0; i<puInfoH->getPU_NumInteractions(); i++){
