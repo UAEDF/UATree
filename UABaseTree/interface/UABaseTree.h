@@ -144,10 +144,15 @@ class UABaseTree : public EDAnalyzer {
       vector<InputTag> beamspots_ ;
       Bool_t           storeEvtId_;
       InputTag         calotower_ ;
+      Bool_t           storeFwdGap_;
       InputTag         hepmc_ ;
       InputTag         genmet_ ;
       InputTag         genpart_ ;
+      Bool_t           storeGenKin_;
+      Bool_t           storeGenMet_;
+      Bool_t           storeGenPart_;
       InputTag         pusuminfo_;
+      Bool_t           storePUSumInfo_;
       vector<string>   hlt_paths_;
       Bool_t           storeL1Trig_;
       Bool_t           storeL1TrigOld_;
