@@ -8,6 +8,7 @@
 #include "MyEvtId.h"
 #include "MyFwdGap.h"
 #include "MyGenKin.h"
+#include "MyPUSumInfo.h"
 #include "MyGenMet.h"
 #include "MyGenPart.h"
 #include "MyHLTrig.h"

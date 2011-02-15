@@ -10,6 +10,7 @@ rootcint -f eventdict.cc -c -p \
      MyGenKin.h \
      MyGenMet.h \
      MyGenPart.h \
+     MyPUSumInfo.h \
      MyHLTrig.h \
      MyL1Trig.h \
      MyL1TrigOld.h \

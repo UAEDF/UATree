@@ -20,6 +20,8 @@
 #pragma link C++ class vector<MyFwdGap>+;
 #pragma link C++ class MyGenKin+;
 #pragma link C++ class vector<MyGenKin>+;
+#pragma link C++ class MyPUSumInfo+;
+#pragma link C++ class vector<MyPUSumInfo>+;
 #pragma link C++ class MyGenMet+;
 #pragma link C++ class vector<MyGenMet>+;
 #pragma link C++ class MyGenPart+;
