@@ -20,15 +20,14 @@ void UABaseTree::Init(){
 
   // General Event Info 
   if(storeEvtId_)		     tree->Branch("evtId",&evtId);
-  if(calotower_.label().size() > 0)  tree->Branch("fwdGap",&fwdGap);
+  if(storeFwdGap_)                   tree->Branch("fwdGap",&fwdGap);
   
   //MC Info
-  if(hepmc_.label().size() > 0)      tree->Branch("genKin",&genKin);
-  if(genpart_.label().size() > 0 &&
-     genmet_ .label().size() > 0 )   tree->Branch("genMet",&genMet);
-  if(genpart_.label().size() > 0)    tree->Branch("genPart",&genPart);
-  if(genpart_.label().size() > 0)    tree->Branch("simVertex",&simVertex);
-  if(pusuminfo_.label().size() > 0)  tree->Branch("PUSumInfo",&pusuminfo); 
+  if(storeGenKin_)                   tree->Branch("genKin",&genKin);
+  if(storeGenMet_)                   tree->Branch("genMet",&genMet);
+  if(storeGenPart_)                  tree->Branch("genPart",&genPart);
+  if(storeGenPart_)                  tree->Branch("simVertex",&simVertex);
+  if(storePUSumInfo_)                tree->Branch("PUSumInfo",&pusuminfo); 
  
   //Triggers
   if(hlt_paths_.size() > 0)	     tree->Branch("HLTrig",&HLTrig);
