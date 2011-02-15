@@ -22,7 +22,6 @@ void UABaseTree::GetPUSumInfo(const edm::Event& iEvent)
    try {
      iEvent.getByLabel(pusuminfo_,puInfoH);
      pusuminfo.nPU = puInfoH->getPU_NumInteractions();
-     cout << "nPU = " << puInfoH->getPU_NumInteractions() << " " << pusuminfo.nPU << endl;
      for(int i=0; i<puInfoH->getPU_NumInteractions(); i++){
        pusuminfo.zposition.push_back(puInfoH->getPU_zpositions()[i]);
        pusuminfo.sumpT_lowpT.push_back(puInfoH->getPU_sumpT_lowpT()[i]);
