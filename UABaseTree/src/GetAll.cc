@@ -31,7 +31,10 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   vtxid = 0;
   vtxid_xyz.clear();
 
-  GetAllVertices(iEvent); // Needs to be before tracks !!
+  GetAllVertices(iEvent); // Needs to be before tracks & PFJets !!
   GetAllTracks(iEvent); 
+
+  GetAllCaloJets(iEvent,iSetup);
+  GetAllPFJets(iEvent,iSetup); 
 }
 
