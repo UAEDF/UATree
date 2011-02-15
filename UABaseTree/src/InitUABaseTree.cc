@@ -28,7 +28,8 @@ void UABaseTree::Init(){
      genmet_ .label().size() > 0 )   tree->Branch("genMet",&genMet);
   if(genpart_.label().size() > 0)    tree->Branch("genPart",&genPart);
   if(genpart_.label().size() > 0)    tree->Branch("simVertex",&simVertex);
-  
+  if(pusuminfo_.label().size() > 0)  tree->Branch("PUSumInfo",&pusuminfo); 
+ 
   //Triggers
   if(hlt_paths_.size() > 0)	     tree->Branch("HLTrig",&HLTrig);
   if(storeL1Trig_)		     tree->Branch("L1Trig",&L1Trig);

@@ -18,6 +18,7 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   if(genpart_.label().size() > 0 &&
      genmet_ .label().size() > 0 )  GetGenMet (iEvent);
   if(genpart_.label().size() > 0)   GetGenPart(iEvent,iSetup);
+  if(pusuminfo_.label().size() > 0) GetPUSumInfo(iEvent);
 
   if(hlt_paths_.size() > 0)         GetHLTrig(iEvent,iSetup);
   if(storeL1Trig_)		    GetL1Trig(iEvent,iSetup);

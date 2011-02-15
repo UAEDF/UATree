@@ -14,6 +14,7 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    hepmc_          = iConfig.getUntrackedParameter<InputTag>("hepmc",InputTag(""));
    genmet_         = iConfig.getUntrackedParameter<InputTag>("genmet",InputTag(""));
    genpart_        = iConfig.getUntrackedParameter<InputTag>("genpart",InputTag(""));
+   pusuminfo_      = iConfig.getUntrackedParameter<InputTag>("pusuminfo",InputTag(""));
    hlt_paths_      = iConfig.getUntrackedParameter<vector<string> >("hlt_paths",vector<string>());
    storeL1Trig_    = iConfig.getUntrackedParameter<bool>("storeL1Trig",false);
    storeL1TrigOld_ = iConfig.getUntrackedParameter<bool>("storeL1TrigOld",false);

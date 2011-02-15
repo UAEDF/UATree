@@ -46,6 +46,7 @@
 #include "UATree/UADataFormat/src/MyGenMet.h"
 #include "UATree/UADataFormat/src/MyGenPart.h"
 #include "UATree/UADataFormat/src/MySimVertex.h"
+#include "UATree/UADataFormat/src/MyPUSumInfo.h"
 
 #include "UATree/UADataFormat/src/MyBeamSpot.h"
 #include "UATree/UADataFormat/src/MyVertex.h"
@@ -96,6 +97,7 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetGenKin(       const Event& );
       virtual void GetGenMet(       const Event& );
       virtual void GetGenPart(      const Event& , const EventSetup& ); 
+      virtual void GetPUSumInfo(    const Event& );
       
       virtual void GetHLTrig(       const Event& , const EventSetup& );
       virtual void GetL1Trig(       const Event& , const EventSetup& );
@@ -145,6 +147,7 @@ class UABaseTree : public EDAnalyzer {
       InputTag         hepmc_ ;
       InputTag         genmet_ ;
       InputTag         genpart_ ;
+      InputTag         pusuminfo_;
       vector<string>   hlt_paths_;
       Bool_t           storeL1Trig_;
       Bool_t           storeL1TrigOld_;
@@ -198,7 +201,8 @@ class UABaseTree : public EDAnalyzer {
       MyGenMet                      genMet;
       vector<MyGenPart>             genPart;
       MySimVertex                   simVertex;
-      
+      MyPUSumInfo                   pusuminfo;      
+
       MyL1Trig                      L1Trig;
       MyL1TrigOld                   L1TrigOld; 
       MyHLTrig                      HLTrig;
