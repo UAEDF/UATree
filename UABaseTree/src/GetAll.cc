@@ -12,13 +12,12 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
 
                                     GetAllBeamSpots(iEvent);
   if(storeEvtId_)                   GetEvtId(iEvent);
-  if(calotower_.label().size() > 0) GetFwdGap(iEvent); 
+  if(storeFwdGap_)                  GetFwdGap(iEvent); 
 
-  if(hepmc_.label().size() > 0)     GetGenKin (iEvent);
-  if(genpart_.label().size() > 0 &&
-     genmet_ .label().size() > 0 )  GetGenMet (iEvent);
-  if(genpart_.label().size() > 0)   GetGenPart(iEvent,iSetup);
-  if(pusuminfo_.label().size() > 0) GetPUSumInfo(iEvent);
+  if(storeGenKin_)		    GetGenKin (iEvent);
+  if(storeGenMet_)		    GetGenMet (iEvent);
+  if(storeGenPart_)		    GetGenPart(iEvent,iSetup);
+  if(storePUSumInfo_)               GetPUSumInfo(iEvent);
 
   if(hlt_paths_.size() > 0)         GetHLTrig(iEvent,iSetup);
   if(storeL1Trig_)		    GetL1Trig(iEvent,iSetup);
