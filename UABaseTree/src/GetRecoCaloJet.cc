@@ -29,7 +29,7 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   iEvent.getByLabel(list_[0],raw);
   
   //Initialize vector with number of jets
-  JetVector.reserve(raw->size());
+  JetVector.assign(raw->size(),MyCaloJet());
   
   //Specific to calojets
   Handle<reco::JetIDValueMap> CaloJetId;

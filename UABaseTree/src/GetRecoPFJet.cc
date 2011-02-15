@@ -21,6 +21,7 @@ bool PFJetDebug = true;
 void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& iSetup, const PSet& pfjets_ , vector<MyPFJet>& JetVector){
 
   JetVector.clear();
+
   
   vector<string> list_ = pfjets_.getUntrackedParameter<vector<string> >("list",vector<string>());
   InputTag pfjetid_  = pfjets_.getUntrackedParameter<InputTag>("pfjetid",InputTag(""));
@@ -29,11 +30,12 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
   iEvent.getByLabel(list_[0],raw);
   
   //Initialize vector with number of jets
-  JetVector.reserve(raw->size());
+  JetVector.assign(raw->size() , MyPFJet());
     
   //filling raw collection
   Int_t i = 0;
   for (PFJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
+  
     JetVector[i].mapjet[list_[0]].v.SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
     
     JetVector[i].fhad_ch = jet->chargedHadronEnergyFraction();
@@ -55,6 +57,7 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
 
     //-- number of constituents (PFObject for PFjet, CaloTower for Calojet)
     JetVector[i].nconstituent = jet->getPFConstituents().size();
+    
     
     //-- number of tracks (PFjet only)
     if(jet->getTrackRefs().isAvailable()){
@@ -117,6 +120,7 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
 
 void UABaseTree::GetAllPFJets(const edm::Event& iEvent , const edm::EventSetup& iSetup){
   
+  if(PFJetDebug) cout << "Number of PJet collections " << vpfjets_.size() << endl;
   vector<string> list_;
   for(vector<PSet>::iterator it = vpfjets_.begin() ; it != vpfjets_.end() ; ++it){
     list_ = it->getUntrackedParameter<vector<string> >("list",vector<string>());
