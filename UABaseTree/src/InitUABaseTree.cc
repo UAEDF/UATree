@@ -58,4 +58,13 @@ void UABaseTree::Init(){
         this->tree->Branch( list_[0].c_str() , &(this->allCaloJets[list_[0]]) );
   }
     
+     
+  //RecoPFJets
+  for(vector<PSet>::iterator icoll = this->vpfjets_.begin() ; icoll!= this->vpfjets_.end() ; ++icoll){
+    list_ = icoll->getUntrackedParameter<vector<string> >("list",vector<string>());
+    if(list_.size() > 0)
+      if(list_[0] != "")
+        this->tree->Branch( list_[0].c_str() , &(this->allPFJets[list_[0]]) );
+  }
+    
 }

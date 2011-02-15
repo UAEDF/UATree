@@ -27,6 +27,7 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    tracks_         = iConfig.getUntrackedParameter<vector<InputTag> >("tracks",vector<InputTag>());
    vertices_       = iConfig.getUntrackedParameter<vector<InputTag> >("vertices",vector<InputTag>());
    vcalojets_      = iConfig.getUntrackedParameter<vector<PSet> >("vcalojets",vector<PSet>());
+   vpfjets_        = iConfig.getUntrackedParameter<vector<PSet> >("vpfjets",vector<PSet>());
    
    
    //Specific for fwdGap
