@@ -3,15 +3,13 @@
 
 ClassImp(MyL1TrigOld)
 
-MyL1TrigOld::MyL1TrigOld()
-{ }
+MyL1TrigOld::MyL1TrigOld(){
+  this->Reset();
+}
 
-MyL1TrigOld::~MyL1TrigOld()
-{ }
+MyL1TrigOld::~MyL1TrigOld(){}
 
-/*
 void MyL1TrigOld::Reset()
 {
 
 }
-*/

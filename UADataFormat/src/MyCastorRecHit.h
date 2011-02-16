@@ -9,10 +9,11 @@ using namespace std;
 class MyCastorRecHit : public TObject {
   
  public :
-  MyCastorRecHit();
+    MyCastorRecHit();
   virtual ~MyCastorRecHit();
   
-  void Print();
+  virtual void Reset(){};
+  virtual void Print();
   
   Double_t energy, fC, time;
   Int_t mod, sec, cha;

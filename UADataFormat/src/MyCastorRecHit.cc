@@ -5,9 +5,11 @@ using namespace std;
 
 ClassImp(MyCastorRecHit)
 
-MyCastorRecHit::MyCastorRecHit() { }
+MyCastorRecHit::MyCastorRecHit(){
+  this->Reset();
+}
 
-MyCastorRecHit::~MyCastorRecHit() { }
+MyCastorRecHit::~MyCastorRecHit(){}
 
 void MyCastorRecHit::Print() {
 

@@ -7,7 +7,7 @@
 class MyGenMet : public TObject {
 
   public :
-  MyGenMet();
+    MyGenMet();
   ~MyGenMet();
 
   void Reset();

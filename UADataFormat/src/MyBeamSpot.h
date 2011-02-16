@@ -9,6 +9,7 @@ class MyBeamSpot : public TObject {
     MyBeamSpot();
     virtual ~MyBeamSpot();
 
+    void Reset(){};
     void Print();
 
     Double_t x,y,z;

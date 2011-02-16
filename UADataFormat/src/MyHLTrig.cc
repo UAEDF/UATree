@@ -4,7 +4,9 @@ using namespace std;
 
 ClassImp(MyHLTrig)
 
-MyHLTrig::MyHLTrig(){}
+MyHLTrig::MyHLTrig(){
+  this->Reset();
+}
 
 MyHLTrig::~MyHLTrig(){}
 

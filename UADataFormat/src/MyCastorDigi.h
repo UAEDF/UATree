@@ -8,10 +8,11 @@ using namespace std;
 class MyCastorDigi : public TObject {
   
  public :
-  MyCastorDigi();
+    MyCastorDigi();
   virtual ~MyCastorDigi();
   
-  void Print();
+  virtual void Reset(){};
+  virtual void Print();
   
   vector<Double_t> adc;
   vector<Double_t> fC;

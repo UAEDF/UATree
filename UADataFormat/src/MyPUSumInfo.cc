@@ -5,7 +5,9 @@ using namespace std;
 
 ClassImp(MyPUSumInfo)
 
-MyPUSumInfo::MyPUSumInfo(){}
+MyPUSumInfo::MyPUSumInfo(){
+  this->Reset();
+}
 
 MyPUSumInfo::~MyPUSumInfo(){}
 

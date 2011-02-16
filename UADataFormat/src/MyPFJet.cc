@@ -5,7 +5,9 @@ using namespace std;
 
 ClassImp(MyPFJet)
 
-MyPFJet::MyPFJet(){}
+MyPFJet::MyPFJet():MyJet(){
+  this->Reset();
+}
 
 MyPFJet::~MyPFJet(){}
 

@@ -7,8 +7,8 @@
 class MyGenKin : public TObject {
 
   public :
-  MyGenKin();
-  virtual ~MyGenKin();
+    MyGenKin();
+    virtual ~MyGenKin();
 
   void Reset();
   void Print();

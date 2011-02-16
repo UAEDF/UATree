@@ -4,9 +4,11 @@ using namespace std;
 
 ClassImp(MyGenKin)
 
-MyGenKin::MyGenKin(){ }
+MyGenKin::MyGenKin(){
+  this->Reset();
+}
 
-MyGenKin::~MyGenKin(){ }
+MyGenKin::~MyGenKin(){}
 
 void MyGenKin::Reset() {
  MCProcId = 0;

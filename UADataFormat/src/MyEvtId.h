@@ -9,7 +9,7 @@ typedef unsigned long long TimeValue_t;
 class MyEvtId : public TObject {
 
   public :
-  MyEvtId();
+    MyEvtId();
   virtual ~MyEvtId();
 
   void Reset();

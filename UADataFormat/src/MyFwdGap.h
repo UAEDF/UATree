@@ -6,7 +6,7 @@
 class MyFwdGap : public TObject {
 
   public :
-  MyFwdGap();
+    MyFwdGap();
   virtual ~MyFwdGap();
   
   void Reset();

@@ -6,9 +6,11 @@ using namespace std;
 
 ClassImp(MyCastorDigi)
 
-MyCastorDigi::MyCastorDigi() { }
+MyCastorDigi::MyCastorDigi(){
+  this->Reset();
+}
 
-MyCastorDigi::~MyCastorDigi() { }
+MyCastorDigi::~MyCastorDigi(){}
 
 void MyCastorDigi::Print() {
 

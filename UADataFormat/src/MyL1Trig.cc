@@ -6,9 +6,11 @@ using namespace std;
 
 ClassImp(MyL1Trig)
 
-MyL1Trig::MyL1Trig() { }
+MyL1Trig::MyL1Trig(){
+  this->Reset();
+}
 
-MyL1Trig::~MyL1Trig() { }
+MyL1Trig::~MyL1Trig(){}
 
 void MyL1Trig::Reset() {
 

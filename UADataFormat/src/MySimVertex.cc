@@ -5,9 +5,11 @@ using namespace std;
 
 ClassImp(MySimVertex)
 
-MySimVertex::MySimVertex() { }
+MySimVertex::MySimVertex(){
+  this->Reset();
+}
 
-MySimVertex::~MySimVertex() { }
+MySimVertex::~MySimVertex(){}
 
 void MySimVertex::Print() {
 

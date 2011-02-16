@@ -7,7 +7,7 @@
 class MyDiJet : public TObject {
   
  public :
-  MyDiJet();
+    MyDiJet();
   ~MyDiJet();
   
   void Reset();

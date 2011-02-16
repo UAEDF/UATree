@@ -5,9 +5,11 @@ using namespace std;
 
 ClassImp(MyCastorJet)
 
-MyCastorJet::MyCastorJet() { }
+MyCastorJet::MyCastorJet(){
+  this->Reset();
+}
 
-MyCastorJet::~MyCastorJet() { }
+MyCastorJet::~MyCastorJet(){}
 
 void MyCastorJet::Print() {
 

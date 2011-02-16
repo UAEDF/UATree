@@ -5,9 +5,11 @@ using namespace std;
 
 ClassImp(MyEvtId)
 
-MyEvtId::MyEvtId() { }
+MyEvtId::MyEvtId(){
+  this->Reset();
+}
 
-MyEvtId::~MyEvtId() { }
+MyEvtId::~MyEvtId(){}
 
 void MyEvtId::Reset() {
   Run       = 0;

@@ -4,7 +4,9 @@ using namespace std;
 
 ClassImp(MyPart)
 
-MyPart::MyPart(){}
+MyPart::MyPart(){
+  this->Reset();
+}
 
 MyPart::~MyPart(){}
 

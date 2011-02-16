@@ -7,14 +7,14 @@
 class MyL1TrigOld : public TObject {
 
   public :
-  MyL1TrigOld();
+    MyL1TrigOld();
   virtual ~MyL1TrigOld();
 
   bool PhysTrigWord[128];
   bool TechTrigWord[64];
 
-//  void Reset();
- 
+  void Reset();
+  void Print(); 
 
   private:
 

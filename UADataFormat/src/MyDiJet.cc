@@ -5,9 +5,11 @@ using namespace std;
 
 ClassImp(MyDiJet)
 
-MyDiJet::MyDiJet() { }
+MyDiJet::MyDiJet(){
+  this->Reset();
+}
 
-MyDiJet::~MyDiJet() { }
+MyDiJet::~MyDiJet(){}
 
 void MyDiJet::Reset() {
   isDiJet = 0;

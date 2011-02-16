@@ -5,7 +5,9 @@ using namespace std;
 
 ClassImp(MyVertex)
 
-MyVertex::MyVertex(){}
+MyVertex::MyVertex(){
+  this->Reset();
+}
 
 MyVertex::~MyVertex(){}
 

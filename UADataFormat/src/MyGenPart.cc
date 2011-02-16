@@ -4,7 +4,9 @@ using namespace std;
 
 ClassImp(MyGenPart)
 
-MyGenPart::MyGenPart(){}
+MyGenPart::MyGenPart():MyPart(){
+  this->Reset();
+}
 
 MyGenPart::~MyGenPart(){}
 

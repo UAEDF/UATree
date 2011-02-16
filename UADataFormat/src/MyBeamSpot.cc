@@ -5,9 +5,11 @@ using namespace std;
 
 ClassImp(MyBeamSpot)
 
-MyBeamSpot::MyBeamSpot() { }
+MyBeamSpot::MyBeamSpot(){
+  this->Reset();
+}
 
-MyBeamSpot::~MyBeamSpot() { }
+MyBeamSpot::~MyBeamSpot(){}
 
 void MyBeamSpot::Print() {
 

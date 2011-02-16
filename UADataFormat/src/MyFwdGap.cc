@@ -2,7 +2,9 @@
 
 ClassImp(MyFwdGap)
 
-MyFwdGap::MyFwdGap(){}
+MyFwdGap::MyFwdGap(){
+  this->Reset();
+}
 
 MyFwdGap::~MyFwdGap(){}
 

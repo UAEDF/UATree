@@ -35,7 +35,7 @@ class MyL1Trig : public TObject {
   
  public :
  
-  MyL1Trig();
+    MyL1Trig();
   virtual ~MyL1Trig();
   
   void Reset();

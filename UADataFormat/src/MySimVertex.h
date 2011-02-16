@@ -9,6 +9,7 @@ class MySimVertex : public TObject {
     MySimVertex();
     virtual ~MySimVertex();
 
+    void Reset(){};
     void Print();
 
     Double_t x,y,z;

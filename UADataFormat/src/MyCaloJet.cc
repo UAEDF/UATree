@@ -5,7 +5,9 @@ using namespace std;
 
 ClassImp(MyCaloJet)
 
-MyCaloJet::MyCaloJet(){}
+MyCaloJet::MyCaloJet():MyJet(){
+  this->Reset();
+}
 
 MyCaloJet::~MyCaloJet(){}
 

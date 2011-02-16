@@ -4,7 +4,9 @@ using namespace std;
 
 ClassImp(MyMITEvtSel)
 
-MyMITEvtSel::MyMITEvtSel(){}
+MyMITEvtSel::MyMITEvtSel(){
+  this->Reset();
+}
 
 MyMITEvtSel::~MyMITEvtSel(){}
 

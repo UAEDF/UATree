@@ -2,7 +2,9 @@
 
 ClassImp(MyTracks)
 
-MyTracks::MyTracks(){}
+MyTracks::MyTracks():MyPart(){
+  this->Reset();
+}
 
 MyTracks::~MyTracks(){}
 

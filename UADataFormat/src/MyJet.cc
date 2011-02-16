@@ -3,7 +3,9 @@
 
 ClassImp(MyJet)
 
-MyJet::MyJet(){}
+MyJet::MyJet(){
+  this->Reset();
+}
 
 MyJet::~MyJet(){}
 

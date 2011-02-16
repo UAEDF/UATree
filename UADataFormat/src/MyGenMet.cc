@@ -4,9 +4,11 @@ using namespace std;
 
 ClassImp(MyGenMet)
 
-MyGenMet::MyGenMet(){ }
+MyGenMet::MyGenMet(){
+  this->Reset();
+}
 
-MyGenMet::~MyGenMet(){ }
+MyGenMet::~MyGenMet(){}
 
 void MyGenMet::Reset() {
  Met    = 0;

@@ -5,7 +5,9 @@ using namespace std;
 
 ClassImp(MyBaseJet)
 
-MyBaseJet::MyBaseJet(){}
+MyBaseJet::MyBaseJet():MyPart(){
+  this->Reset();
+}
 
 MyBaseJet::~MyBaseJet(){}
 

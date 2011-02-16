@@ -8,10 +8,11 @@ using namespace std;
 class MyCastorJet : public TObject {
   
  public :
-  MyCastorJet();
+    MyCastorJet();
   virtual ~MyCastorJet();
   
-  void Print();
+  virtual void Reset(){};
+  virtual void Print();
   
   Double_t energy, pt, eta, phi;
   Double_t fem, eem, ehad;
