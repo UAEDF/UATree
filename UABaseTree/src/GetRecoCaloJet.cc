@@ -16,7 +16,7 @@
 
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
-bool CaloJetDebug = true;
+bool CaloJetDebug = false;
 
 void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup& iSetup, const PSet& calojets_ , vector<MyCaloJet>& JetVector){
 
@@ -79,26 +79,30 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   //start looping over corrections
   const JetCorrector* CaloJetcorrector = NULL;
   for(unsigned int corr=1 ; corr < list_.size() ; ++corr){
-  
-    CaloJetcorrector = JetCorrector::getJetCorrector(list_[corr],iSetup);
+
+    try{  
+      CaloJetcorrector = JetCorrector::getJetCorrector(list_[corr],iSetup);
     
-    //Filling corrected collection
-    Int_t i = 0;
-    for (CaloJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
-      //-- correction 
-      CaloJet corrected_jet = *jet;                            //-- copy orignial jet
-      Double_t jec = CaloJetcorrector->correction(jet->p4());  //-- calculate correction 
-      corrected_jet.scaleEnergy(jec);                          //-- apply correction
-      JetVector[i].mapjet[list_[corr]].jec = jec;
+      //Filling corrected collection
+      Int_t i = 0;
+      for (CaloJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
+        //-- correction 
+        CaloJet corrected_jet = *jet;                            //-- copy orignial jet
+        Double_t jec = CaloJetcorrector->correction(jet->p4());  //-- calculate correction 
+        corrected_jet.scaleEnergy(jec);                          //-- apply correction
+        JetVector[i].mapjet[list_[corr]].jec = jec;
 
-      //-- uncertainty (function of the CORRECTED jet)
-      //CaloJetCorUnc->setJetEta(corrected_jet.eta());
-      //CaloJetCorUnc->setJetPt(corrected_jet.pt());
-      //JetVector[i].mapjet[list_[corr]].jec_unc = CaloJetCorUnc->getUncertainty(true);
-      JetVector[i].mapjet[list_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
-      
+        //-- uncertainty (function of the CORRECTED jet)
+        //CaloJetCorUnc->setJetEta(corrected_jet.eta());
+        //CaloJetCorUnc->setJetPt(corrected_jet.pt());
+        //JetVector[i].mapjet[list_[corr]].jec_unc = CaloJetCorUnc->getUncertainty(true);
+        JetVector[i].mapjet[list_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
+        if(CaloJetDebug) JetVector[i].Print();
+      }
     }
-
+    catch(...){
+      cout << "Please provide an ESSource for coll " << list_[corr] << endl;
+    }
     //JetCorrectionUncertainty *CaloJetCorUnc(0);
 
     //ESHandle<JetCorrectorParametersCollection> CaloJetCorParColl;

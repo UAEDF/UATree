@@ -16,7 +16,7 @@
 
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
-bool PFJetDebug = true;
+bool PFJetDebug = false;
 
 void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& iSetup, const PSet& pfjets_ , vector<MyPFJet>& JetVector){
 
@@ -82,24 +82,28 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
   //start looping over corrections
   const JetCorrector* PFJetcorrector = NULL;
   for(unsigned int corr=1 ; corr < list_.size() ; ++corr){
-  
-    PFJetcorrector = JetCorrector::getJetCorrector(list_[corr],iSetup);
-    
-    //Filling corrected collection
-    Int_t i = 0;
-    for (PFJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
-      //-- correction 
-      PFJet corrected_jet = *jet;                            //-- copy orignial jet
-      Double_t jec = PFJetcorrector->correction(jet->p4());  //-- calculate correction 
-      corrected_jet.scaleEnergy(jec);                          //-- apply correction
-      JetVector[i].mapjet[list_[corr]].jec = jec;
 
-      //-- uncertainty (function of the CORRECTED jet)
-      //PFJetCorUnc->setJetEta(corrected_jet.eta());
-      //PFJetCorUnc->setJetPt(corrected_jet.pt());
-      //JetVector[i].mapjet[list_[corr]].jec_unc = PFJetCorUnc->getUncertainty(true);
-      JetVector[i].mapjet[list_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
-      
+    try{  
+      PFJetcorrector = JetCorrector::getJetCorrector(list_[corr],iSetup);
+    
+      //Filling corrected collection
+      Int_t i = 0;
+      for (PFJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
+        //-- correction 
+        PFJet corrected_jet = *jet;                            //-- copy orignial jet
+        Double_t jec = PFJetcorrector->correction(jet->p4());  //-- calculate correction 
+        corrected_jet.scaleEnergy(jec);                          //-- apply correction
+        JetVector[i].mapjet[list_[corr]].jec = jec;
+
+        //-- uncertainty (function of the CORRECTED jet)
+        //PFJetCorUnc->setJetEta(corrected_jet.eta());
+        //PFJetCorUnc->setJetPt(corrected_jet.pt());
+        //JetVector[i].mapjet[list_[corr]].jec_unc = PFJetCorUnc->getUncertainty(true);
+        JetVector[i].mapjet[list_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
+      }
+    }
+    catch(...){
+      cout << "Please provide an ESSource for coll " << list_[corr] << endl;
     }
 
     //JetCorrectionUncertainty *PFJetCorUnc(0);
