@@ -13,3 +13,8 @@ void MyL1TrigOld::Reset()
 {
 
 }
+
+void MyL1TrigOld::Print()
+{
+
+}
