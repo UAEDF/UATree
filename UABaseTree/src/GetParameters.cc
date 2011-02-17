@@ -29,6 +29,10 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    vcalojets_      = iConfig.getUntrackedParameter<vector<PSet> >("vcalojets",vector<PSet>());
    vpfjets_        = iConfig.getUntrackedParameter<vector<PSet> >("vpfjets",vector<PSet>());
    
+   castorrechits_  = iConfig.getUntrackedParameter<InputTag>("castorrechits",InputTag());
+   basicjets_      = iConfig.getUntrackedParameter<InputTag>("basicjets",InputTag());
+   castorjetid_    = iConfig.getUntrackedParameter<InputTag>("castorjetid",InputTag());
+   castordigis_    = iConfig.getUntrackedParameter<InputTag>("castordigis",InputTag());
    
    //Specific for fwdGap
    energyThresholdHB_ = iConfig.getUntrackedParameter<double>("EnergyThresholdHB",1.5) ;
@@ -44,6 +48,11 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    
    //Specific for PFJets
    storeTracksInPFJets_        = iConfig.getUntrackedParameter<bool>("storeTracksInPFJets",false);
+
+
+   //Specific to DiJets
+   jetPtCut_  = iConfig.getUntrackedParameter<double>("jetPtCut"   , 8.0);
+   jetEtaCut_ = iConfig.getUntrackedParameter<double>("jetEtaCut" , 2.5);
 
 
    // Get output filename
