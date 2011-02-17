@@ -46,21 +46,25 @@ void UABaseTree::FillTrack(const Track& intrack , MyTracks& outtrack){
   outtrack.Reset();
 
   outtrack.charge = intrack.charge();
-  outtrack.v.SetPtEtaPhiM(intrack.pt(),intrack.eta(),intrack.phi(), mpion );  
+  outtrack.SetPtEtaPhiM(intrack.pt(),intrack.eta(),intrack.phi(), mpion );  
 
-  outtrack.nhit	   =  intrack.recHitsSize();
-  outtrack.npixhit    =  intrack.hitPattern().pixelLayersWithMeasurement() ;
-  outtrack.nvalidhit  =  intrack.found();
-  outtrack.chi2n	   =  intrack.normalizedChi2();
+  outtrack.nhit	              =  intrack.found() + intrack.lost();
+  outtrack.nValidPixelHits    =  intrack.hitPattern().numberOfValidPixelHits  ();
+  outtrack.nValidStripHits    =  intrack.hitPattern().numberOfValidStripHits  ();
+  outtrack.nValidMuonCSCHits  =  intrack.hitPattern().numberOfValidMuonCSCHits();
+  outtrack.nValidMuonDTHits   =  intrack.hitPattern().numberOfValidMuonDTHits ();
+  outtrack.nValidMuonRPCHits  =  intrack.hitPattern().numberOfValidMuonRPCHits();
+  
+  outtrack.chi2n   =  intrack.normalizedChi2();
   outtrack.dz	   =  intrack.dz();
   outtrack.d0	   =  intrack.d0();
   outtrack.edz	   =  intrack.dzError();
   outtrack.ed0	   =  intrack.d0Error();
   outtrack.ept	   =  intrack.ptError();
 
-  outtrack.vx    =  intrack.vertex().x();
-  outtrack.vy    =  intrack.vertex().y();
-  outtrack.vz    =  intrack.vertex().z();
+  outtrack.vx    =  intrack.referencePoint().x();
+  outtrack.vy    =  intrack.referencePoint().y();
+  outtrack.vz    =  intrack.referencePoint().z();
 
   outtrack.quality[0] = intrack.quality(TrackBase::qualityByName("loose"));
   outtrack.quality[1] = intrack.quality(TrackBase::qualityByName("tight"));
