@@ -12,15 +12,18 @@ MyPart::~MyPart(){}
 
 
 void MyPart::Reset(){
-  v      = TLorentzVector(0,0,0,0);
+  this->SetPtEtaPhiM(0,0,0,0);
   charge = 0;
 }
 
 void MyPart::Print(){
-  cout << "px     : " << this->v.Px() << endl;
-  cout << "py     : " << this->v.Py() << endl;
-  cout << "pz     : " << this->v.Pz() << endl;
-  cout << "E      : " << this->v.E()  << endl;
+  cout << "px     : " << this->Px()   << endl;
+  cout << "py     : " << this->Py()   << endl;
+  cout << "pz     : " << this->Pz()   << endl;
+  cout << "E      : " << this->E()    << endl;
+  cout << "pt     : " << this->Pt()   << endl;
+  cout << "eta    : " << this->Eta()  << endl;
+  cout << "phi    : " << this->Phi()  << endl;
   cout << "charge : " << this->charge << endl;
 }
 
@@ -28,12 +31,12 @@ TLorentzVector MyPart::vmpi()
 {
   Double_t mpion = 139.57018;
   TLorentzVector vm;
-  vm.SetPtEtaPhiM( this->v.Pt() , this->v.Eta() , this->v.Phi() , mpion );
+  vm.SetPtEtaPhiM( this->Pt() , this->Eta() , this->Phi() , mpion );
   return vm;
 }
 
 Bool_t MyPart::operator<( const MyPart& part ){
-  return this->v.Pt() < part.v.Pt();
+  return this->Pt() < part.Pt();
 }
  
 //bool operator== ( const MyPart* genpart){
