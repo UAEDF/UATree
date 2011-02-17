@@ -23,11 +23,11 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
   JetVector.clear();
 
   
-  vector<string> list_ = pfjets_.getUntrackedParameter<vector<string> >("list",vector<string>());
-  InputTag pfjetid_  = pfjets_.getUntrackedParameter<InputTag>("pfjetid",InputTag(""));
+  InputTag jetcoll_           = pfjets_.getUntrackedParameter<InputTag>("jetcoll",InputTag());
+  vector<string> corrections_ = pfjets_.getUntrackedParameter<vector<string> >("corrections",vector<string>());
     
   Handle<PFJetCollection> raw;
-  iEvent.getByLabel(list_[0],raw);
+  iEvent.getByLabel(jetcoll_.label(),raw);
   
   //Initialize vector with number of jets
   JetVector.assign(raw->size() , MyPFJet());
@@ -36,7 +36,7 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
   Int_t i = 0;
   for (PFJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
   
-    JetVector[i].mapjet[list_[0]].v.SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
+    JetVector[i].mapjet[jetcoll_.label()].v.SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
     
     JetVector[i].fhad_ch = jet->chargedHadronEnergyFraction();
     JetVector[i].fhad_ne = jet->neutralHadronEnergyFraction();
@@ -73,18 +73,19 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
 
     
     //-- jet ID
-    JetVector[i].LooseJetId = GetLoosePFJetId(JetVector[i],list_[0]);
-    JetVector[i].TightJetId = GetTightPFJetId(JetVector[i],list_[0]);
+    //JetVector[i].LooseJetId = GetLoosePFJetId(JetVector[i],jetcoll_.label());
+    JetVector[i].TightJetId = GetTightPFJetId(JetVector[i],jetcoll_.label());
+    JetVector[i].LooseJetId = JetVector[i].TightJetId; //here loose & tight have the same output ... (used for DiJet selection)
 
   }
 
 
   //start looping over corrections
   const JetCorrector* PFJetcorrector = NULL;
-  for(unsigned int corr=1 ; corr < list_.size() ; ++corr){
+  for(unsigned int corr=0 ; corr < corrections_.size() ; ++corr){
 
     try{  
-      PFJetcorrector = JetCorrector::getJetCorrector(list_[corr],iSetup);
+      PFJetcorrector = JetCorrector::getJetCorrector(corrections_[corr],iSetup);
     
       //Filling corrected collection
       Int_t i = 0;
@@ -93,17 +94,17 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
         PFJet corrected_jet = *jet;                            //-- copy orignial jet
         Double_t jec = PFJetcorrector->correction(jet->p4());  //-- calculate correction 
         corrected_jet.scaleEnergy(jec);                          //-- apply correction
-        JetVector[i].mapjet[list_[corr]].jec = jec;
+        JetVector[i].mapjet[corrections_[corr]].jec = jec;
 
         //-- uncertainty (function of the CORRECTED jet)
         //PFJetCorUnc->setJetEta(corrected_jet.eta());
         //PFJetCorUnc->setJetPt(corrected_jet.pt());
         //JetVector[i].mapjet[list_[corr]].jec_unc = PFJetCorUnc->getUncertainty(true);
-        JetVector[i].mapjet[list_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
+        JetVector[i].mapjet[corrections_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
       }
     }
     catch(...){
-      cout << "Please provide an ESSource for coll " << list_[corr] << endl;
+      cout << "Please provide an ESSource for coll " << corrections_[corr] << endl;
     }
 
     //JetCorrectionUncertainty *PFJetCorUnc(0);
@@ -125,12 +126,11 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
 void UABaseTree::GetAllPFJets(const edm::Event& iEvent , const edm::EventSetup& iSetup){
   
   if(PFJetDebug) cout << "Number of PJet collections " << vpfjets_.size() << endl;
-  vector<string> list_;
+  InputTag jetcoll_;
   for(vector<PSet>::iterator it = vpfjets_.begin() ; it != vpfjets_.end() ; ++it){
-    list_ = it->getUntrackedParameter<vector<string> >("list",vector<string>());
-    if(list_.size() > 0)
-      if(list_[0] != "")
-        this->GetRecoPFJets(iEvent , iSetup , *it , this->allPFJets[list_[0]] );  
+    jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
+    if(jetcoll_.label().size() > 0)
+      this->GetRecoPFJets(iEvent , iSetup , *it , this->allPFJets[jetcoll_.label()] );  
   }
 }
 
@@ -140,7 +140,7 @@ void UABaseTree::GetAllPFJets(const edm::Event& iEvent , const edm::EventSetup& 
 
 Bool_t UABaseTree::GetLoosePFJetId(const MyPFJet& myjet , const string& raw_coll) {
 
-  //DON'T EXIST
+  //DOESN'T EXIST
   //ALWAYS RETURNS 1
 
   return true;
