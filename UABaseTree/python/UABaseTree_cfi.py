@@ -4,6 +4,7 @@ isMonteCarlo = True
 doMBTracking = True
 useMITFilter = True
 storeJets    = True
+storeCastor  = False 
 
 # Event Reconstruction (need to be updated)
 uabasetree = cms.EDAnalyzer('UABaseTree',
@@ -39,7 +40,21 @@ if useMITFilter:
 
 
 if storeJets:
-   uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( list = cms.untracked.vstring('ak5PFJets' , 'ak5PFL2L3' ) ) )
-   uabasetree.vcalojets = cms.untracked.VPSet(cms.PSet( list = cms.untracked.vstring('ak5CaloJets' , 'ak5CaloL2L3' ), 
-                                                        calojetid = cms.untracked.InputTag("ak5JetID"  ) )
-				              )
+   uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( jetcoll     = cms.untracked.InputTag("ak5PFJets"),
+                                                        corrections = cms.untracked.vstring('ak5PFL2L3')
+						      )
+				             )
+   uabasetree.vcalojets = cms.untracked.VPSet(cms.PSet( jetcoll     = cms.untracked.InputTag("ak5CaloJets"),
+                                                        corrections = cms.untracked.vstring('ak5CaloL2L3'),
+                                                        calojetid   = cms.untracked.InputTag('ak5JetID')
+						      )
+				             )
+					     
+					     
+if storeCastor:
+   uabasetree.castorrechits = cms.untracked.InputTag('castorreco')
+   uabasetree.basicjets     = cms.untracked.InputTag('ak7BasicJets')
+   uabasetree.castorjetid   = cms.untracked.InputTag('ak7CastorJetID')
+   uabasetree.castordigis   = cms.untracked.InputTag('castorDigis')
+
+
