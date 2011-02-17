@@ -115,6 +115,21 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   
   }
   
+  
+  //doing the DiJet if needed
+  string dijetcoll_ = calojets_.getUntrackedParameter<string>("dijetcoll","");
+  if(JetVector.size() > 1.){
+    if(JetVector[0].mapjet.find(dijetcoll_) != JetVector[0].mapjet.end()){
+  
+      //making the vector of MyJet*
+      vector<MyJet*> tmpJetVector(JetVector.size() , NULL);
+      for(unsigned int i = 0 ; i < JetVector.size() ; ++i)
+        tmpJetVector[i] = (MyJet*) &(JetVector[i]);
+  
+      //Running the DiJet algo
+      GetCentralDiJet(tmpJetVector , dijetcoll_,  allDiJets[dijetcoll_+"DiJet"] );
+    }
+  }
 
 }
 
