@@ -50,6 +50,9 @@ void MyPFJet::Reset(){
   multi_gamma   = 0;
   multi_ele     = 0;
   multi_mu      = 0;
+
+  ntrack = 0;
+  vtracks.clear();
 }
 
 
