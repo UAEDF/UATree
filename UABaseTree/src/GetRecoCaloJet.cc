@@ -22,11 +22,12 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
 
   JetVector.clear();
   
-  vector<string> list_ = calojets_.getUntrackedParameter<vector<string> >("list",vector<string>());
-  InputTag calojetid_  = calojets_.getUntrackedParameter<InputTag>("calojetid",InputTag(""));
+  InputTag jetcoll_           = calojets_.getUntrackedParameter<InputTag>("jetcoll",InputTag());
+  vector<string> corrections_ = calojets_.getUntrackedParameter<vector<string> >("corrections",vector<string>());
+  InputTag calojetid_  = calojets_.getUntrackedParameter<InputTag>("calojetid",InputTag());
     
   Handle<CaloJetCollection> raw;
-  iEvent.getByLabel(list_[0],raw);
+  iEvent.getByLabel(jetcoll_.label(),raw);
   
   //Initialize vector with number of jets
   JetVector.assign(raw->size(),MyCaloJet());
@@ -40,7 +41,7 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   //filling raw collection
   Int_t i = 0;
   for (CaloJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
-    JetVector[i].mapjet[list_[0]].v.SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
+    JetVector[i].mapjet[jetcoll_.label()].v.SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
     JetVector[i].fem = jet->emEnergyFraction();
     JetVector[i].eem_EB = jet->emEnergyInEB();
     JetVector[i].eem_EE = jet->emEnergyInEE();
@@ -70,18 +71,18 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
     JetVector[i].nconstituent = jet->getCaloConstituents().size();
     
     //-- jet ID
-    JetVector[i].LooseJetId = GetLooseCaloJetId(JetVector[i],list_[0]);
-    JetVector[i].TightJetId = GetTightCaloJetId(JetVector[i],list_[0]);
+    JetVector[i].LooseJetId = GetLooseCaloJetId(JetVector[i],jetcoll_.label());
+    JetVector[i].TightJetId = GetTightCaloJetId(JetVector[i],jetcoll_.label());
 
   }
 
 
   //start looping over corrections
   const JetCorrector* CaloJetcorrector = NULL;
-  for(unsigned int corr=1 ; corr < list_.size() ; ++corr){
+  for(unsigned int corr=0 ; corr < corrections_.size() ; ++corr){
 
     try{  
-      CaloJetcorrector = JetCorrector::getJetCorrector(list_[corr],iSetup);
+      CaloJetcorrector = JetCorrector::getJetCorrector(corrections_[corr],iSetup);
     
       //Filling corrected collection
       Int_t i = 0;
@@ -90,18 +91,17 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
         CaloJet corrected_jet = *jet;                            //-- copy orignial jet
         Double_t jec = CaloJetcorrector->correction(jet->p4());  //-- calculate correction 
         corrected_jet.scaleEnergy(jec);                          //-- apply correction
-        JetVector[i].mapjet[list_[corr]].jec = jec;
+        JetVector[i].mapjet[corrections_[corr]].jec = jec;
 
         //-- uncertainty (function of the CORRECTED jet)
         //CaloJetCorUnc->setJetEta(corrected_jet.eta());
         //CaloJetCorUnc->setJetPt(corrected_jet.pt());
         //JetVector[i].mapjet[list_[corr]].jec_unc = CaloJetCorUnc->getUncertainty(true);
-        JetVector[i].mapjet[list_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
-        if(CaloJetDebug) JetVector[i].Print();
+        JetVector[i].mapjet[corrections_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
       }
     }
     catch(...){
-      cout << "Please provide an ESSource for coll " << list_[corr] << endl;
+      cout << "Please provide an ESSource for coll " << corrections_[corr] << endl;
     }
     //JetCorrectionUncertainty *CaloJetCorUnc(0);
 
@@ -121,12 +121,11 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
 
 void UABaseTree::GetAllCaloJets(const edm::Event& iEvent , const edm::EventSetup& iSetup){
   
-  vector<string> list_;
+  InputTag jetcoll_;
   for(vector<PSet>::iterator it = vcalojets_.begin() ; it != vcalojets_.end() ; ++it){
-    list_ = it->getUntrackedParameter<vector<string> >("list",vector<string>());
-    if(list_.size() > 0)
-      if(list_[0] != "")
-        this->GetRecoCaloJets(iEvent , iSetup , *it , this->allCaloJets[list_[0]] );  
+    jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
+    if(jetcoll_.label().size() > 0)
+      this->GetRecoCaloJets(iEvent , iSetup , *it , this->allCaloJets[jetcoll_.label()] );  
   }
 }
 
