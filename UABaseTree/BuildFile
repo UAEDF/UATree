@@ -26,6 +26,10 @@
 <use name=DataFormats/HcalDetId>
 <use name=UATree/UADataFormat>
 <use name=MitEdm/DataFormats>
+<use name=DataFormats/DetId>
+<use name=CondFormats/CastorObjects>
+<use name=CondFormats/JetMETObjects>
+<use name=CalibFormats/CastorObjects>
 
 <export>
    <lib name=UATreeUABaseTree>
