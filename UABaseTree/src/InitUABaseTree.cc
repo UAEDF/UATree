@@ -50,21 +50,28 @@ void UABaseTree::Init(){
   }
      
   //RecoCaloJets
-  vector<string> list_;
-  for(vector<PSet>::iterator icoll = this->vcalojets_.begin() ; icoll!= this->vcalojets_.end() ; ++icoll){
-    list_ = icoll->getUntrackedParameter<vector<string> >("list",vector<string>());
-    if(list_.size() > 0)
-      if(list_[0] != "")
-        this->tree->Branch( list_[0].c_str() , &(this->allCaloJets[list_[0]]) );
+  InputTag jetcoll_;
+  for(vector<PSet>::iterator it = vcalojets_.begin() ; it != vcalojets_.end() ; ++it){
+    jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
+    if(jetcoll_.label().size() > 0)
+      this->tree->Branch( jetcoll_.label().c_str() , &(this->allCaloJets[jetcoll_.label()]) );
   }
     
      
   //RecoPFJets
-  for(vector<PSet>::iterator icoll = this->vpfjets_.begin() ; icoll!= this->vpfjets_.end() ; ++icoll){
-    list_ = icoll->getUntrackedParameter<vector<string> >("list",vector<string>());
-    if(list_.size() > 0)
-      if(list_[0] != "")
-        this->tree->Branch( list_[0].c_str() , &(this->allPFJets[list_[0]]) );
+  for(vector<PSet>::iterator it = vpfjets_.begin() ; it != vpfjets_.end() ; ++it){
+    jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
+    if(jetcoll_.label().size() > 0)
+      this->tree->Branch( jetcoll_.label().c_str() , &(this->allPFJets[jetcoll_.label()]) );
   }
+  
+  
+  //Castor
+  if(castorrechits_.label().size() > 0)    tree->Branch("castorRecHits_",&castorRecHits);
+  if(basicjets_.label().size() > 0 &&
+     castorjetid_.label().size() > 0)      tree->Branch("castorJets_",&castorJets);
+  if(castordigis_.label().size() > 0)      tree->Branch("castorDigis_",&castorDigis);
+  
+  
     
 }
