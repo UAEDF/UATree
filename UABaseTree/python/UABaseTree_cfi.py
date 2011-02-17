@@ -41,14 +41,16 @@ if useMITFilter:
 
 if storeJets:
    uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( jetcoll     = cms.untracked.InputTag("ak5PFJets"),
-                                                        corrections = cms.untracked.vstring('ak5PFL2L3')
+                                                        corrections = cms.untracked.vstring('ak5PFL2L3'),
+							dijetcoll   = cms.untracked.string('ak5PFL2L3')
 						      )
 				             )
    uabasetree.vcalojets = cms.untracked.VPSet(cms.PSet( jetcoll     = cms.untracked.InputTag("ak5CaloJets"),
-                                                        corrections = cms.untracked.vstring('ak5CaloL2L3'),
-                                                        calojetid   = cms.untracked.InputTag('ak5JetID')
-						      )
-				             )
+							corrections = cms.untracked.vstring('ak5CaloL2L3'),
+							calojetid   = cms.untracked.InputTag('ak5JetID'),
+							dijetcoll   = cms.untracked.string('ak5CaloL2L3')
+						     )
+					    )
 					     
 					     
 if storeCastor:
