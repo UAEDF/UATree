@@ -98,16 +98,24 @@ if doMBTracking:
    if not(useMITFilter):
       process.load('UATree.UABaseTree.UABaseTree_tracking_cfi')
       process.path = cms.Sequence(process.path * process.redoSiHits )
+   process.pixelTertTracks.OrderedHitsFactoryPSet.maxElement = cms.uint32( 1000 )
    process.path = cms.Sequence(process.path  * process.fulltracking)
-   
+
    
 #  ----------------------------   Jets   ----------------------------
 if storeJets:
    process.load("UATree.UABaseTree.UABaseTree_jets_cfi")
 
 
-
-
+#  ----------------------------   Jets   ----------------------------
+if storeCastor:
+   process.castorDigis.InputLabel = 'source'
+   process.load("RecoLocalCalo.Castor.CastorCellReco_cfi")    #-- redo cell
+   process.load("RecoLocalCalo.Castor.CastorTowerReco_cfi")   #-- redo tower
+   process.load("RecoJets.JetProducers.ak7CastorJets_cfi")    #-- redo jet
+   process.load("RecoJets.JetProducers.ak7CastorJetID_cfi")   #-- redo jetid
+   process.path = cms.Sequence(process.path  * process.castorDigis*process.castorreco*process.CastorCellReco*process.CastorTowerReco*process.ak7BasicJets*process.ak7CastorJetID)
+                    
 
 
 
