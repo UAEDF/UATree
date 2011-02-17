@@ -63,7 +63,7 @@ void UABaseTree::GetGenPart(const edm::Event& iEvent, const edm::EventSetup& iSe
     int st = p->status();
 
     //Filling inherited from MyPart
-    mygenpart.v.SetPxPyPzE( p->px() , p->py() , p->pz() , p->energy() );
+    mygenpart.SetPxPyPzE( p->px() , p->py() , p->pz() , p->energy() );
     mygenpart.charge  = p->charge();
 
     // Extra properties

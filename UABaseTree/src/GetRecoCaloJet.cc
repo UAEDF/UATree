@@ -41,7 +41,7 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   //filling raw collection
   Int_t i = 0;
   for (CaloJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
-    JetVector[i].mapjet[jetcoll_.label()].v.SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
+    JetVector[i].mapjet[jetcoll_.label()].SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
     JetVector[i].fem = jet->emEnergyFraction();
     JetVector[i].eem_EB = jet->emEnergyInEB();
     JetVector[i].eem_EE = jet->emEnergyInEE();
@@ -97,7 +97,7 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
         //CaloJetCorUnc->setJetEta(corrected_jet.eta());
         //CaloJetCorUnc->setJetPt(corrected_jet.pt());
         //JetVector[i].mapjet[list_[corr]].jec_unc = CaloJetCorUnc->getUncertainty(true);
-        JetVector[i].mapjet[corrections_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
+        JetVector[i].mapjet[corrections_[corr]].SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
       }
     }
     catch(...){
@@ -169,7 +169,7 @@ Bool_t UABaseTree::GetLooseCaloJetId(const MyCaloJet& myjet , const string& raw_
   //-- loose jet id
   if(myjet.HPD < HPD_CutUp && myjet.n90hits > n90hits_CutLow) {
     //cout << &((myjet.mapjet)[string("gf")]);
-    if(fabs(myjet.mapjet.find(raw_coll)->second.v.Eta()) < 2.4) { //FIXME: depends on raw eta here !!
+    if(fabs(myjet.mapjet.find(raw_coll)->second.Eta()) < 2.4) { //FIXME: depends on raw eta here !!
       if(myjet.fem > fem_CutLow) accept = true;
     }
 
@@ -210,7 +210,7 @@ Bool_t UABaseTree::GetTightCaloJetId(const MyCaloJet& myjet , const string& raw_
      && myjet.sigma_eta > sigma_eta_CutLow && myjet.sigma_phi > sigma_phi_CutLow) {
 
     //-- inside tracker acceptance depends on fem
-    if(fabs(myjet.mapjet.find(raw_coll)->second.v.Eta()) < 2.4) { //FIXME: depends on raw eta here !!
+    if(fabs(myjet.mapjet.find(raw_coll)->second.Eta()) < 2.4) { //FIXME: depends on raw eta here !!
       if(myjet.fem > fem_CutLow) accept = true;
     }
 

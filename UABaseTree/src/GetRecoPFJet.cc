@@ -36,7 +36,7 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
   Int_t i = 0;
   for (PFJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
   
-    JetVector[i].mapjet[jetcoll_.label()].v.SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
+    JetVector[i].mapjet[jetcoll_.label()].SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
     
     JetVector[i].fhad_ch = jet->chargedHadronEnergyFraction();
     JetVector[i].fhad_ne = jet->neutralHadronEnergyFraction();
@@ -100,7 +100,7 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
         //PFJetCorUnc->setJetEta(corrected_jet.eta());
         //PFJetCorUnc->setJetPt(corrected_jet.pt());
         //JetVector[i].mapjet[list_[corr]].jec_unc = PFJetCorUnc->getUncertainty(true);
-        JetVector[i].mapjet[corrections_[corr]].v.SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
+        JetVector[i].mapjet[corrections_[corr]].SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
       }
     }
     catch(...){
@@ -193,7 +193,7 @@ Bool_t UABaseTree::GetTightPFJetId(const MyPFJet& myjet , const string& raw_coll
   if(myjet.fhad_ne < fhad_ne_CutUp && myjet.fem_ne < fem_ne_CutUp && myjet.nconstituent > nconstituent_CutLow) {
 
     //-- inside tracker acceptance, selection depends on f_ce, f_ch and multi_c
-    if(fabs(myjet.mapjet.find(raw_coll)->second.v.Eta()) < 2.4) {
+    if(fabs(myjet.mapjet.find(raw_coll)->second.Eta()) < 2.4) {
       if(myjet.fem_ch < fem_ch_CutUp && myjet.fhad_ch > fhad_ch_CutLow && myjet.multi_ch > multi_ch_CutLow)
         accept = true;
     }
