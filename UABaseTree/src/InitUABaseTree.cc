@@ -50,11 +50,21 @@ void UABaseTree::Init(){
   }
      
   //RecoCaloJets
-  InputTag jetcoll_;
+  InputTag       jetcoll_;
+  string         dijetcoll_;
+  vector<string> corrections_;
   for(vector<PSet>::iterator it = vcalojets_.begin() ; it != vcalojets_.end() ; ++it){
     jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
     if(jetcoll_.label().size() > 0)
       this->tree->Branch( jetcoll_.label().c_str() , &(this->allCaloJets[jetcoll_.label()]) );
+    
+    //DiJets from this Jetcoll
+    dijetcoll_   = it->getUntrackedParameter<string>("dijetcoll","");
+    corrections_ = it->getUntrackedParameter<vector<string> >("corrections",vector<string>());
+    if(find(corrections_.begin() , corrections_.end() , dijetcoll_) != corrections_.end())
+      this->tree->Branch( string(dijetcoll_+"DiJet").c_str() , &(this->allDiJets[string(dijetcoll_+"DiJet")]) );
+    
+    
   }
     
      
@@ -63,6 +73,13 @@ void UABaseTree::Init(){
     jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
     if(jetcoll_.label().size() > 0)
       this->tree->Branch( jetcoll_.label().c_str() , &(this->allPFJets[jetcoll_.label()]) );
+     
+    //DiJets from this Jetcoll
+    dijetcoll_   = it->getUntrackedParameter<string>("dijetcoll","");
+    corrections_ = it->getUntrackedParameter<vector<string> >("corrections",vector<string>());
+    if(find(corrections_.begin() , corrections_.end() , dijetcoll_) != corrections_.end())
+      this->tree->Branch( string(dijetcoll_+"DiJet").c_str() , &(this->allDiJets[dijetcoll_+"DiJet"]) );
+
   }
   
   
