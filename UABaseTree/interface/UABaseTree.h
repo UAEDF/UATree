@@ -57,8 +57,16 @@
 // MIT code
 #include "UATree/UADataFormat/src/MyMITEvtSel.h"
 
+// Jets
 #include "UATree/UADataFormat/src/MyCaloJet.h"
 #include "UATree/UADataFormat/src/MyPFJet.h"
+
+//Castor
+#include "UATree/UADataFormat/src/MyCastorRecHit.h"
+#include "UATree/UADataFormat/src/MyCastorJet.h"
+#include "UATree/UADataFormat/src/MyCastorDigi.h"
+#include "UATree/UADataFormat/src/MyDiJet.h"
+
 
 using namespace std;
 using namespace edm;
@@ -115,6 +123,13 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetAllCaloJets(  const Event& , const EventSetup& );
       
       virtual void GetRecoPFJets(   const Event& , const EventSetup& , const PSet& , vector<MyPFJet>& );
+      
+      
+      virtual void GetCastorRecHit( const Event& ); 
+      virtual void GetCastorJet(    const Event& ); 
+      virtual void GetCastorDigi(   const Event& ); 
+      virtual void GetCentralDiJet( const vector<MyJet*>& , const string , MyDiJet& ); 
+      
       virtual void GetAllPFJets(    const Event& , const EventSetup& );
       
       // --------------------   Get All Parameters   --------------------
@@ -162,6 +177,13 @@ class UABaseTree : public EDAnalyzer {
       vector<PSet>     vcalojets_;
       vector<PSet>     vpfjets_;
       
+      InputTag         castorrechits_;
+      InputTag         basicjets_;
+      InputTag         castorjetid_;
+      InputTag         castordigis_;
+      
+      //Castor Stuff
+      
       //for fwdGap
       double energyThresholdHB_ ;
       double energyThresholdHE_ ;
@@ -182,6 +204,10 @@ class UABaseTree : public EDAnalyzer {
       PSet ParaSetTightCaloJetID_;
       PSet ParaSetLoosePFJetID_;
       PSet ParaSetTightPFJetID_;
+      
+      //for DiJets
+      Double_t   jetPtCut_;
+      Double_t   jetEtaCut_;
       
       
       string outputfilename_ ;
@@ -220,6 +246,12 @@ class UABaseTree : public EDAnalyzer {
 
       map<string,vector<MyCaloJet> > allCaloJets;
       map<string,vector<MyPFJet> >   allPFJets;
+      
+      
+      vector<MyCastorRecHit>        castorRecHits;
+      vector<MyCastorJet>           castorJets;
+      vector<MyCastorDigi>          castorDigis;
+      map<string , MyDiJet>         allDiJets;
 
 
 
