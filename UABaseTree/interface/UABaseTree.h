@@ -31,6 +31,8 @@
 
 // Track
 #include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+
 
 
 // ChPartTree Analysis class decleration
@@ -60,6 +62,7 @@
 // Jets
 #include "UATree/UADataFormat/src/MyCaloJet.h"
 #include "UATree/UADataFormat/src/MyPFJet.h"
+#include "UATree/UADataFormat/src/MyGenJet.h"
 
 //Castor
 #include "UATree/UADataFormat/src/MyCastorRecHit.h"
@@ -105,6 +108,7 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetGenKin(       const Event& );
       virtual void GetGenMet(       const Event& );
       virtual void GetGenPart(      const Event& , const EventSetup& ); 
+      virtual void FillGenPart(     const GenParticle& , MyGenPart& );
       virtual void GetPUSumInfo(    const Event& );
       
       virtual void GetHLTrig(       const Event& , const EventSetup& );
@@ -123,14 +127,16 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetAllCaloJets(  const Event& , const EventSetup& );
       
       virtual void GetRecoPFJets(   const Event& , const EventSetup& , const PSet& , vector<MyPFJet>& );
+      virtual void GetAllPFJets(    const Event& , const EventSetup& );
       
+      virtual void GetGenJets(      const Event& , const InputTag& , vector<MyGenJet>& );
+      virtual void GetAllGenJets(   const Event& );
       
       virtual void GetCastorRecHit( const Event& ); 
       virtual void GetCastorJet(    const Event& ); 
-      virtual void GetCastorDigi(   const Event& ); 
+      virtual void GetCastorDigi(   const Event& , const EventSetup& ); 
       virtual void GetCentralDiJet( const vector<MyJet*>& , const string , MyDiJet& ); 
       
-      virtual void GetAllPFJets(    const Event& , const EventSetup& );
       
       // --------------------   Get All Parameters   --------------------
       virtual void GetParameters( const ParameterSet& );
@@ -176,6 +182,7 @@ class UABaseTree : public EDAnalyzer {
       vector<InputTag> vertices_ ;
       vector<PSet>     vcalojets_;
       vector<PSet>     vpfjets_;
+      vector<InputTag> genjets_;
       
       InputTag         castorrechits_;
       InputTag         basicjets_;
@@ -195,6 +202,7 @@ class UABaseTree : public EDAnalyzer {
       Bool_t saveMothersAndDaughters_;
       Bool_t onlyStableGenPart_;
       Bool_t onlyChargedGenPart_;
+      Bool_t enableGenMetFromGenPart_;
       
       //for PFJets
       Bool_t storeTracksInPFJets_;
@@ -229,7 +237,9 @@ class UABaseTree : public EDAnalyzer {
       MyFwdGap                      fwdGap;
       
       MyGenKin                      genKin;
-      MyGenMet                      genMet;
+      MyPart                        genMet;
+      MyPart                        genMetfromGenPartst1;
+      MyPart                        genMetfromGenPartst3;
       vector<MyGenPart>             genPart;
       MySimVertex                   simVertex;
       MyPUSumInfo                   pusuminfo;      
@@ -247,6 +257,7 @@ class UABaseTree : public EDAnalyzer {
       map<string,vector<MyCaloJet> > allCaloJets;
       map<string,vector<MyPFJet> >   allPFJets;
       
+      map<string,vector<MyGenJet> >  allGenJets;
       
       vector<MyCastorRecHit>        castorRecHits;
       vector<MyCastorJet>           castorJets;
