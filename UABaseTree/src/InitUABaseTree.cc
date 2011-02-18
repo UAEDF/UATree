@@ -25,6 +25,8 @@ void UABaseTree::Init(){
   //MC Info
   if(storeGenKin_)                   tree->Branch("genKin",&genKin);
   if(storeGenMet_)                   tree->Branch("genMet",&genMet);
+  if(enableGenMetFromGenPart_)       tree->Branch("genMetfromGenPartst1",&genMetfromGenPartst1);
+  if(enableGenMetFromGenPart_)       tree->Branch("genMetfromGenPartst3",&genMetfromGenPartst3);
   if(storeGenPart_)                  tree->Branch("genPart",&genPart);
   if(storeGenPart_)                  tree->Branch("simVertex",&simVertex);
   if(storePUSumInfo_)                tree->Branch("PUSumInfo",&pusuminfo); 
@@ -82,12 +84,20 @@ void UABaseTree::Init(){
 
   }
   
+    
+     
+  //RecoGenJets
+  for(vector<InputTag>::iterator it = genjets_.begin() ; it != genjets_.end() ; ++it){
+      this->tree->Branch( it->label().c_str() , &(this->allGenJets[it->label()]) );
+  }
+  
+  
   
   //Castor
-  if(castorrechits_.label().size() > 0)    tree->Branch("castorRecHits_",&castorRecHits);
+  if(castorrechits_.label().size() > 0)    tree->Branch("castorRecHits",&castorRecHits);
   if(basicjets_.label().size() > 0 &&
-     castorjetid_.label().size() > 0)      tree->Branch("castorJets_",&castorJets);
-  if(castordigis_.label().size() > 0)      tree->Branch("castorDigis_",&castorDigis);
+     castorjetid_.label().size() > 0)      tree->Branch("castorJets",&castorJets);
+  if(castordigis_.label().size() > 0)      tree->Branch("castorDigis",&castorDigis);
   
   
     
