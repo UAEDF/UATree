@@ -49,6 +49,17 @@ void UABaseTree::GetGenPart(const edm::Event& iEvent, const edm::EventSetup& iSe
   simVertex.z = PosPVsim.Z();
   if(GenPartDebug) simVertex.Print();
   
+  //-- for the GenMEt
+  double met1Px = 0 ;
+  double met1Py = 0 ;
+  double met1Pz = 0 ;
+  double met1E  = 0 ;
+
+  double met3Px = 0 ;
+  double met3Py = 0 ;
+  double met3Pz = 0 ;
+  double met3E  = 0 ;
+  
   
 
   // Loop on generated particle
@@ -60,17 +71,11 @@ void UABaseTree::GetGenPart(const edm::Event& iEvent, const edm::EventSetup& iSe
     
     mygenpart.Reset();
     
-    int st = p->status();
+    int st  = p->status();
+    int pid = p->pdgId();
 
-    //Filling inherited from MyPart
-    mygenpart.SetPxPyPzE( p->px() , p->py() , p->pz() , p->energy() );
-    mygenpart.charge  = p->charge();
-
-    // Extra properties
-    mygenpart.pdgId   = p->pdgId();
-    //mygenpart.name    = (pdt->particle(p->pdgId()))->name(); //FIXME : crashes the code ...
-    mygenpart.status  = st;
-
+    this->FillGenPart(*p , mygenpart);
+    
     // Mother Daughter relations
     if(saveMothersAndDaughters_){
       int nMo = p->numberOfMothers();
@@ -84,10 +89,11 @@ void UABaseTree::GetGenPart(const edm::Event& iEvent, const edm::EventSetup& iSe
 
       found = find(cands.begin(), cands.end(), p->daughter(0));
       if(found != cands.end()) mygenpart.da1 = found - cands.begin() ;
- 
+   
       found = find(cands.begin(), cands.end(), p->daughter(nDa-1));
       if(found != cands.end()) mygenpart.da2 = found - cands.begin() ;
-    } 
+    }
+
 
     Bool_t store = true;
     if( onlyStableGenPart_  && st!=1)                    store = false;
@@ -96,7 +102,47 @@ void UABaseTree::GetGenPart(const edm::Event& iEvent, const edm::EventSetup& iSe
     if(store) genPart.push_back(mygenpart);
     
     if(GenPartDebug && store) mygenpart.Print();
+    
+    
+    
+    // Gen Met: From GenPart Neutrinos ( no SUSY !!! )
+    if(enableGenMetFromGenPart_){
+      if( ( abs(pid)==12 || abs(pid)==14 || abs(pid)==16 ) ){
+        if ( st == 1 ){
+          met1Px += p->px();
+          met1Py += p->py();
+          met1Pz += p->pz();
+          met1E  += p->energy();
+        } 
+        else if ( st == 3 ){
+          met3Px += p->px();
+          met3Py += p->py();
+          met3Pz += p->pz();
+          met3E  += p->energy();
+        }
+      }
+    }
 
+  }//end of loop over genParticles
+  
+  //storing genMet
+  if(enableGenMetFromGenPart_){
+    genMetfromGenPartst1.SetPxPyPzE( met1Px , met1Py , met1Pz , met1E ) ;
+    genMetfromGenPartst3.SetPxPyPzE( met3Px , met3Py , met3Pz , met3E ) ;
   }
 
+}
+
+
+
+void UABaseTree::FillGenPart(const GenParticle& ingp , MyGenPart& outgp){
+
+  //Filling inherited from MyPart
+  outgp.SetPxPyPzE( ingp.px() , ingp.py() , ingp.pz() , ingp.energy() );
+  outgp.charge  = ingp.charge();
+
+  // Extra properties
+  outgp.pdgId   = ingp.status();
+  //outgp.name    = (pdt->particle(ingp.pdgId()))->name(); //FIXME : crashes the code ...
+  outgp.status  = ingp.pdgId();
 }
