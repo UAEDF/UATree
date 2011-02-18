@@ -16,7 +16,8 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
 
   if(storeGenKin_)		    GetGenKin (iEvent);
   if(storeGenMet_)		    GetGenMet (iEvent);
-  if(storeGenPart_)		    GetGenPart(iEvent,iSetup);
+  if(storeGenPart_ || 
+     enableGenMetFromGenPart_)      GetGenPart(iEvent,iSetup);
   if(storePUSumInfo_)               GetPUSumInfo(iEvent);
 
   if(hlt_paths_.size() > 0)         GetHLTrig(iEvent,iSetup);
@@ -36,10 +37,11 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
 
   GetAllCaloJets(iEvent,iSetup);
   GetAllPFJets(iEvent,iSetup); 
+  GetAllGenJets(iEvent); 
   
   if(castorrechits_.label().size() > 0) GetCastorRecHit(iEvent);
   if(basicjets_.label().size() > 0 &&
      castorjetid_.label().size() > 0)   GetCastorJet(iEvent); 
-  if(castordigis_.label().size() > 0)   GetCastorDigi(iEvent);
+  if(castordigis_.label().size() > 0)   GetCastorDigi(iEvent,iSetup);
 }
 
