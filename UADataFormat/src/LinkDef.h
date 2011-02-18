@@ -26,6 +26,8 @@
 #pragma link C++ class vector<MyGenMet>+;
 #pragma link C++ class MyGenPart+;
 #pragma link C++ class vector<MyGenPart>+;
+#pragma link C++ class MyGenJet+;
+#pragma link C++ class vector<MyGenJet>+;
 #pragma link C++ class MyHLTrig+;
 #pragma link C++ class vector<MyHLTrig>+;
 #pragma link C++ class MyL1Trig+;

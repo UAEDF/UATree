@@ -11,6 +11,7 @@
 #include "MyPUSumInfo.h"
 #include "MyGenMet.h"
 #include "MyGenPart.h"
+#include "MyGenJet.h"
 #include "MyHLTrig.h"
 #include "MyL1Trig.h"
 #include "MyL1TrigOld.h"
