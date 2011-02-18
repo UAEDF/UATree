@@ -11,7 +11,7 @@ class MyCastorDigi : public TObject {
     MyCastorDigi();
   virtual ~MyCastorDigi();
   
-  virtual void Reset(){};
+  virtual void Reset();
   virtual void Print();
   
   vector<Double_t> adc;
