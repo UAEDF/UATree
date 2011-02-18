@@ -12,6 +12,17 @@ MyCastorDigi::MyCastorDigi(){
 
 MyCastorDigi::~MyCastorDigi(){}
 
+void MyCastorDigi::Reset() {
+
+  this->adc.clear();
+  this->fC.clear();
+
+  this->mod = 0;
+  this->sec = 0;
+  this->cha = 0;
+}
+
+
 void MyCastorDigi::Print() {
 
   cout<<"castor digi information: "<<endl;
