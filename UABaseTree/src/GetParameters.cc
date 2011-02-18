@@ -28,6 +28,7 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    vertices_       = iConfig.getUntrackedParameter<vector<InputTag> >("vertices",vector<InputTag>());
    vcalojets_      = iConfig.getUntrackedParameter<vector<PSet> >("vcalojets",vector<PSet>());
    vpfjets_        = iConfig.getUntrackedParameter<vector<PSet> >("vpfjets",vector<PSet>());
+   genjets_        = iConfig.getUntrackedParameter<vector<InputTag> >("genjets",vector<InputTag>());
    
    castorrechits_  = iConfig.getUntrackedParameter<InputTag>("castorrechits",InputTag());
    basicjets_      = iConfig.getUntrackedParameter<InputTag>("basicjets",InputTag());
@@ -45,6 +46,7 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    saveMothersAndDaughters_    = iConfig.getUntrackedParameter<bool>("saveMothersAndDaughters",false);
    onlyStableGenPart_          = iConfig.getUntrackedParameter<bool>("onlyStableGenPart",false);
    onlyChargedGenPart_         = iConfig.getUntrackedParameter<bool>("onlyChargedGenPart_",false);
+   enableGenMetFromGenPart_    = iConfig.getUntrackedParameter<bool>("enableGenMetFromGenPart",storeGenMet_);
    
    //Specific for PFJets
    storeTracksInPFJets_        = iConfig.getUntrackedParameter<bool>("storeTracksInPFJets",false);
