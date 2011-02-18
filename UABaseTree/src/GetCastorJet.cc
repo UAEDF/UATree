@@ -22,8 +22,6 @@ void UABaseTree::GetCastorJet(const edm::Event& iEvent) {
 
   if(basicjetcoll.isValid()) {
 
-    Int_t nCastorJet = basicjetcoll->size();
-
     for(edm::View<reco::BasicJet>::const_iterator ibegin = basicjetcoll->begin(), iend = basicjetcoll->end(), ijet = ibegin; ijet != iend; ++ijet) {
 
       unsigned int idx = ijet - ibegin;
