@@ -44,6 +44,10 @@
 #pragma link C++ class vector<MyVertex>+;
 #pragma link C++ class MyTracks+;
 #pragma link C++ class vector<MyTracks>+;
+#pragma link C++ class MyElectron+;
+#pragma link C++ class vector<MyElectron>+;
+#pragma link C++ class MyMuon+;
+#pragma link C++ class vector<MyMuon>+;
 #pragma link C++ class MyBaseJet+;
 #pragma link C++ class vector<MyBaseJet>+;
 #pragma link C++ class MyJet+;

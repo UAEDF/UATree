@@ -35,6 +35,10 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    castorjetid_    = iConfig.getUntrackedParameter<InputTag>("castorjetid",InputTag());
    castordigis_    = iConfig.getUntrackedParameter<InputTag>("castordigis",InputTag());
    
+   electrons_      = iConfig.getUntrackedParameter<vector<InputTag> >("electrons",vector<InputTag>());
+   muons_          = iConfig.getUntrackedParameter<vector<InputTag> >("muons",vector<InputTag>());
+   
+   
    //Specific for fwdGap
    energyThresholdHB_ = iConfig.getUntrackedParameter<double>("EnergyThresholdHB",1.5) ;
    energyThresholdHE_ = iConfig.getUntrackedParameter<double>("EnergyThresholdHE",2.0) ;

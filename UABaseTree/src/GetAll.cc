@@ -43,5 +43,9 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   if(basicjets_.label().size() > 0 &&
      castorjetid_.label().size() > 0)   GetCastorJet(iEvent); 
   if(castordigis_.label().size() > 0)   GetCastorDigi(iEvent,iSetup);
+  
+  
+  GetAllElectrons(iEvent); 
+  GetAllMuons(iEvent); 
 }
 

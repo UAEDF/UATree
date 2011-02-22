@@ -40,16 +40,14 @@ void UABaseTree::Init(){
   if(storeMITEvtSel_)		     tree->Branch("MITEvtSel",&MITEvtSel);
 
   //RecoTracks
-  for(vector<InputTag>::iterator icoll = this->tracks_.begin() ; icoll!= this->tracks_.end() ; ++icoll){
-    //this->allTracks[icoll->label()] = vector<MyTracks>();
+  for(vector<InputTag>::iterator icoll = this->tracks_.begin() ; icoll!= this->tracks_.end() ; ++icoll)
     this->tree->Branch( icoll->label().c_str() , &(this->allTracks[icoll->label()]) );
-  }
+    
     
   //RecoVertices
-  for(vector<InputTag>::iterator icoll = this->vertices_.begin() ; icoll!= this->vertices_.end() ; ++icoll){
-    //this->allVertices[icoll->label()] = vector<MyVertex>();
+  for(vector<InputTag>::iterator icoll = this->vertices_.begin() ; icoll!= this->vertices_.end() ; ++icoll)
     this->tree->Branch( icoll->label().c_str() , &(this->allVertices[icoll->label()]) );
-  }
+    
      
   //RecoCaloJets
   InputTag       jetcoll_;
@@ -87,9 +85,8 @@ void UABaseTree::Init(){
     
      
   //RecoGenJets
-  for(vector<InputTag>::iterator it = genjets_.begin() ; it != genjets_.end() ; ++it){
-      this->tree->Branch( it->label().c_str() , &(this->allGenJets[it->label()]) );
-  }
+  for(vector<InputTag>::iterator it = genjets_.begin() ; it != genjets_.end() ; ++it)
+    this->tree->Branch( it->label().c_str() , &(this->allGenJets[it->label()]) );
   
   
   
@@ -100,5 +97,16 @@ void UABaseTree::Init(){
   if(castordigis_.label().size() > 0)      tree->Branch("castorDigis",&castorDigis);
   
   
+  
+  //RecoElectrons
+  for(vector<InputTag>::iterator icoll = this->electrons_.begin() ; icoll!= this->electrons_.end() ; ++icoll)
+    this->tree->Branch( icoll->label().c_str() , &(this->allElectrons[icoll->label()]) );
+
+  
+  //RecoMuons
+  for(vector<InputTag>::iterator icoll = this->muons_.begin() ; icoll!= this->muons_.end() ; ++icoll)
+    this->tree->Branch( icoll->label().c_str() , &(this->allMuons[icoll->label()]) );
+
+
     
 }
