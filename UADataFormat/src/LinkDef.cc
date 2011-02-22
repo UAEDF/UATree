@@ -1,4 +1,6 @@
 #include <vector>
+#include "MassParticles.h"
+#include "MyPart.h"
 #include "MyBaseJet.h"
 #include "MyBeamSpot.h"
 #include "MyCastorDigi.h"
@@ -16,9 +18,10 @@
 #include "MyL1Trig.h"
 #include "MyL1TrigOld.h"
 #include "MyMITEvtSel.h"
-#include "MyPart.h"
 #include "MySimVertex.h"
 #include "MyTracks.h"
 #include "MyVertex.h"
+#include "MyElectron.h"
+#include "MyMuon.h"
 
 #include "LinkDef.h"

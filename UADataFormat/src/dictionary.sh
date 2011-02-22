@@ -1,5 +1,6 @@
 #!/bin/bash
 rootcint -f eventdict.cc -c -p \
+     MassParticles.h \
      MyBeamSpot.h \
      MyCastorDigi.h \
      MyCastorJet.h \
@@ -20,6 +21,8 @@ rootcint -f eventdict.cc -c -p \
      MySimVertex.h \
      MyVertex.h \
      MyTracks.h \
+     MyElectron.h \
+     MyMuon.h \
      MyBaseJet.h \
      MyJet.h \
      MyCaloJet.h \
