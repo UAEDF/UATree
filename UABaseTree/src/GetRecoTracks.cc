@@ -9,7 +9,6 @@
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
 bool TrackDebug = false;
-Double_t mpion = 139.57018;
 
 void UABaseTree::GetRecoTracks(const edm::Event& iEvent, const string TrackCollName , vector<MyTracks>& TrackVector )
 {
@@ -41,12 +40,12 @@ void UABaseTree::GetAllTracks( const edm::Event& iEvent ){
 
 
 
-void UABaseTree::FillTrack(const Track& intrack , MyTracks& outtrack){
+void UABaseTree::FillTrack(const Track& intrack , MyTracks& outtrack , Double_t mass){
 
   outtrack.Reset();
 
   outtrack.charge = intrack.charge();
-  outtrack.SetPtEtaPhiM(intrack.pt(),intrack.eta(),intrack.phi(), mpion );  
+  outtrack.SetPtEtaPhiM(intrack.pt(),intrack.eta(),intrack.phi(), mass );  
 
   outtrack.nhit	              =  intrack.found() + intrack.lost();
   outtrack.nValidPixelHits    =  intrack.hitPattern().numberOfValidPixelHits  ();
