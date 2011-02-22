@@ -17,6 +17,8 @@
 <use name=DataFormats/TrackReco>
 <use name=DataFormats/VertexReco>
 <use name=DataFormats/JetReco>
+<use name=DataFormats/MuonReco>
+<use name=RecoEgamma/EgammaTools>
 <use name=JetMETCorrections/Algorithms>
 <use name=JetMETCorrections/Objects>
 <use name=JetMETCorrections/Modules>
