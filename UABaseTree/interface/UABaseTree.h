@@ -37,6 +37,8 @@
 
 // ChPartTree Analysis class decleration
 
+#include "UATree/UADataFormat/src/MassParticles.h"
+
 #include "UATree/UADataFormat/src/MyPart.h"
 
 #include "UATree/UADataFormat/src/MyEvtId.h"
@@ -69,6 +71,11 @@
 #include "UATree/UADataFormat/src/MyCastorJet.h"
 #include "UATree/UADataFormat/src/MyCastorDigi.h"
 #include "UATree/UADataFormat/src/MyDiJet.h"
+
+//Identified Particles
+#include "UATree/UADataFormat/src/MyElectron.h"
+#include "UATree/UADataFormat/src/MyMuon.h"
+
 
 
 using namespace std;
@@ -119,7 +126,7 @@ class UABaseTree : public EDAnalyzer {
       
       virtual void GetRecoTracks(   const Event& , const string , vector<MyTracks>& );
       virtual void GetAllTracks(    const Event& );
-      virtual void FillTrack(       const Track& , MyTracks& );
+      virtual void FillTrack(       const Track& , MyTracks& , Double_t = MASS_PI );
       virtual void GetRecoVertex(   const Event& , const string , vector<MyVertex>& ); 
       virtual void GetAllVertices(  const Event& ); 
       
@@ -136,6 +143,13 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetCastorJet(    const Event& ); 
       virtual void GetCastorDigi(   const Event& , const EventSetup& ); 
       virtual void GetCentralDiJet( const vector<MyJet*>& , const string , MyDiJet& ); 
+      
+      
+      virtual void GetRecoElectron( const Event& , const InputTag& , vector<MyElectron>& ); 
+      virtual void GetAllElectrons( const Event& ); 
+      virtual void GetRecoMuon(     const Event& , const InputTag& , vector<MyMuon>& ); 
+      virtual void GetAllMuons(     const Event& ); 
+      
       
       
       // --------------------   Get All Parameters   --------------------
@@ -183,6 +197,8 @@ class UABaseTree : public EDAnalyzer {
       vector<PSet>     vcalojets_;
       vector<PSet>     vpfjets_;
       vector<InputTag> genjets_;
+      vector<InputTag> electrons_;
+      vector<InputTag> muons_;
       
       InputTag         castorrechits_;
       InputTag         basicjets_;
@@ -263,6 +279,11 @@ class UABaseTree : public EDAnalyzer {
       vector<MyCastorJet>           castorJets;
       vector<MyCastorDigi>          castorDigis;
       map<string , MyDiJet>         allDiJets;
+
+
+      map<string,vector<MyElectron> > allElectrons;
+      map<string,vector<MyMuon> >     allMuons;
+
 
 
 
