@@ -22,6 +22,8 @@
 #pragma link C++ class vector<MyGenKin>+;
 #pragma link C++ class MyPUSumInfo+;
 #pragma link C++ class vector<MyPUSumInfo>+;
+#pragma link C++ class MyMet+;
+#pragma link C++ class vector<MyMet>+;
 #pragma link C++ class MyGenMet+;
 #pragma link C++ class vector<MyGenMet>+;
 #pragma link C++ class MyGenPart+;

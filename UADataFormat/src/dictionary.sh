@@ -8,8 +8,9 @@ rootcint -f eventdict.cc -c -p \
      MyDiJet.h \
      MyEvtId.h \
      MyFwdGap.h \
-     MyGenKin.h \
+     MyMet.h \
      MyGenMet.h \
+     MyGenKin.h \
      MyGenPart.h \
      MyGenJet.h \
      MyPUSumInfo.h \

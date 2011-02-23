@@ -11,6 +11,7 @@
 #include "MyFwdGap.h"
 #include "MyGenKin.h"
 #include "MyPUSumInfo.h"
+#include "MyMet.h"
 #include "MyGenMet.h"
 #include "MyGenPart.h"
 #include "MyGenJet.h"
