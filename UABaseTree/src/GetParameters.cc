@@ -13,10 +13,8 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    calotower_      = iConfig.getUntrackedParameter<InputTag>("calotower",InputTag("towerMaker"));
    storeFwdGap_    = iConfig.getUntrackedParameter<bool>("storeFwdGap",false);
    hepmc_          = iConfig.getUntrackedParameter<InputTag>("hepmc",InputTag("generator::HLT"));
-   genmet_         = iConfig.getUntrackedParameter<InputTag>("genmet",InputTag("genMetTrue"));
    genpart_        = iConfig.getUntrackedParameter<InputTag>("genpart",InputTag("genParticles"));
    storeGenKin_    = iConfig.getUntrackedParameter<bool>("storeGenKin",false);
-   storeGenMet_    = iConfig.getUntrackedParameter<bool>("storeGenMet",false);
    storeGenPart_   = iConfig.getUntrackedParameter<bool>("storeGenPart",false);
    pusuminfo_      = iConfig.getUntrackedParameter<InputTag>("pusuminfo",InputTag("addPileupInfo"));
    storePUSumInfo_ = iConfig.getUntrackedParameter<bool>("storePUSumInfo",false);
@@ -38,6 +36,7 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    electrons_      = iConfig.getUntrackedParameter<vector<InputTag> >("electrons",vector<InputTag>());
    muons_          = iConfig.getUntrackedParameter<vector<InputTag> >("muons",vector<InputTag>());
    
+   mets_           = iConfig.getUntrackedParameter<vector<InputTag> >("mets",vector<InputTag>());
    
    //Specific for fwdGap
    energyThresholdHB_ = iConfig.getUntrackedParameter<double>("EnergyThresholdHB",1.5) ;
@@ -50,7 +49,7 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    saveMothersAndDaughters_    = iConfig.getUntrackedParameter<bool>("saveMothersAndDaughters",false);
    onlyStableGenPart_          = iConfig.getUntrackedParameter<bool>("onlyStableGenPart",false);
    onlyChargedGenPart_         = iConfig.getUntrackedParameter<bool>("onlyChargedGenPart_",false);
-   enableGenMetFromGenPart_    = iConfig.getUntrackedParameter<bool>("enableGenMetFromGenPart",storeGenMet_);
+   enableGenMetFromGenPart_    = iConfig.getUntrackedParameter<bool>("enableGenMetFromGenPart",false);
    
    //Specific for PFJets
    storeTracksInPFJets_        = iConfig.getUntrackedParameter<bool>("storeTracksInPFJets",false);

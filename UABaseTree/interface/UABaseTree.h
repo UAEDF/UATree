@@ -77,6 +77,7 @@
 #include "UATree/UADataFormat/src/MyMuon.h"
 
 
+#include "UATree/UADataFormat/src/MyMet.h"
 
 using namespace std;
 using namespace edm;
@@ -113,7 +114,6 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetFwdGap(       const Event& );
       
       virtual void GetGenKin(       const Event& );
-      virtual void GetGenMet(       const Event& );
       virtual void GetGenPart(      const Event& , const EventSetup& ); 
       virtual void FillGenPart(     const GenParticle& , MyGenPart& );
       virtual void GetPUSumInfo(    const Event& );
@@ -151,6 +151,12 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetAllMuons(     const Event& ); 
       
       
+      virtual void GetMET(          const Event& , const string& , vector<MyMet>& );
+      virtual void GetAllMETs(      const Event& );
+      template <class T>
+      void FillAllMET(              const vector<T>& , vector<MyMet>& );
+      
+      
       
       // --------------------   Get All Parameters   --------------------
       virtual void GetParameters( const ParameterSet& );
@@ -181,10 +187,8 @@ class UABaseTree : public EDAnalyzer {
       InputTag         calotower_ ;
       Bool_t           storeFwdGap_;
       InputTag         hepmc_ ;
-      InputTag         genmet_ ;
       InputTag         genpart_ ;
       Bool_t           storeGenKin_;
-      Bool_t           storeGenMet_;
       Bool_t           storeGenPart_;
       InputTag         pusuminfo_;
       Bool_t           storePUSumInfo_;
@@ -199,6 +203,7 @@ class UABaseTree : public EDAnalyzer {
       vector<InputTag> genjets_;
       vector<InputTag> electrons_;
       vector<InputTag> muons_;
+      vector<InputTag> mets_;
       
       InputTag         castorrechits_;
       InputTag         basicjets_;
@@ -253,7 +258,6 @@ class UABaseTree : public EDAnalyzer {
       MyFwdGap                      fwdGap;
       
       MyGenKin                      genKin;
-      MyPart                        genMet;
       MyPart                        genMetfromGenPartst1;
       MyPart                        genMetfromGenPartst3;
       vector<MyGenPart>             genPart;
@@ -284,6 +288,7 @@ class UABaseTree : public EDAnalyzer {
       map<string,vector<MyElectron> > allElectrons;
       map<string,vector<MyMuon> >     allMuons;
 
+      map<string,vector<MyMet> >     allMETs;
 
 
 

@@ -24,7 +24,6 @@ void UABaseTree::Init(){
   
   //MC Info
   if(storeGenKin_)                   tree->Branch("genKin",&genKin);
-  if(storeGenMet_)                   tree->Branch("genMet",&genMet);
   if(enableGenMetFromGenPart_)       tree->Branch("genMetfromGenPartst1",&genMetfromGenPartst1);
   if(enableGenMetFromGenPart_)       tree->Branch("genMetfromGenPartst3",&genMetfromGenPartst3);
   if(storeGenPart_)                  tree->Branch("genPart",&genPart);
@@ -107,6 +106,9 @@ void UABaseTree::Init(){
   for(vector<InputTag>::iterator icoll = this->muons_.begin() ; icoll!= this->muons_.end() ; ++icoll)
     this->tree->Branch( icoll->label().c_str() , &(this->allMuons[icoll->label()]) );
 
+  //MET
+  for(vector<InputTag>::iterator icoll = this->mets_.begin() ; icoll!= this->mets_.end() ; ++icoll)
+    this->tree->Branch( icoll->label().c_str() , &(this->allMETs[icoll->label()]) );
 
     
 }

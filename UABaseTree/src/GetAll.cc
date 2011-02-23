@@ -15,7 +15,6 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   if(storeFwdGap_)                  GetFwdGap(iEvent); 
 
   if(storeGenKin_)		    GetGenKin (iEvent);
-  if(storeGenMet_)		    GetGenMet (iEvent);
   if(storeGenPart_ || 
      enableGenMetFromGenPart_)      GetGenPart(iEvent,iSetup);
   if(storePUSumInfo_)               GetPUSumInfo(iEvent);
@@ -47,5 +46,7 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   
   GetAllElectrons(iEvent); 
   GetAllMuons(iEvent); 
+  
+  GetAllMETs(iEvent); 
 }
 
