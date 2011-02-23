@@ -19,7 +19,7 @@ void MyMet::Reset(){
 
 void MyMet::Print(){
   
-  this->MyPart::Reset();
+  this->MyPart::Print();
 
   cout << "sumet   : " << this->sumet   << endl;
   cout << "elongit : " << this->elongit << endl;
