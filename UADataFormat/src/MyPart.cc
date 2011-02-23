@@ -21,9 +21,11 @@ void MyPart::Print(){
   cout << "py     : " << this->Py()   << endl;
   cout << "pz     : " << this->Pz()   << endl;
   cout << "E      : " << this->E()    << endl;
+  cout << "Et     : " << this->Et()   << endl;
   cout << "pt     : " << this->Pt()   << endl;
   cout << "eta    : " << this->Eta()  << endl;
   cout << "phi    : " << this->Phi()  << endl;
+  cout << "mass   : " << this->M() << endl;
   cout << "charge : " << this->charge << endl;
 }
 
