@@ -35,6 +35,7 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    
    electrons_      = iConfig.getUntrackedParameter<vector<InputTag> >("electrons",vector<InputTag>());
    muons_          = iConfig.getUntrackedParameter<vector<InputTag> >("muons",vector<InputTag>());
+   pfcands_        = iConfig.getUntrackedParameter<vector<InputTag> >("pfcands",vector<InputTag>());
    
    mets_           = iConfig.getUntrackedParameter<vector<InputTag> >("mets",vector<InputTag>());
    

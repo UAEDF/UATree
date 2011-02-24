@@ -24,5 +24,6 @@
 #include "MyVertex.h"
 #include "MyElectron.h"
 #include "MyMuon.h"
+#include "MyPFCand.h"
 
 #include "LinkDef.h"

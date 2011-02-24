@@ -46,6 +46,7 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   
   GetAllElectrons(iEvent); 
   GetAllMuons(iEvent); 
+  GetAllPFCands(iEvent); 
   
   GetAllMETs(iEvent); 
 }

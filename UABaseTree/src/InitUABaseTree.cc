@@ -106,6 +106,10 @@ void UABaseTree::Init(){
   for(vector<InputTag>::iterator icoll = this->muons_.begin() ; icoll!= this->muons_.end() ; ++icoll)
     this->tree->Branch( icoll->label().c_str() , &(this->allMuons[icoll->label()]) );
 
+  //PFCands
+  for(vector<InputTag>::iterator icoll = this->pfcands_.begin() ; icoll!= this->pfcands_.end() ; ++icoll)
+    this->tree->Branch( icoll->label().c_str() , &(this->allPFCands[icoll->label()]) );
+
   //MET
   for(vector<InputTag>::iterator icoll = this->mets_.begin() ; icoll!= this->mets_.end() ; ++icoll)
     this->tree->Branch( icoll->label().c_str() , &(this->allMETs[icoll->label()]) );
