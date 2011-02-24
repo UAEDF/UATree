@@ -8,7 +8,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("UABaseTree")
 
 process.maxEvents = cms.untracked.PSet(
-   input = cms.untracked.int32(10)
+   input = cms.untracked.int32(3)
 )
 
 # initialize MessageLogger and output report ----------------------------------------
@@ -78,9 +78,9 @@ if isMonteCarlo:
    process.load('UATree.UABaseTree.UABaseTree_MC_cfi')
    process.myTTRHBuilderWithoutAngle4PixelTriplets.ComputeCoarseLocalPositionFromDisk = True
    process.GlobalTag.globaltag = 'START39_V8::All'
-   process.source.fileNames = cms.untracked.vstring('dcap:///pnfs/iihe/cms/ph/sc4/store/mc/Summer10/MinBias_7TeV-pythia8/GEN-SIM-RECODEBUG/START36_V10_SP10-v1/0002/1C57F8AA-8E74-DF11-ADCE-0017A4771024.root')
-   
-   
+   #process.source.fileNames = cms.untracked.vstring('dcap:///pnfs/iihe/cms/ph/sc4/store/mc/Summer10/MinBias_7TeV-pythia8/GEN-SIM-RECODEBUG/START36_V10_SP10-v1/0002/1C57F8AA-8E74-DF11-ADCE-0017A4771024.root')
+   #process.source.fileNames = cms.untracked.vstring('dcap:///pnfs/iihe/cms/store/user/xjanssen/data//CMSSW_3_9_7/DataCopy_397/__GluGluToHToWWTo2L2Nu_M-160_7TeV-powheg-pythia6__Winter10-E7TeV_ProbDist_2011Flat_BX156_START39_V8-v1__GEN-SIM-RECO/DataCopy_397__CMSSW_3_9_7__GluGluToHToWWTo2L2Nu_M-160_7TeV-powheg-pythia6__Winter10-E7TeV_ProbDist_2011Flat_BX156_START39_V8-v1__GEN-SIM-RECO_1_1_RJI.root')
+   process.source.fileNames = cms.untracked.vstring('file:/user/selvaggi/step2_RAW2DIGI_L1Reco_RECO_9_1_XqK.root')
    
 #  ----------------------------   Filters   ----------------------------
 if useMITFilter:
@@ -89,7 +89,7 @@ if useMITFilter:
    process.load('UATree.UABaseTree.UABaseTree_tracking_cfi')
    process.path = cms.Sequence(process.path * process.redoSiHits * process.evtSelData * process.looseEvtSelFilter )
 else:
-   process.path = cms.Sequence(process.path * process.noscraping)
+   pass#process.path = cms.Sequence(process.path * process.noscraping)
 
 
 
@@ -107,14 +107,14 @@ if storeJets:
    process.load("UATree.UABaseTree.UABaseTree_jets_cfi")
 
 
-#  ----------------------------   Jets   ----------------------------
+#  ----------------------------   Castor   ----------------------------
 if storeCastor:
    process.castorDigis.InputLabel = 'source'
-   process.load("RecoLocalCalo.Castor.CastorCellReco_cfi")    #-- redo cell
-   process.load("RecoLocalCalo.Castor.CastorTowerReco_cfi")   #-- redo tower
-   process.load("RecoJets.JetProducers.ak7CastorJets_cfi")    #-- redo jet
-   process.load("RecoJets.JetProducers.ak7CastorJetID_cfi")   #-- redo jetid
-   process.path = cms.Sequence(process.path  * process.castorDigis*process.castorreco*process.CastorCellReco*process.CastorTowerReco*process.ak7BasicJets*process.ak7CastorJetID)
+   #process.load("RecoLocalCalo.Castor.CastorCellReco_cfi")    #-- redo cell
+   #process.load("RecoLocalCalo.Castor.CastorTowerReco_cfi")   #-- redo tower
+   #process.load("RecoJets.JetProducers.ak7CastorJets_cfi")    #-- redo jet
+   #process.load("RecoJets.JetProducers.ak7CastorJetID_cfi")   #-- redo jetid
+   #process.path = cms.Sequence(process.path  * process.castorDigis*process.castorreco*process.CastorCellReco*process.CastorTowerReco*process.ak7BasicJets*process.ak7CastorJetID)
                     
 
 

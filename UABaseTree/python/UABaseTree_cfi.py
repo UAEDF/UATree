@@ -1,9 +1,9 @@
 import FWCore.ParameterSet.Config as cms
 
 isMonteCarlo = True
-doMBTracking = True
-useMITFilter = True
-storeJets    = True
+doMBTracking = False
+useMITFilter = False
+storeJets    = False
 storeCastor  = False 
 
 # Event Reconstruction (need to be updated)
@@ -18,13 +18,14 @@ uabasetree = cms.EDAnalyzer('UABaseTree',
                                      'HLT_PixelTracks_Multiplicity70' ,
                                      'HLT_PixelTracks_Multiplicity85' ,
                                      'HLT_MinBiasPixel_SingleTrack' ),
+  mets = cms.untracked.VInputTag("genMetTrue" , "met" , "pfMet" , "tcMet")
 
   
 )
 
 if isMonteCarlo:
    uabasetree.storeGenKin    = cms.untracked.bool(False) 
-   uabasetree.storeGenMet    = cms.untracked.bool(False) 
+   uabasetree.storeGenMet    = cms.untracked.bool(True) 
    uabasetree.storeGenPart   = cms.untracked.bool(False) 
    uabasetree.storePUSumInfo = cms.untracked.bool(False) 
    uabasetree.saveMothersAndDaughters = cms.untracked.bool(False) ;
@@ -34,6 +35,9 @@ if isMonteCarlo:
 if doMBTracking:
   uabasetree.tracks   = cms.untracked.VInputTag("generalTracks","allTracks","generalPlusMinBiasTracks")
   uabasetree.vertices = cms.untracked.VInputTag("offlinePrimaryVertices","pixel3Vertices","generalVertices","allVertices","mergedVertices","offlinePrimaryVerticesWithMBTracks")
+else:
+   uabasetree.tracks   = cms.untracked.VInputTag("generalTracks")
+   uabasetree.vertices = cms.untracked.VInputTag("offlinePrimaryVertices")
 
 if useMITFilter:
    uabasetree.storeMITEvtSel = cms.untracked.bool(False)
@@ -57,6 +61,6 @@ if storeCastor:
    uabasetree.castorrechits = cms.untracked.InputTag('castorreco')
    uabasetree.basicjets     = cms.untracked.InputTag('ak7BasicJets')
    uabasetree.castorjetid   = cms.untracked.InputTag('ak7CastorJetID')
-   uabasetree.castordigis   = cms.untracked.InputTag('castorDigis')
+   #uabasetree.castordigis   = cms.untracked.InputTag('castorDigis')
 
 

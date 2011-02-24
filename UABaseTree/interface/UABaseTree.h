@@ -16,6 +16,7 @@
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/ESHandle.h"
+#include "DataFormats/Common/interface/Handle.h"
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
@@ -75,6 +76,7 @@
 //Identified Particles
 #include "UATree/UADataFormat/src/MyElectron.h"
 #include "UATree/UADataFormat/src/MyMuon.h"
+#include "UATree/UADataFormat/src/MyPFCand.h"
 
 
 #include "UATree/UADataFormat/src/MyMet.h"
@@ -130,9 +132,10 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetRecoVertex(   const Event& , const string , vector<MyVertex>& ); 
       virtual void GetAllVertices(  const Event& ); 
       
+      template <class T,class U>
+      void FillJetCorrections(      const EventSetup& , const vector<T>& , const vector<string>& , vector<U>& );
       virtual void GetRecoCaloJets( const Event& , const EventSetup& , const PSet& , vector<MyCaloJet>& );
       virtual void GetAllCaloJets(  const Event& , const EventSetup& );
-      
       virtual void GetRecoPFJets(   const Event& , const EventSetup& , const PSet& , vector<MyPFJet>& );
       virtual void GetAllPFJets(    const Event& , const EventSetup& );
       
@@ -149,6 +152,8 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetAllElectrons( const Event& ); 
       virtual void GetRecoMuon(     const Event& , const InputTag& , vector<MyMuon>& ); 
       virtual void GetAllMuons(     const Event& ); 
+      virtual void GetRecoPFCand(   const Event& , const InputTag& , vector<MyPFCand>& ); 
+      virtual void GetAllPFCands(   const Event& ); 
       
       
       virtual void GetMET(          const Event& , const string& , vector<MyMet>& );
@@ -203,6 +208,7 @@ class UABaseTree : public EDAnalyzer {
       vector<InputTag> genjets_;
       vector<InputTag> electrons_;
       vector<InputTag> muons_;
+      vector<InputTag> pfcands_;
       vector<InputTag> mets_;
       
       InputTag         castorrechits_;
@@ -287,8 +293,9 @@ class UABaseTree : public EDAnalyzer {
 
       map<string,vector<MyElectron> > allElectrons;
       map<string,vector<MyMuon> >     allMuons;
+      map<string,vector<MyPFCand> >   allPFCands;
 
-      map<string,vector<MyMet> >     allMETs;
+      map<string,vector<MyMet> >      allMETs;
 
 
 
@@ -319,6 +326,8 @@ class UABaseTree : public EDAnalyzer {
 
 
 };
+
+#include "TemplateFunctions_jets.h"
 
 #endif
 
