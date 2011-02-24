@@ -8,17 +8,11 @@
 #include "DataFormats/JetReco/interface/JetID.h"
 #include "DataFormats/Common/interface/ValueMap.h"
 
-#include "JetMETCorrections/Objects/interface/JetCorrector.h"
-
-#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
-#include "JetMETCorrections/Objects/interface/JetCorrectionsRecord.h"
-#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
-
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
 bool PFJetDebug = false;
 
-void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& iSetup, const PSet& pfjets_ , vector<MyPFJet>& JetVector){
+void UABaseTree::GetRecoPFJets(const Event& iEvent , const EventSetup& iSetup , const PSet& pfjets_ , vector<MyPFJet>& JetVector){
 
   JetVector.clear();
 
@@ -31,6 +25,9 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
   
   //Initialize vector with number of jets
   JetVector.assign(raw->size() , MyPFJet());
+    
+  //Filling mapjet with corrections
+  FillJetCorrections( iSetup , *raw , corrections_ , JetVector);
     
   //filling raw collection
   Int_t i = 0;
@@ -58,7 +55,6 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
     //-- number of constituents (PFObject for PFjet, CaloTower for Calojet)
     JetVector[i].nconstituent = jet->getPFConstituents().size();
     
-    
     //-- number of tracks (PFjet only)
     if(jet->getTrackRefs().isAvailable()){
       reco::TrackRefVector vtrackref = jet->getTrackRefs();
@@ -77,35 +73,12 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
     JetVector[i].TightJetId = GetTightPFJetId(JetVector[i],jetcoll_.label());
     JetVector[i].LooseJetId = JetVector[i].TightJetId; //here loose & tight have the same output ... (used for DiJet selection)
 
+    if(PFJetDebug) JetVector[i].Print();
+
   }
 
 
-  //start looping over corrections
-  const JetCorrector* PFJetcorrector = NULL;
-  for(unsigned int corr=0 ; corr < corrections_.size() ; ++corr){
-
-    try{  
-      PFJetcorrector = JetCorrector::getJetCorrector(corrections_[corr],iSetup);
-    
-      //Filling corrected collection
-      Int_t i = 0;
-      for (PFJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
-        //-- correction 
-        PFJet corrected_jet = *jet;                            //-- copy orignial jet
-        Double_t jec = PFJetcorrector->correction(jet->p4());  //-- calculate correction 
-        corrected_jet.scaleEnergy(jec);                          //-- apply correction
-        JetVector[i].mapjet[corrections_[corr]].jec = jec;
-
-        //-- uncertainty (function of the CORRECTED jet)
-        //PFJetCorUnc->setJetEta(corrected_jet.eta());
-        //PFJetCorUnc->setJetPt(corrected_jet.pt());
-        //JetVector[i].mapjet[list_[corr]].jec_unc = PFJetCorUnc->getUncertainty(true);
-        JetVector[i].mapjet[corrections_[corr]].SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
-      }
-    }
-    catch(...){
-      cout << "Please provide an ESSource for coll " << corrections_[corr] << endl;
-    }
+  
 
     //JetCorrectionUncertainty *PFJetCorUnc(0);
 
@@ -117,7 +90,7 @@ void UABaseTree::GetRecoPFJets(const edm::Event& iEvent, const edm::EventSetup& 
 
     //nPFJet = PFJetcoll->size();
   
-  }
+  
  
   //doing the DiJet if needed
   string dijetcoll_ = pfjets_.getUntrackedParameter<string>("dijetcoll","");
@@ -205,3 +178,5 @@ Bool_t UABaseTree::GetTightPFJetId(const MyPFJet& myjet , const string& raw_coll
   return(accept);
 
 }
+
+

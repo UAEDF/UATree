@@ -8,12 +8,6 @@
 #include "DataFormats/JetReco/interface/JetID.h"
 #include "DataFormats/Common/interface/ValueMap.h"
 
-#include "JetMETCorrections/Objects/interface/JetCorrector.h"
-
-#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
-#include "JetMETCorrections/Objects/interface/JetCorrectionsRecord.h"
-#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
-
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
 bool CaloJetDebug = false;
@@ -37,6 +31,8 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   iEvent.getByLabel(calojetid_,CaloJetId);
   JetIDValueMap jetid = *CaloJetId;
 
+  //Filling mapjet with corrections
+  this->FillJetCorrections( iSetup , *raw , corrections_ , JetVector);
   
   //filling raw collection
   Int_t i = 0;
@@ -74,47 +70,10 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
     JetVector[i].LooseJetId = GetLooseCaloJetId(JetVector[i],jetcoll_.label());
     JetVector[i].TightJetId = GetTightCaloJetId(JetVector[i],jetcoll_.label());
 
+    if(CaloJetDebug) JetVector[i].Print();
+
   }
 
-
-  //start looping over corrections
-  const JetCorrector* CaloJetcorrector = NULL;
-  for(unsigned int corr=0 ; corr < corrections_.size() ; ++corr){
-
-    try{  
-      CaloJetcorrector = JetCorrector::getJetCorrector(corrections_[corr],iSetup);
-    
-      //Filling corrected collection
-      Int_t i = 0;
-      for (CaloJetCollection::const_iterator jet = raw->begin(); jet != raw->end(); ++jet , ++i){
-        //-- correction 
-        CaloJet corrected_jet = *jet;                            //-- copy orignial jet
-        Double_t jec = CaloJetcorrector->correction(jet->p4());  //-- calculate correction 
-        corrected_jet.scaleEnergy(jec);                          //-- apply correction
-        JetVector[i].mapjet[corrections_[corr]].jec = jec;
-
-        //-- uncertainty (function of the CORRECTED jet)
-        //CaloJetCorUnc->setJetEta(corrected_jet.eta());
-        //CaloJetCorUnc->setJetPt(corrected_jet.pt());
-        //JetVector[i].mapjet[list_[corr]].jec_unc = CaloJetCorUnc->getUncertainty(true);
-        JetVector[i].mapjet[corrections_[corr]].SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
-      }
-    }
-    catch(...){
-      cout << "Please provide an ESSource for coll " << corrections_[corr] << endl;
-    }
-    //JetCorrectionUncertainty *CaloJetCorUnc(0);
-
-    //ESHandle<JetCorrectorParametersCollection> CaloJetCorParColl;
-    //iSetup.get<JetCorrectionsRecord>().get(CaloJetJECunc_,CaloJetCorParColl);
-    
-    //JetCorrectorParameters const & CaloJetCorPar = (*CaloJetCorParColl)["Uncertainty"];
-    //CaloJetCorUnc = new JetCorrectionUncertainty(CaloJetCorPar);
-
-    //nCaloJet = CaloJetcoll->size();
-  
-  }
-  
   
   //doing the DiJet if needed
   string dijetcoll_ = calojets_.getUntrackedParameter<string>("dijetcoll","");
@@ -220,3 +179,4 @@ Bool_t UABaseTree::GetTightCaloJetId(const MyCaloJet& myjet , const string& raw_
 
   return(accept);
 }
+
