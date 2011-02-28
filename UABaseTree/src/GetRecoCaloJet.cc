@@ -32,7 +32,7 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   JetIDValueMap jetid = *CaloJetId;
 
   //Filling mapjet with corrections
-  this->FillJetCorrections( iSetup , *raw , corrections_ , JetVector);
+  this->FillJetCorrections( iEvent , iSetup , *raw , corrections_ , JetVector);
   
   //filling raw collection
   Int_t i = 0;

@@ -27,7 +27,7 @@ void UABaseTree::GetRecoPFJets(const Event& iEvent , const EventSetup& iSetup , 
   JetVector.assign(raw->size() , MyPFJet());
     
   //Filling mapjet with corrections
-  FillJetCorrections( iSetup , *raw , corrections_ , JetVector);
+  FillJetCorrections( iEvent , iSetup , *raw , corrections_ , JetVector);
     
   //filling raw collection
   Int_t i = 0;
