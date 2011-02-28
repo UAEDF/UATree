@@ -105,7 +105,7 @@ if doMBTracking:
 #  ----------------------------   Jets   ----------------------------
 if storeJets:
    process.load("UATree.UABaseTree.UABaseTree_jets_cfi")
-
+   process.path = cms.Sequence(process.path * process.L1FastJet )
 
 #  ----------------------------   Castor   ----------------------------
 if storeCastor:
@@ -117,11 +117,17 @@ if storeCastor:
    #process.path = cms.Sequence(process.path  * process.castorDigis*process.castorreco*process.CastorCellReco*process.CastorTowerReco*process.ak7BasicJets*process.ak7CastorJetID)
                     
 
+# --------------------------- Write CMS data -------------------------------
 
-
-
+if keepCMSData:
+   process.out = cms.OutputModule("PoolOutputModule",
+       fileName = cms.untracked.string('cmsdata.root')
+   )
 
 #  ----------------------------   Final Path   ----------------------------
 process.path = cms.Sequence(process.path * process.uabasetree)
 
 process.p = cms.Path( process.path )
+
+if keepCMSData:
+   process.outpath = cms.EndPath(process.out)
