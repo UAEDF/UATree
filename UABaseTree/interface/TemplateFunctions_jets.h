@@ -1,3 +1,10 @@
+//--DataFormats
+#include "DataFormats/JetReco/interface/Jet.h"
+#include "DataFormats/JetReco/interface/PFJet.h"
+#include "DataFormats/JetReco/interface/PFJetCollection.h"
+#include "DataFormats/JetReco/interface/CaloJet.h"
+#include "DataFormats/JetReco/interface/CaloJetCollection.h"
+
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
 
 #include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
@@ -6,7 +13,7 @@
 
 
 template <class T,class U>
-void UABaseTree::FillJetCorrections(const EventSetup& iSetup , const vector<T>& raw , const vector<string>& corrections_ , vector<U>& JetVector ){
+void UABaseTree::FillJetCorrections(const edm::Event& iEvent , const EventSetup& iSetup , const vector<T>& raw , const vector<string>& corrections_ , vector<U>& JetVector ){
 
   //start looping over corrections
   const JetCorrector* Jetcorrector = NULL;
@@ -20,7 +27,14 @@ void UABaseTree::FillJetCorrections(const EventSetup& iSetup , const vector<T>& 
       for (typename vector<T>::const_iterator jet = raw.begin(); jet != raw.end(); ++jet , ++i){
         //-- correction 
         T corrected_jet = *jet;                              //-- copy orignial jet
-        Double_t jec = Jetcorrector->correction(jet->p4());  //-- calculate correction 
+
+	//Old Way
+        //Double_t jec = Jetcorrector->correction(jet->p4());  //-- calculate correction 
+	//New Way
+        int index = jet-raw.begin();
+	edm::RefToBase<reco::Jet> jetRef(edm::Ref<vector<T> >(&raw,index));
+        Double_t jec = Jetcorrector->correction(corrected_jet,jetRef,iEvent,iSetup);
+
         corrected_jet.scaleEnergy(jec);                      //-- apply correction
         JetVector[i].mapjet[corrections_[corr]].jec = jec;
 
