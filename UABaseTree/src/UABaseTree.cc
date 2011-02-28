@@ -20,7 +20,9 @@ UABaseTree::~UABaseTree(){
 void
 UABaseTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   this->GetAll(iEvent , iSetup);
-  tree->Fill(); 
+
+  if(this->FilterEvents())
+    tree->Fill(); 
 }
 
 
