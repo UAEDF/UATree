@@ -133,7 +133,7 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetAllVertices(  const Event& ); 
       
       template <class T,class U>
-      void FillJetCorrections(      const EventSetup& , const vector<T>& , const vector<string>& , vector<U>& );
+      void FillJetCorrections(      const Event& , const EventSetup& , const vector<T>& , const vector<string>& , vector<U>& );
       virtual void GetRecoCaloJets( const Event& , const EventSetup& , const PSet& , vector<MyCaloJet>& );
       virtual void GetAllCaloJets(  const Event& , const EventSetup& );
       virtual void GetRecoPFJets(   const Event& , const EventSetup& , const PSet& , vector<MyPFJet>& );
@@ -170,6 +170,8 @@ class UABaseTree : public EDAnalyzer {
       // --------------------   Init All Branches   --------------------
       virtual void Init();
       
+      // --------------------      Filter Event      --------------------
+      virtual Bool_t FilterEvents();
       
       // --------------------   Other Functions   --------------------
       bool hasFired(const std::string& , const TriggerNames& trigNames, const TriggerResults& ) const;
