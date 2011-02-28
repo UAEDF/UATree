@@ -1,10 +1,11 @@
 import FWCore.ParameterSet.Config as cms
 
-isMonteCarlo = True
+isMonteCarlo = True 
 doMBTracking = False
 useMITFilter = False
 storeJets    = False
 storeCastor  = False 
+keepCMSData  = False
 
 # Event Reconstruction (need to be updated)
 uabasetree = cms.EDAnalyzer('UABaseTree',
@@ -45,14 +46,14 @@ if useMITFilter:
 
 if storeJets:
    uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( jetcoll     = cms.untracked.InputTag("ak5PFJets"),
-                                                        corrections = cms.untracked.vstring('ak5PFL2L3'),
-							dijetcoll   = cms.untracked.string('ak5PFL2L3')
-						      )
+                                                        corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL1Offset','ak5PFL1Fastjet','ak5PFL1L2L3','ak5PFL1FastL2L3'),
+							#dijetcoll   = cms.untracked.string('ak5PFL2L3')
+                                                      )  
 				             )
    uabasetree.vcalojets = cms.untracked.VPSet(cms.PSet( jetcoll     = cms.untracked.InputTag("ak5CaloJets"),
 							corrections = cms.untracked.vstring('ak5CaloL2L3'),
 							calojetid   = cms.untracked.InputTag('ak5JetID'),
-							dijetcoll   = cms.untracked.string('ak5CaloL2L3')
+							#dijetcoll   = cms.untracked.string('ak5CaloL2L3')
 						     )
 					    )
 					     
