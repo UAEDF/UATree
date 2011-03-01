@@ -17,11 +17,17 @@ void UABaseTree::FillJetCorrections(const edm::Event& iEvent , const EventSetup&
 
   //start looping over corrections
   const JetCorrector* Jetcorrector = NULL;
-  for(unsigned int corr=0 ; corr < corrections_.size() ; ++corr){
+  string correction = "";
+  for(unsigned int corr=0 ; corr < corrections_.size() ; ++corr){ 
+  
+    //Retrieving the correction name to store in mapjet
+    correction = GetCollName(corrections_[corr]);
 
     try{  
-      Jetcorrector = JetCorrector::getJetCorrector(corrections_[corr],iSetup);
-    
+      Jetcorrector = JetCorrector::getJetCorrector(GetColl(corrections_[corr]),iSetup);
+      
+      correction = GetCollName(corrections_[corr]);
+      
       //Filling corrected collection
       Int_t i = 0;
       for (typename vector<T>::const_iterator jet = raw.begin(); jet != raw.end(); ++jet , ++i){
@@ -36,17 +42,17 @@ void UABaseTree::FillJetCorrections(const edm::Event& iEvent , const EventSetup&
         Double_t jec = Jetcorrector->correction(corrected_jet,jetRef,iEvent,iSetup);
 
         corrected_jet.scaleEnergy(jec);                      //-- apply correction
-        JetVector[i].mapjet[corrections_[corr]].jec = jec;
+        JetVector[i].mapjet[correction].jec = jec;
 
         //-- uncertainty (function of the CORRECTED jet)
         //PFJetCorUnc->setJetEta(corrected_jet.eta());
         //PFJetCorUnc->setJetPt(corrected_jet.pt());
-        //JetVector[i].mapjet[list_[corr]].jec_unc = PFJetCorUnc->getUncertainty(true);
-        JetVector[i].mapjet[corrections_[corr]].SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
+        //JetVector[i].mapjet[correction].jec_unc = PFJetCorUnc->getUncertainty(true);
+        JetVector[i].mapjet[correction].SetPxPyPzE(corrected_jet.px() , corrected_jet.py() , corrected_jet.pz() , corrected_jet.energy() );
       }
     }
     catch(...){
-      cout << "Please provide an ESSource for coll " << corrections_[corr] << endl;
+      cout << "Please provide an ESSource for coll " << correction << endl;
     }
   }
     
