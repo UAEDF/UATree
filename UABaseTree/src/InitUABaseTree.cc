@@ -1,21 +1,24 @@
 // UABaseTree Analysis class decleration
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
+#include "FWCore/Utilities/interface/Parse.h"
+
 void UABaseTree::Init(){
 
 
   fout = new TFile(outputfilename_.c_str(), "RECREATE" ) ;
   tree = new TTree("evt","evt");
 
-
+  //branch name, in case separated by #
+  string branch = "";
 
 
   // --------------------   Setting all branches   --------------------
 
   // BeamSpots
   for(vector<InputTag>::iterator icoll = this->beamspots_.begin() ; icoll!= this->beamspots_.end() ; ++icoll){
-    //this->allBeamSpots[icoll->label()] = MyBeamSpot();
-    this->tree->Branch( icoll->label().c_str() , &(this->allBeamSpots[icoll->label()]) );
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allBeamSpots[icoll->label()]) );
   }
 
   // General Event Info 
@@ -39,54 +42,59 @@ void UABaseTree::Init(){
   if(storeMITEvtSel_)		     tree->Branch("MITEvtSel",&MITEvtSel);
 
   //RecoTracks
-  for(vector<InputTag>::iterator icoll = this->tracks_.begin() ; icoll!= this->tracks_.end() ; ++icoll)
-    this->tree->Branch( icoll->label().c_str() , &(this->allTracks[icoll->label()]) );
-    
+  for(vector<InputTag>::iterator icoll = this->tracks_.begin() ; icoll!= this->tracks_.end() ; ++icoll){
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allTracks[icoll->label()]) );
+  }
     
   //RecoVertices
-  for(vector<InputTag>::iterator icoll = this->vertices_.begin() ; icoll!= this->vertices_.end() ; ++icoll)
-    this->tree->Branch( icoll->label().c_str() , &(this->allVertices[icoll->label()]) );
+  for(vector<InputTag>::iterator icoll = this->vertices_.begin() ; icoll!= this->vertices_.end() ; ++icoll){
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allVertices[icoll->label()]) );
+  }
     
      
   //RecoCaloJets
   InputTag       jetcoll_;
   string         dijetcoll_;
   vector<string> corrections_;
-  for(vector<PSet>::iterator it = vcalojets_.begin() ; it != vcalojets_.end() ; ++it){
-    jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
-    if(jetcoll_.label().size() > 0)
-      this->tree->Branch( jetcoll_.label().c_str() , &(this->allCaloJets[jetcoll_.label()]) );
-    
+  for(vector<PSet>::iterator icoll = vcalojets_.begin() ; icoll != vcalojets_.end() ; ++icoll){
+    jetcoll_ = icoll->getUntrackedParameter<InputTag>("jetcoll",InputTag());
+    branch = GetBranchName(jetcoll_);
+    if(branch.size() > 0)
+      this->tree->Branch( branch.c_str() , &(this->allCaloJets[jetcoll_.label()]) );
+    cout << jetcoll_ <<  endl;
     //DiJets from this Jetcoll
-    dijetcoll_   = it->getUntrackedParameter<string>("dijetcoll","");
-    corrections_ = it->getUntrackedParameter<vector<string> >("corrections",vector<string>());
+    dijetcoll_   = icoll->getUntrackedParameter<string>("dijetcoll","");
+    corrections_ = icoll->getUntrackedParameter<vector<string> >("corrections",vector<string>());
     if(find(corrections_.begin() , corrections_.end() , dijetcoll_) != corrections_.end())
-      this->tree->Branch( string(dijetcoll_+"DiJet").c_str() , &(this->allDiJets[string(dijetcoll_+"DiJet")]) );
-    
+      this->tree->Branch( string(GetCollName(dijetcoll_)+"DiJet").c_str() , &(this->allDiJets[string(GetColl(dijetcoll_)+"DiJet")]) );
     
   }
     
      
   //RecoPFJets
-  for(vector<PSet>::iterator it = vpfjets_.begin() ; it != vpfjets_.end() ; ++it){
-    jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
-    if(jetcoll_.label().size() > 0)
-      this->tree->Branch( jetcoll_.label().c_str() , &(this->allPFJets[jetcoll_.label()]) );
+  for(vector<PSet>::iterator icoll = vpfjets_.begin() ; icoll != vpfjets_.end() ; ++icoll){
+    jetcoll_ = icoll->getUntrackedParameter<InputTag>("jetcoll",InputTag());
+    branch = GetBranchName(jetcoll_);
+    if(branch.size() > 0)
+      this->tree->Branch( branch.c_str() , &(this->allPFJets[jetcoll_.label()]) );
      
     //DiJets from this Jetcoll
-    dijetcoll_   = it->getUntrackedParameter<string>("dijetcoll","");
-    corrections_ = it->getUntrackedParameter<vector<string> >("corrections",vector<string>());
+    dijetcoll_   = icoll->getUntrackedParameter<string>("dijetcoll","");
+    corrections_ = icoll->getUntrackedParameter<vector<string> >("corrections",vector<string>());
     if(find(corrections_.begin() , corrections_.end() , dijetcoll_) != corrections_.end())
-      this->tree->Branch( string(dijetcoll_+"DiJet").c_str() , &(this->allDiJets[dijetcoll_+"DiJet"]) );
+      this->tree->Branch( string(GetCollName(dijetcoll_)+"DiJet").c_str() , &(this->allDiJets[GetColl(dijetcoll_)+"DiJet"]) );
 
   }
   
     
      
   //RecoGenJets
-  for(vector<InputTag>::iterator it = genjets_.begin() ; it != genjets_.end() ; ++it)
-    this->tree->Branch( it->label().c_str() , &(this->allGenJets[it->label()]) );
-  
+  for(vector<InputTag>::iterator icoll = genjets_.begin() ; icoll != genjets_.end() ; ++icoll){
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allGenJets[icoll->label()]) );
+  }
   
   
   //Castor
@@ -98,21 +106,125 @@ void UABaseTree::Init(){
   
   
   //RecoElectrons
-  for(vector<InputTag>::iterator icoll = this->electrons_.begin() ; icoll!= this->electrons_.end() ; ++icoll)
-    this->tree->Branch( icoll->label().c_str() , &(this->allElectrons[icoll->label()]) );
-
+  for(vector<InputTag>::iterator icoll = this->electrons_.begin() ; icoll!= this->electrons_.end() ; ++icoll){
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allElectrons[icoll->label()]) );
+  }
+  
   
   //RecoMuons
-  for(vector<InputTag>::iterator icoll = this->muons_.begin() ; icoll!= this->muons_.end() ; ++icoll)
-    this->tree->Branch( icoll->label().c_str() , &(this->allMuons[icoll->label()]) );
+  for(vector<InputTag>::iterator icoll = this->muons_.begin() ; icoll!= this->muons_.end() ; ++icoll){
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allMuons[icoll->label()]) );
+  }
+
 
   //PFCands
-  for(vector<InputTag>::iterator icoll = this->pfcands_.begin() ; icoll!= this->pfcands_.end() ; ++icoll)
-    this->tree->Branch( icoll->label().c_str() , &(this->allPFCands[icoll->label()]) );
+  for(vector<InputTag>::iterator icoll = this->pfcands_.begin() ; icoll!= this->pfcands_.end() ; ++icoll){
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allPFCands[icoll->label()]) );
+  }
+
 
   //MET
-  for(vector<InputTag>::iterator icoll = this->mets_.begin() ; icoll!= this->mets_.end() ; ++icoll)
-    this->tree->Branch( icoll->label().c_str() , &(this->allMETs[icoll->label()]) );
-
+  for(vector<InputTag>::iterator icoll = this->mets_.begin() ; icoll!= this->mets_.end() ; ++icoll){
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allMETs[icoll->label()]) );
+  }
     
 }
+
+
+
+const string UABaseTree::GetBranchName(InputTag& itag , Bool_t deleteBranchFromString){
+  
+  // string is delimited by #
+  vector<std::string> tokens = tokenize(itag.label() , "#");
+  size_t nwords = tokens.size();
+  if(nwords > 2) {
+    cout << "[UABaseTree::getBranchName] You have too many # in the InputTag " << itag << endl;
+    cout << "                            " << tokens[0] << "returned & stored in InputTag !" << endl;
+    itag = InputTag(tokens[0] , itag.instance() , itag.process());
+    return tokens[0];
+  }
+  if(nwords == 1) return tokens[0];
+  if(nwords == 2){
+    if(deleteBranchFromString)
+      itag = InputTag(tokens[0] , itag.instance() , itag.process());
+    return tokens[1];
+  }
+}
+
+const string UABaseTree::GetCollName(const string& str){
+  
+  // string is delimited by #
+  vector<std::string> tokens      = tokenize(str , "#");
+  size_t nwords = tokens.size();
+  if(nwords > 2) {
+    cout << "[UABaseTree::GetCollName] You have too many # in the string " << str << endl;
+    cout << "                          " << tokens[0] << "returned !" << endl;
+    return tokens[0];
+  }
+  if(nwords == 1) return tokens[0];
+  if(nwords == 2){
+    vector<std::string> tokens_itag = tokenize(tokens[1] , ":");
+    return tokens_itag[0];
+  }
+}
+
+
+const string UABaseTree::GetColl(const string& str){
+  
+  // string is delimited by #
+  vector<std::string> tokens      = tokenize(str , "#");
+  size_t nwords = tokens.size();
+  if(nwords > 2) {
+    cout << "[UABaseTree::GetCollInputTag] You have too many # in the string " << str << endl;
+    cout << "                              " << tokens[0] << "returned !" << endl;
+  }
+  return tokens[0];
+}
+
+const InputTag UABaseTree::GetCollInputTag(const string& str){
+  
+  // string is delimited by #
+  vector<std::string> tokens      = tokenize(str , "#");
+  size_t nwords = tokens.size();
+  if(nwords > 2) {
+    cout << "[UABaseTree::GetCollInputTag] You have too many # in the string " << str << endl;
+    cout << "                              " << tokens[0] << "returned !" << endl;
+    return tokens[0];
+  }
+  if(nwords == 1) return InputTag(tokens[0]);
+  if(nwords == 2){
+    vector<std::string> tokens_itag = tokenize(tokens[1] , ":");
+    
+    if(tokens_itag.size() > 3){
+      cout << "[UABaseTree::GetCollInputTag] You have too many \":\" in the string, wrong InputTag " << str << endl;
+      cout << "                              " << tokens[0] << "returned as InputTag !" << endl;
+      return InputTag(tokens[0]);
+    }
+    
+    for(unsigned s = 1 ; s < tokens_itag.size() ; ++s)\
+      tokens[0] += ":" + tokens_itag[s];
+    return tokens[0];
+  }
+}
+
+
+//------ NOT NEEDED ==> Parameters should always be input tags !!!
+
+/*const string UABaseTree::getBranchName(string& str , Bool_t deleteBranchFromString){
+  // string is delimited by #
+  std::vector<std::string> tokens = tokenize(str, "#");
+  size_t nwords = tokens.size();
+  if(nwords > 2) {
+    cout << "[UABaseTree::getBranchName] You have too many # in the InputTag " << str << endl;
+  }
+  if(nwords == 1) return tokens[0];
+  if(nwords == 2){
+  
+    
+    return tokens[1];
+  }
+}*/
