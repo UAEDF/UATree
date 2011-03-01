@@ -17,6 +17,7 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   JetVector.clear();
   
   InputTag jetcoll_           = calojets_.getUntrackedParameter<InputTag>("jetcoll",InputTag());
+  GetBranchName(jetcoll_);
   vector<string> corrections_ = calojets_.getUntrackedParameter<vector<string> >("corrections",vector<string>());
   InputTag calojetid_  = calojets_.getUntrackedParameter<InputTag>("calojetid",InputTag());
     
@@ -78,7 +79,7 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
   //doing the DiJet if needed
   string dijetcoll_ = calojets_.getUntrackedParameter<string>("dijetcoll","");
   if(JetVector.size() > 1.){
-    if(JetVector[0].mapjet.find(dijetcoll_) != JetVector[0].mapjet.end()){
+    if(JetVector[0].mapjet.find(GetCollName(dijetcoll_)) != JetVector[0].mapjet.end()){
   
       //making the vector of MyJet*
       vector<MyJet*> tmpJetVector(JetVector.size() , NULL);
@@ -86,9 +87,10 @@ void UABaseTree::GetRecoCaloJets(const edm::Event& iEvent, const edm::EventSetup
         tmpJetVector[i] = (MyJet*) &(JetVector[i]);
   
       //Running the DiJet algo
-      GetCentralDiJet(tmpJetVector , dijetcoll_,  allDiJets[dijetcoll_+"DiJet"] );
+      GetCentralDiJet(tmpJetVector , GetCollName(dijetcoll_),  allDiJets[GetColl(dijetcoll_)+"DiJet"] );
     }
   }
+
 
 }
 
@@ -98,6 +100,7 @@ void UABaseTree::GetAllCaloJets(const edm::Event& iEvent , const edm::EventSetup
   InputTag jetcoll_;
   for(vector<PSet>::iterator it = vcalojets_.begin() ; it != vcalojets_.end() ; ++it){
     jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
+    GetBranchName(jetcoll_);
     if(jetcoll_.label().size() > 0)
       this->GetRecoCaloJets(iEvent , iSetup , *it , this->allCaloJets[jetcoll_.label()] );  
   }

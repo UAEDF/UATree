@@ -18,6 +18,7 @@ void UABaseTree::GetRecoPFJets(const Event& iEvent , const EventSetup& iSetup , 
 
   
   InputTag jetcoll_           = pfjets_.getUntrackedParameter<InputTag>("jetcoll",InputTag());
+  GetBranchName(jetcoll_);
   vector<string> corrections_ = pfjets_.getUntrackedParameter<vector<string> >("corrections",vector<string>());
     
   Handle<PFJetCollection> raw;
@@ -95,7 +96,7 @@ void UABaseTree::GetRecoPFJets(const Event& iEvent , const EventSetup& iSetup , 
   //doing the DiJet if needed
   string dijetcoll_ = pfjets_.getUntrackedParameter<string>("dijetcoll","");
   if(JetVector.size() > 1.){
-    if(JetVector[0].mapjet.find(dijetcoll_) != JetVector[0].mapjet.end()){
+    if(JetVector[0].mapjet.find(GetCollName(dijetcoll_)) != JetVector[0].mapjet.end()){
   
       //making the vector of MyJet*
       vector<MyJet*> tmpJetVector(JetVector.size() , NULL);
@@ -103,7 +104,7 @@ void UABaseTree::GetRecoPFJets(const Event& iEvent , const EventSetup& iSetup , 
         tmpJetVector[i] = (MyJet*) &(JetVector[i]);
   
       //Running the DiJet algo
-      GetCentralDiJet(tmpJetVector , dijetcoll_,  allDiJets[dijetcoll_+"DiJet"] );
+      GetCentralDiJet(tmpJetVector , GetCollName(dijetcoll_),  allDiJets[GetColl(dijetcoll_)+"DiJet"] );
     }
   }
 
@@ -116,6 +117,7 @@ void UABaseTree::GetAllPFJets(const edm::Event& iEvent , const edm::EventSetup& 
   InputTag jetcoll_;
   for(vector<PSet>::iterator it = vpfjets_.begin() ; it != vpfjets_.end() ; ++it){
     jetcoll_ = it->getUntrackedParameter<InputTag>("jetcoll",InputTag());
+    GetBranchName(jetcoll_);
     if(jetcoll_.label().size() > 0)
       this->GetRecoPFJets(iEvent , iSetup , *it , this->allPFJets[jetcoll_.label()] );  
   }
