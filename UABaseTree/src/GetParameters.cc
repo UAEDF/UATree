@@ -60,6 +60,8 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    jetPtCut_  = iConfig.getUntrackedParameter<double>("jetPtCut"   , 8.0);
    jetEtaCut_ = iConfig.getUntrackedParameter<double>("jetEtaCut" , 2.5);
 
+   //Switch Event Filter On/Off
+   filterEvents_ = iConfig.getUntrackedParameter<bool>("filterEvents",false);
 
    // Get output filename
    outputfilename_ = iConfig.getUntrackedParameter<string>("outputfilename","");
