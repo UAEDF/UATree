@@ -179,7 +179,10 @@ class UABaseTree : public EDAnalyzer {
       Bool_t GetTightCaloJetId(const MyCaloJet& , const string& );
       Bool_t GetLoosePFJetId(  const MyPFJet&   , const string& );
       Bool_t GetTightPFJetId(  const MyPFJet&   , const string& );
-
+      const string GetBranchName(InputTag& , Bool_t = 1);
+      const string GetCollName(const string&);
+      const string GetColl(const string&);
+      const InputTag GetCollInputTag(const string&);
 
 
       // ------------------------------------------------------------------------------------------------------------------------
@@ -245,7 +248,8 @@ class UABaseTree : public EDAnalyzer {
       //for DiJets
       Double_t   jetPtCut_;
       Double_t   jetEtaCut_;
-      
+     
+      Bool_t     filterEvents_; 
       
       string outputfilename_ ;
 
