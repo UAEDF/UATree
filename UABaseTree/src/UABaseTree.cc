@@ -21,7 +21,11 @@ void
 UABaseTree::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
   this->GetAll(iEvent , iSetup);
 
-  if(this->FilterEvents())
+  if(filterEvents_){
+     if(this->FilterEvents())
+       tree->Fill();
+  }
+  else
     tree->Fill(); 
 }
 
