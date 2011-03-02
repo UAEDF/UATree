@@ -235,6 +235,7 @@ class UABaseTree : public EDAnalyzer {
       Bool_t onlyStableGenPart_;
       Bool_t onlyChargedGenPart_;
       Bool_t enableGenMetFromGenPart_;
+      Bool_t saveGenPartsInDifferentColls_;
       
       //for PFJets
       Bool_t storeTracksInPFJets_;
@@ -273,6 +274,9 @@ class UABaseTree : public EDAnalyzer {
       MyPart                        genMetfromGenPartst1;
       MyPart                        genMetfromGenPartst3;
       vector<MyGenPart>             genPart;
+      vector<MyGenPart>             genElec;
+      vector<MyGenPart>             genMu;
+      vector<MyGenPart>             genNu;
       MySimVertex                   simVertex;
       MyPUSumInfo                   pusuminfo;      
 
