@@ -96,12 +96,26 @@ void UABaseTree::GetGenPart(const edm::Event& iEvent, const edm::EventSetup& iSe
 
 
     Bool_t store = true;
-    if( onlyStableGenPart_  && st!=1)                    store = false;
+    if( onlyStableGenPart_  && st!=1)                      store = false;
     if( onlyChargedGenPart_ && fabs(mygenpart.charge) < 1) store = false;
-    
+    if( saveGenPartsInDifferentColls_ && st!=3 )           store = false;
+
+
     if(store) genPart.push_back(mygenpart);
-    
     if(GenPartDebug && store) mygenpart.Print();
+
+    //Saves stable electrons , muons and neutrinos in different collections
+    if(saveGenPartsInDifferentColls_ && st==1){
+       if(fabs(mygenpart.pdgId)==11)
+         genElec.push_back(mygenpart);
+
+       if(fabs(mygenpart.pdgId)==13)
+         genMu.push_back(mygenpart);
+
+       if( (fabs(mygenpart.pdgId)==12) || (fabs(mygenpart.pdgId)==14) )
+         genNu.push_back(mygenpart);
+    }
+    
     
     
     
@@ -142,7 +156,7 @@ void UABaseTree::FillGenPart(const GenParticle& ingp , MyGenPart& outgp){
   outgp.charge  = ingp.charge();
 
   // Extra properties
-  outgp.pdgId   = ingp.status();
+  outgp.pdgId   = ingp.pdgId();
   //outgp.name    = (pdt->particle(ingp.pdgId()))->name(); //FIXME : crashes the code ...
-  outgp.status  = ingp.pdgId();
+  outgp.status  = ingp.status();
 }

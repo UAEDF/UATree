@@ -47,11 +47,13 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    energyThresholdEE_ = iConfig.getUntrackedParameter<double>("EnergyThresholdEE",2.5) ;
 
    //Specific for genPart
-   saveMothersAndDaughters_    = iConfig.getUntrackedParameter<bool>("saveMothersAndDaughters",false);
-   onlyStableGenPart_          = iConfig.getUntrackedParameter<bool>("onlyStableGenPart",false);
-   onlyChargedGenPart_         = iConfig.getUntrackedParameter<bool>("onlyChargedGenPart_",false);
-   enableGenMetFromGenPart_    = iConfig.getUntrackedParameter<bool>("enableGenMetFromGenPart",false);
-   
+   saveMothersAndDaughters_      = iConfig.getUntrackedParameter<bool>("saveMothersAndDaughters",false);
+   onlyStableGenPart_            = iConfig.getUntrackedParameter<bool>("onlyStableGenPart",false);
+   onlyChargedGenPart_           = iConfig.getUntrackedParameter<bool>("onlyChargedGenPart_",false);
+   enableGenMetFromGenPart_      = iConfig.getUntrackedParameter<bool>("enableGenMetFromGenPart",false);
+   saveGenPartsInDifferentColls_ = iConfig.getUntrackedParameter<bool>("saveGenPartsInDifferentColls",false);
+
+
    //Specific for PFJets
    storeTracksInPFJets_        = iConfig.getUntrackedParameter<bool>("storeTracksInPFJets",false);
 

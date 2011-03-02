@@ -29,8 +29,15 @@ void UABaseTree::Init(){
   if(storeGenKin_)                   tree->Branch("genKin",&genKin);
   if(enableGenMetFromGenPart_)       tree->Branch("genMetfromGenPartst1",&genMetfromGenPartst1);
   if(enableGenMetFromGenPart_)       tree->Branch("genMetfromGenPartst3",&genMetfromGenPartst3);
-  if(storeGenPart_)                  tree->Branch("genPart",&genPart);
-  if(storeGenPart_)                  tree->Branch("simVertex",&simVertex);
+  if(storeGenPart_){                 tree->Branch("genPart",&genPart);
+                                     tree->Branch("simVertex",&simVertex);
+   if(saveGenPartsInDifferentColls_){
+                                     tree->Branch("genElec",&genElec);
+                                     tree->Branch("genMu",&genMu);
+                                     tree->Branch("genNu",&genNu);
+   }
+  }
+
   if(storePUSumInfo_)                tree->Branch("PUSumInfo",&pusuminfo); 
  
   //Triggers
