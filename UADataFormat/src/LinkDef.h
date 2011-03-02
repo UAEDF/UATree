@@ -4,6 +4,7 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
+#pragma link C++ class pair<string,bool>+;
 #pragma link C++ class MyBeamSpot+;
 #pragma link C++ class vector<MyBeamSpot>+;
 #pragma link C++ class MyCastorDigi+;
