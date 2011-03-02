@@ -63,7 +63,7 @@ void UABaseTree::Init(){
     branch = GetBranchName(jetcoll_);
     if(branch.size() > 0)
       this->tree->Branch( branch.c_str() , &(this->allCaloJets[jetcoll_.label()]) );
-    cout << jetcoll_ <<  endl;
+      
     //DiJets from this Jetcoll
     dijetcoll_   = icoll->getUntrackedParameter<string>("dijetcoll","");
     corrections_ = icoll->getUntrackedParameter<vector<string> >("corrections",vector<string>());
@@ -141,6 +141,7 @@ const string UABaseTree::GetBranchName(InputTag& itag , Bool_t deleteBranchFromS
   // string is delimited by #
   vector<std::string> tokens = tokenize(itag.label() , "#");
   size_t nwords = tokens.size();
+  if(nwords == 0) return "";
   if(nwords > 2) {
     cout << "[UABaseTree::getBranchName] You have too many # in the InputTag " << itag << endl;
     cout << "                            " << tokens[0] << "returned & stored in InputTag !" << endl;
@@ -160,6 +161,7 @@ const string UABaseTree::GetCollName(const string& str){
   // string is delimited by #
   vector<std::string> tokens      = tokenize(str , "#");
   size_t nwords = tokens.size();
+  if(nwords == 0) return "";
   if(nwords > 2) {
     cout << "[UABaseTree::GetCollName] You have too many # in the string " << str << endl;
     cout << "                          " << tokens[0] << "returned !" << endl;
@@ -178,6 +180,7 @@ const string UABaseTree::GetColl(const string& str){
   // string is delimited by #
   vector<std::string> tokens      = tokenize(str , "#");
   size_t nwords = tokens.size();
+  if(nwords == 0) return "";
   if(nwords > 2) {
     cout << "[UABaseTree::GetCollInputTag] You have too many # in the string " << str << endl;
     cout << "                              " << tokens[0] << "returned !" << endl;
@@ -190,6 +193,7 @@ const InputTag UABaseTree::GetCollInputTag(const string& str){
   // string is delimited by #
   vector<std::string> tokens      = tokenize(str , "#");
   size_t nwords = tokens.size();
+  if(nwords == 0) return InputTag();
   if(nwords > 2) {
     cout << "[UABaseTree::GetCollInputTag] You have too many # in the string " << str << endl;
     cout << "                              " << tokens[0] << "returned !" << endl;
