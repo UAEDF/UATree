@@ -8,7 +8,7 @@ import FWCore.ParameterSet.Config as cms
 process = cms.Process("UABaseTree")
 
 process.maxEvents = cms.untracked.PSet(
-   input = cms.untracked.int32(3)
+   input = cms.untracked.int32(100)
 )
 
 # initialize MessageLogger and output report ----------------------------------------
@@ -64,8 +64,6 @@ process.hltPhysicsDeclared.L1GtReadoutRecordTag = 'gtDigis'
 
 from UATree.UABaseTree.UABaseTree_cfi import *
 process.load("UATree.UABaseTree.UABaseTree_cfi")
-#process.add_(uabasetree)
-
 
 process.path = cms.Sequence()
 
@@ -92,6 +90,11 @@ else:
    pass#process.path = cms.Sequence(process.path * process.noscraping)
 
 
+#  ----------------------------  Vertex  ----------------------------
+
+if doDAvertex:
+  process.load('UATree.UABaseTree.UABaseTree_AnnealingVertex_cfi')
+  process.path = cms.Sequence(process.path * process.offlinePrimaryVerticesDA )
 
 #  ----------------------------   Tracking   ----------------------------
 if doMBTracking:
@@ -100,7 +103,6 @@ if doMBTracking:
       process.path = cms.Sequence(process.path * process.redoSiHits )
    process.pixelTertTracks.OrderedHitsFactoryPSet.maxElement = cms.uint32( 1000 )
    process.path = cms.Sequence(process.path  * process.fulltracking)
-
    
 #  ----------------------------   Jets   ----------------------------
 if storeJets:

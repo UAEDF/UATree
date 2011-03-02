@@ -37,6 +37,11 @@ ak5PFJets.Rho_EtaMax= cms.double(4.5)
 ak5PFJetsL1Offset   = ak5PFJetsL2L3.clone(correctors = ['ak5PFL1Offset'])
 ak5PFJetsL1Area     = ak5PFJetsL2L3.clone(correctors = ['ak5PFL1Fastjet'])
 
+
+# Residual corrections not in DB ? --------------------------------------------------------------------------------
+#ak5CaloResidual.useCondDB = False
+#ak5PFResidual.useCondDB = False 
+
 # tests ------------------------------------------------------------------------------------------------------------
 #ak5PFJets.Active_Area_Repeats = 5
 #ak5PFJets.GhostArea = 0.005 
@@ -44,5 +49,6 @@ ak5PFJetsL1Area     = ak5PFJetsL2L3.clone(correctors = ['ak5PFL1Fastjet'])
 #kt6PFJets.GhostArea = 0.005
 
 
-L1FastJet = cms.Sequence (kt6PFJets * ak5PFJets * ak5PFJetsL1Area * ak5PFJetsL1Offset)
+L1FastJet = cms.Sequence (kt6PFJets * ak5PFJets) 
+#L1FastJet = cms.Sequence (kt6PFJets * ak5PFJets * ak5PFJetsL1Area * ak5PFJetsL1Offset)
 #L1FastJet = cms.Sequence (ak5PFJets * kt6PFJets * ak5PFJetsL1Area * ak5PFJetsL1Offset)
