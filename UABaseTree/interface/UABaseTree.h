@@ -81,6 +81,9 @@
 
 #include "UATree/UADataFormat/src/MyMet.h"
 
+//CaloObjects
+#include "UATree/UADataFormat/src/MyCaloTower.h"
+
 using namespace std;
 using namespace edm;
 using namespace reco;
@@ -162,6 +165,9 @@ class UABaseTree : public EDAnalyzer {
       void FillAllMET(              const vector<T>& , vector<MyMet>& );
       
       
+      virtual void GetCaloTower(    const Event& ); 
+
+
       
       // --------------------   Get All Parameters   --------------------
       virtual void GetParameters( const ParameterSet& );
@@ -215,6 +221,8 @@ class UABaseTree : public EDAnalyzer {
       vector<InputTag> muons_;
       vector<InputTag> pfcands_;
       vector<InputTag> mets_;
+      InputTag         calotowercoll_;
+      Bool_t           storeCaloObjects_;
       
       InputTag         castorrechits_;
       InputTag         basicjets_;
@@ -306,6 +314,9 @@ class UABaseTree : public EDAnalyzer {
       map<string,vector<MyPFCand> >   allPFCands;
 
       map<string,vector<MyMet> >      allMETs;
+
+
+      vector<MyCaloTower>             caloTowers;
 
 
 

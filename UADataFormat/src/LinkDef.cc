@@ -28,5 +28,6 @@
 #include "MyCaloJet.h"
 #include "MyPFJet.h"
 #include "MyPFCand.h"
+#include "MyCaloTower.h"
 
 #include "LinkDef.h"

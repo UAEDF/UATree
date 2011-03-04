@@ -49,5 +49,9 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   GetAllPFCands(iEvent); 
   
   GetAllMETs(iEvent); 
+
+  if(storeCaloObjects_) GetCaloTower(iEvent);
+
+
 }
 

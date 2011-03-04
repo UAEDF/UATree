@@ -38,7 +38,11 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    pfcands_        = iConfig.getUntrackedParameter<vector<InputTag> >("pfcands",vector<InputTag>());
    
    mets_           = iConfig.getUntrackedParameter<vector<InputTag> >("mets",vector<InputTag>());
+
+   calotowercoll_     = iConfig.getUntrackedParameter<InputTag>("calotowercoll",InputTag("towerMaker"));
+   storeCaloObjects_  = iConfig.getUntrackedParameter<bool>("storeCaloObjects",false);
    
+
    //Specific for fwdGap
    energyThresholdHB_ = iConfig.getUntrackedParameter<double>("EnergyThresholdHB",1.5) ;
    energyThresholdHE_ = iConfig.getUntrackedParameter<double>("EnergyThresholdHE",2.0) ;

@@ -29,4 +29,5 @@ rootcint -f eventdict.cc -c -p \
      MyCaloJet.h \
      MyPFJet.h \
      MyPFCand.h \
+     MyCaloTower.h \
      LinkDef.h \

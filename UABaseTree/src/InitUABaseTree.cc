@@ -138,7 +138,11 @@ void UABaseTree::Init(){
     branch = GetBranchName(*icoll);
     this->tree->Branch( branch.c_str() , &(this->allMETs[icoll->label()]) );
   }
-    
+ 
+
+  //CaloObjects
+  if(storeCaloObjects_) this->tree->Branch( "caloTowers" , &caloTowers );
+   
 }
 
 
