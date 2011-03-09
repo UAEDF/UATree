@@ -25,7 +25,8 @@ void UABaseTree::GetRecoPFCand(const edm::Event& iEvent , const InputTag& pfcand
    Int_t i = 0;
    for (PFCandidateCollection::const_iterator iPFCand = PFCands->begin() ; iPFCand != PFCands->end() ; ++iPFCand , ++i) {
      
-     PFCandVector[i].SetPxPyPzE(iPFCand->px() , iPFCand->py() , iPFCand->pz() , sqrt(iPFCand->momentum().mag2()+MASS_MU*MASS_MU));
+     //PFCandVector[i].SetPxPyPzE(iPFCand->px() , iPFCand->py() , iPFCand->pz() , sqrt(iPFCand->momentum().mag2()+MASS_MU*MASS_MU));
+     PFCandVector[i].SetPxPyPzE(iPFCand->px() , iPFCand->py() , iPFCand->pz() , iPFCand->energy() );
      PFCandVector[i].charge = iPFCand->charge();
      PFCandVector[i].particleId = static_cast<MyPFCand::ParticleType>(iPFCand->particleId());
 
