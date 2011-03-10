@@ -23,7 +23,8 @@ void MyPart::Print(){
   cout << "E      : " << this->E()    << endl;
   cout << "Et     : " << this->Et()   << endl;
   cout << "pt     : " << this->Pt()   << endl;
-  cout << "eta    : " << this->Eta()  << endl;
+  if(this->Pt()>0)
+    cout << "eta    : " << this->Eta()  << endl;
   cout << "phi    : " << this->Phi()  << endl;
   cout << "mass   : " << this->M() << endl;
   cout << "charge : " << this->charge << endl;
