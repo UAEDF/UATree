@@ -11,7 +11,7 @@
 
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
-Bool_t CaloTowerDebug = true;
+Bool_t CaloTowerDebug = false;
 
 void UABaseTree::GetCaloTower(const edm::Event& iEvent){
 

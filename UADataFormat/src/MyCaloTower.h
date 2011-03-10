@@ -18,14 +18,13 @@ class MyCaloTower : public MyPart {
     Double_t emEnergy;
     Double_t hadEnergy;
 
-    enum CaloType {
-      X=0,             //-- undefined
-      EB=1,EE=2,       //-- ECAL 
-      HB=3,HE=4,HF=5   //-- HCAL
-    };
+    Bool_t hasEB;
+    Bool_t hasEE;
 
-    CaloType caloId;
-    
+    Bool_t hasHB;
+    Bool_t hasHE;
+    Bool_t hasHF;
+
     Int_t zside;
     
   private:
