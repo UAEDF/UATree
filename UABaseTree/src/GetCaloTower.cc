@@ -11,7 +11,7 @@
 
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
-Bool_t CaloTowerDebug = false;
+Bool_t CaloTowerDebug = true;
 
 void UABaseTree::GetCaloTower(const edm::Event& iEvent){
 
@@ -30,17 +30,10 @@ void UABaseTree::GetCaloTower(const edm::Event& iEvent){
    Int_t i = 0;
    for (CaloTowerCollection::const_iterator iCT = CaloTowers->begin() ; iCT != CaloTowers->end() ; ++iCT , ++i) {
      
-     caloTowers[i].SetPtEtaPhiE(iCT->pt() , iCT->eta() , iCT->phi() , iCT->energy() );
+     caloTowers[i].SetPxPyPzE(iCT->px(), iCT->py(), iCT->pz(), iCT->energy());
      caloTowers[i].emEnergy  = iCT->emEnergy();
      caloTowers[i].hadEnergy = iCT->hadEnergy();
 
-     bool hasEB = false;
-     bool hasEE = false;
-
-     bool hasHB = false;
-     bool hasHE = false;
-     bool hasHF = false;
-     
      //-- loop over CaloTower constituents
      for(size_t iconst = 0; iconst < iCT->constituentsSize(); iconst++){
      
@@ -48,28 +41,21 @@ void UABaseTree::GetCaloTower(const edm::Event& iEvent){
 
        if(detId.det()==DetId::Ecal){
          EcalSubdetector ecalSubDet = (EcalSubdetector)detId.subdetId();
-	 if(ecalSubDet == EcalBarrel) hasEB = true;
-         else if(ecalSubDet == EcalEndcap) hasEE = true;
+	 if(ecalSubDet == EcalBarrel) caloTowers[i].hasEB = true;
+         else if(ecalSubDet == EcalEndcap) caloTowers[i].hasEE = true;
        }
 
        else if(detId.det()==DetId::Hcal){
 	 HcalDetId hcalDetId(detId);
-	 if(hcalDetId.subdet()==HcalBarrel) hasHB = true;
-	 else if(hcalDetId.subdet()==HcalEndcap) hasHE = true;
-	 else if(hcalDetId.subdet()==HcalForward) hasHF = true;
+	 if(hcalDetId.subdet()==HcalBarrel) caloTowers[i].hasHB = true;
+	 else if(hcalDetId.subdet()==HcalEndcap) caloTowers[i].hasHE = true;
+	 else if(hcalDetId.subdet()==HcalForward) caloTowers[i].hasHF = true;
        } 
 
      }
 
      caloTowers[i].zside = iCT->zside();
 
-     if(hasEB && !hasEE) caloTowers[i].caloId = MyCaloTower::CaloType(1);
-     else if(hasEE && !hasEB) caloTowers[i].caloId = MyCaloTower::CaloType(2);
-        
-     if(hasHB && !hasHE) caloTowers[i].caloId = MyCaloTower::CaloType(3);
-     else if(hasHE && !hasHF && !hasHB) caloTowers[i].caloId = MyCaloTower::CaloType(4);
-     else if(hasHF && !hasHE) caloTowers[i].caloId = MyCaloTower::CaloType(5);
-     
      if(CaloTowerDebug) caloTowers[i].Print();
 
    } // end for CaloTowerCollection 

@@ -15,9 +15,14 @@ void MyCaloTower::Print(){
   cout << "emEnergy  : " << emEnergy  << endl;
   cout << "hadEnergy : " << hadEnergy << endl;
 
+  cout << "hasEB : "<< hasEB << endl;
+  cout << "hasEE : "<< hasEE << endl;
+       
+  cout << "hasHB : "<< hasHB << endl;
+  cout << "hasHE : "<< hasHE << endl;
+  cout << "hasHF : "<< hasHF << endl;
 
-  cout << "caloId : " << this->caloId << endl;
-  cout << "zside : " << this->zside << endl;
+  cout << "zside : " << zside << endl;
 }
 
 void MyCaloTower::Reset(){
@@ -26,6 +31,12 @@ void MyCaloTower::Reset(){
   emEnergy  = 0;
   hadEnergy = 0;
 
-  caloId = X;
+  hasEB = false;
+  hasEE = false;
+  
+  hasHB = false;
+  hasHE = false;
+  hasHF = false;
+
   zside= 0;
 }
