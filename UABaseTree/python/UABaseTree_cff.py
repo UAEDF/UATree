@@ -47,11 +47,11 @@ process.load("Configuration.StandardSequences.MagneticField_cff")
 #process.load('Configuration.StandardSequences.Services_cff')
 process.load('SimGeneral.HepPDTESSource.pythiapdt_cfi')
 #process.load('FWCore.MessageService.MessageLogger_cfi')
-process.load('Configuration.StandardSequences.MixingNoPileUp_cff')
-process.load('Configuration.StandardSequences.GeometryExtended_cff')
-process.load('Configuration.StandardSequences.MagneticField_38T_cff')
-process.load('Configuration.StandardSequences.RawToDigi_cff')
-process.load('Configuration.StandardSequences.L1Reco_cff')
+#process.load('Configuration.StandardSequences.MixingNoPileUp_cff')
+#process.load('Configuration.StandardSequences.GeometryExtended_cff')
+#process.load('Configuration.StandardSequences.MagneticField_38T_cff')
+#process.load('Configuration.StandardSequences.RawToDigi_cff')
+#process.load('Configuration.StandardSequences.L1Reco_cff')
 process.load('Configuration.StandardSequences.Reconstruction_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.EventContent.EventContent_cff')
@@ -64,6 +64,8 @@ process.hltPhysicsDeclared.L1GtReadoutRecordTag = 'gtDigis'
 
 from UATree.UABaseTree.UABaseTree_cfi import *
 process.load("UATree.UABaseTree.UABaseTree_cfi")
+
+process.uabasetree.outputfilename = cms.untracked.string("UABaseTree.root")
 
 process.path = cms.Sequence()
 
