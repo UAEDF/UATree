@@ -37,6 +37,14 @@ void UABaseTree::GetHLTrig(const edm::Event& iEvent, const edm::EventSetup& iSet
   iEvent.getByLabel(srcTriggerResults_,trigResults);
 
   const edm::TriggerNames& trigNames = iEvent.triggerNames(*trigResults);
+  
+  
+  if(HLTDebug){
+    cout << "Printing list of HLT paths present in the file ==========>" << endl;
+    for(unsigned i=0 ; i < trigNames.size() ; ++i)
+      cout << "    " << trigNames.triggerName(i) << endl;  
+  }
+  
 
   //-- Loop on triggers requested by user (config file)
 
