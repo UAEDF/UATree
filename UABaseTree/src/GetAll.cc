@@ -37,9 +37,10 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   GetAllCaloJets(iEvent,iSetup);
   GetAllPFJets(iEvent,iSetup); 
   GetAllGenJets(iEvent); 
+  GetAllBasicJets(iEvent); 
   
   if(castorrechits_.label().size() > 0) GetCastorRecHit(iEvent);
-  if(basicjets_.label().size() > 0 &&
+  if(castorjets_.label().size() > 0 &&
      castorjetid_.label().size() > 0)   GetCastorJet(iEvent); 
   if(castordigis_.label().size() > 0)   GetCastorDigi(iEvent,iSetup);
   
