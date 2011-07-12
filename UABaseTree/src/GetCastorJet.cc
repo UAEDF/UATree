@@ -15,7 +15,7 @@ void UABaseTree::GetCastorJet(const edm::Event& iEvent) {
   MyCastorJet mycastorjet;
   
   edm::Handle<edm::View< reco::BasicJet > > basicjetcoll;  //-- uncorrected jets
-  iEvent.getByLabel(basicjets_,basicjetcoll);
+  iEvent.getByLabel(castorjets_,basicjetcoll);
 
   edm::Handle<reco::CastorJetIDValueMap> jetIdMap;
   iEvent.getByLabel(castorjetid_,jetIdMap);
