@@ -57,3 +57,15 @@ void UABaseTree::FillJetCorrections(const edm::Event& iEvent , const EventSetup&
   }
     
 }
+
+
+template <class T>
+void UABaseTree::FillBasicJet(const vector<T>& jetCol , vector<MyBaseJet>& JetVector){
+
+  JetVector.assign(jetCol.size() , MyBaseJet());
+
+  Int_t i = 0;
+  for(typename vector<T>::const_iterator jet = jetCol.begin() ; jet != jetCol.end() ; ++jet , ++i)
+    JetVector[i].SetPxPyPzE(jet->px() , jet->py() , jet->pz() , jet->energy() );
+
+}

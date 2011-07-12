@@ -144,7 +144,12 @@ class UABaseTree : public EDAnalyzer {
       
       virtual void GetGenJets(      const Event& , const InputTag& , vector<MyGenJet>& );
       virtual void GetAllGenJets(   const Event& );
-      
+     
+      template <class T>
+      void FillBasicJet(            const vector<T>& , vector<MyBaseJet>& ); 
+      virtual void GetBasicJet    ( const Event& , const InputTag& , vector<MyBaseJet>& );
+      virtual void GetAllBasicJets( const Event& );
+
       virtual void GetCastorRecHit( const Event& ); 
       virtual void GetCastorJet(    const Event& ); 
       virtual void GetCastorDigi(   const Event& , const EventSetup& ); 
@@ -217,6 +222,7 @@ class UABaseTree : public EDAnalyzer {
       vector<PSet>     vcalojets_;
       vector<PSet>     vpfjets_;
       vector<InputTag> genjets_;
+      vector<InputTag> basicjets_;
       vector<InputTag> electrons_;
       vector<InputTag> muons_;
       vector<InputTag> pfcands_;
@@ -225,7 +231,7 @@ class UABaseTree : public EDAnalyzer {
       Bool_t           storeCaloObjects_;
       
       InputTag         castorrechits_;
-      InputTag         basicjets_;
+      InputTag         castorjets_;
       InputTag         castorjetid_;
       InputTag         castordigis_;
       
@@ -302,7 +308,8 @@ class UABaseTree : public EDAnalyzer {
       map<string,vector<MyPFJet> >   allPFJets;
       
       map<string,vector<MyGenJet> >  allGenJets;
-      
+      map<string,vector<MyBaseJet> > allBasicJets;
+ 
       vector<MyCastorRecHit>        castorRecHits;
       vector<MyCastorJet>           castorJets;
       vector<MyCastorDigi>          castorDigis;
