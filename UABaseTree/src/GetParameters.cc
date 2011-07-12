@@ -12,7 +12,7 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    storeEvtId_     = iConfig.getUntrackedParameter<bool>("storeEvtId",false);
    calotower_      = iConfig.getUntrackedParameter<InputTag>("calotower",InputTag("towerMaker"));
    storeFwdGap_    = iConfig.getUntrackedParameter<bool>("storeFwdGap",false);
-   hepmc_          = iConfig.getUntrackedParameter<InputTag>("hepmc",InputTag("generator::HLT"));
+   hepmc_          = iConfig.getUntrackedParameter<InputTag>("hepmc",InputTag("generator"));
    genpart_        = iConfig.getUntrackedParameter<InputTag>("genpart",InputTag("genParticles"));
    storeGenKin_    = iConfig.getUntrackedParameter<bool>("storeGenKin",false);
    storeGenPart_   = iConfig.getUntrackedParameter<bool>("storeGenPart",false);
@@ -27,9 +27,10 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    vcalojets_      = iConfig.getUntrackedParameter<vector<PSet> >("vcalojets",vector<PSet>());
    vpfjets_        = iConfig.getUntrackedParameter<vector<PSet> >("vpfjets",vector<PSet>());
    genjets_        = iConfig.getUntrackedParameter<vector<InputTag> >("genjets",vector<InputTag>());
+   basicjets_      = iConfig.getUntrackedParameter<vector<InputTag> >("basicjets",vector<InputTag>());
    
    castorrechits_  = iConfig.getUntrackedParameter<InputTag>("castorrechits",InputTag());
-   basicjets_      = iConfig.getUntrackedParameter<InputTag>("basicjets",InputTag());
+   castorjets_     = iConfig.getUntrackedParameter<InputTag>("castorjets",InputTag());
    castorjetid_    = iConfig.getUntrackedParameter<InputTag>("castorjetid",InputTag());
    castordigis_    = iConfig.getUntrackedParameter<InputTag>("castordigis",InputTag());
    
