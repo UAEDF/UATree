@@ -47,7 +47,7 @@ void UABaseTree::GetGenKin(const edm::Event& iEvent)
     genKin.kfactor=*KFactor;
    }
    catch (...){
-     cout << "[UABaseTree::GetGenKin] Was not able to retrieve k factor" << endl;
+     //cout << "[UABaseTree::GetGenKin] Was not able to retrieve k factor" << endl;
    }
    
    if(GenKinDebug) genKin.Print();
