@@ -8,7 +8,7 @@ bool ParametersDebug = false;
 
 void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
 
-   beamspots_      = iConfig.getUntrackedParameter<vector<InputTag> >("beamspots",vector<InputTag>());
+   beamspots_      = iConfig.getUntrackedParameter<vector<InputTag> >("beamspots",vector<InputTag>(1,InputTag("offlineBeamSpot")));
    storeEvtId_     = iConfig.getUntrackedParameter<bool>("storeEvtId",false);
    calotower_      = iConfig.getUntrackedParameter<InputTag>("calotower",InputTag("towerMaker"));
    storeFwdGap_    = iConfig.getUntrackedParameter<bool>("storeFwdGap",false);
