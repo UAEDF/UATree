@@ -1,9 +1,0 @@
-<use name=root>
-<use name=rootmath>
-
-<export>
-   <lib name=UATreeUADataFormat>
-   <use name=root>
-   <use name=rootmath>
-</export>
-
