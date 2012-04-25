@@ -144,7 +144,7 @@ process.path = cms.Sequence(process.path * process.UEAnalysisTracks * process.ue
 if isMonteCarlo:
   process.path = cms.Sequence(process.path * process.UEAnalysisParticles * process.ueSisCone5ChgGenJet500 * process.UEAnalysisJetsAkOnlyMC)
 
-process.load('UATree.UABaseTree.UEJetChecker_cfi')
+#process.load('UATree.UABaseTree.UEJetChecker_cfi')
 #process.path = cms.Sequence(process.path * process.uejetchecker)
 
 
