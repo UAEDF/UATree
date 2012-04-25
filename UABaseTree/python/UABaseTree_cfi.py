@@ -8,13 +8,13 @@ import FWCore.ParameterSet.Config as cms
 # General switches --------------------------------------------------------------------
 
 isMonteCarlo = True		#if running on Monte-Carlo file
-doDAvertex   = True		#if you want to enable the AnnealingVertexing + stores it
+doDAvertex   = False		#if you want to enable the AnnealingVertexing + stores it
 doMBTracking = False		#does the low-pt tracking + merging with generalTracks + vertices + stores them. If false, store only generalTracks & offlinePrimaryVertices.
 useMITFilter = False		#Not the official CMS one, but cleans better. Needed for low-pt tracking. If off, no filter is used. //the standard "noscraping" filter is used.
-storeJets    = True		#stores jets. Need to choose which collections and corrections to store, and if do the Dijets.
+storeJets    = False		#stores jets. Need to choose which collections and corrections to store, and if do the Dijets.
 storeMET     = False		#stores "met", "pfMet" and "tcMet". If isMonteCarlo=true , also stores "genMetTrue".
 storeCastor  = False 		#stores castorrechits , castorjets
-keepCMSData  = True 		#make another CMSSW root files with all the collections from the input file and those created in the path
+keepCMSData  = False 		#make another CMSSW root files with all the collections from the input file and those created in the path
 
 
 
@@ -26,33 +26,68 @@ uabasetree = cms.EDAnalyzer('UABaseTree',
   storeFwdGap = cms.untracked.bool(False),
   storeL1Trig = cms.untracked.bool(True),
   storeL1TrigOld = cms.untracked.bool(False),		#old simple version. Deprecated.
-  hlt_paths = cms.untracked.vstring('HLT_L1_BscMinBiasOR_BptxPlusORMinus',
-                                     'HLT_PixelTracks_Multiplicity40' ,
-                                     'HLT_PixelTracks_Multiplicity70' ,
-                                     'HLT_PixelTracks_Multiplicity85' ,
-                                     'HLT_MinBiasPixel_SingleTrack' )
+  hlt_paths = cms.untracked.vstring( 'HLT_DoubleMu3_v3',
+                                     'HLT_Ele8_v2' ,
+                                     'HLT_Jet20_v1' ,
+                                     'HLT_Jet40_v1' ,
+                                     'HLT_Jet60_v1' ,
+                                     'HLT_L1DoubleForJet32_EtaOpp_v1' ,
+                                     'HLT_L1DoubleForJet8_EtaOpp_v1' ,
+                                     'HLT_L1DoubleMu0_v1' ,
+                                     'HLT_L2DoubleMu0_v2' ,
+                                     'HLT_L1SingleEG12_v1',
+                                     "HLT_L1SingleEG5_v1",
+                                     "HLT_L1SingleJet36_v1",
+                                     "HLT_L1SingleMuOpen_AntiBPTX_v1",
+                                     "HLT_L1SingleMuOpen_DT_v1",
+                                     "HLT_L1SingleMuOpen_v1" ,
+                                     'HLT_L1BscMinBiasORBptxPlusANDMinus_v1' ,
+                                     'HLT_Mu0_v3' ,
+                                     'HLT_Mu3_v3' ,
+                                     'HLT_Mu5_v3' ,
+                                     'HLT_Photon10_CaloIdVL_v1' ,
+                                     'HLT_Photon15_CaloIdVL_v1' ,
+                                     'HLT_PixelTracks_Multiplicity50_Loose' ,
+                                     'HLT_PixelTracks_Multiplicity60_Loose' ,
+                                     'HLT_PixelTracks_Multiplicity70_Loose' ,
+                                     'HLT_ZeroBiasPixel_SingleTrack_v1' ,
+                                     'HLT_ZeroBias_v1' )
+
+				     
 )
 
 # Monte-Carlo -----------------------------------------------------------------------
 
 if isMonteCarlo:
   uabasetree.filterEvents                  = cms.untracked.bool(False) #all MC events are stored.
-  uabasetree.storeGenKin                   = cms.untracked.bool(False) 
-  uabasetree.storeGenPart                  = cms.untracked.bool(False) 
+  uabasetree.storeGenKin                   = cms.untracked.bool(True) 
+  uabasetree.storeGenPart                  = cms.untracked.bool(True)
   uabasetree.saveMothersAndDaughters       = cms.untracked.bool(False) #saves the 2 mothers & 2 daughters for each genPart. USeless if not all genParts are stored (ie if 1 of the 3 switch below is on
   uabasetree.saveGenPartsInDifferentColls  = cms.untracked.bool(False) #saves status=3 in genPart, and status=1 Electrons, Muons and Neutrinos in genElec, genMu, genNu
-  uabasetree.onlyStableGenPart             = cms.untracked.bool(False) #saves only status=1 in genPart
-  uabasetree.onlyChargedGenPart            = cms.untracked.bool(False) #saves only charged particles in genPart
-  uabasetree.storePUSumInfo                = cms.untracked.bool(False) 
+  uabasetree.onlyStableGenPart             = cms.untracked.bool(True) #saves only status=1 in genPart
+  uabasetree.onlyChargedGenPart            = cms.untracked.bool(True) #saves only charged particles in genPart
+  uabasetree.storePUSumInfo                = cms.untracked.bool(True) 
+  uabasetree.hlt_paths = cms.untracked.vstring('HLT_ZeroBias',
+                                    'HLT_ZeroBiasPixel_SingleTrack' ,
+                                    'HLT_MinBiasPixel_SingleTrack' ,
+                                    'HLT_L1_BptxXOR_BscMinBiasOR' ,
+                                    'HLT_L1Tech_BSC_minBias_OR' ,
+                                    'HLT_L1Tech_BSC_minBias' ,
+                                    'HLT_L1Tech_BSC_halo' ,
+                                    'HLT_L1Tech_BSC_halo_forPhysicsBackground' ,
+                                    'HLT_L1Tech_BSC_HighMultiplicity' ,
+                                    'HLT_PixelTracks_Multiplicity70',
+                                    "HLT_PixelTracks_Multiplicity85",
+                                    "HLT_PixelTracks_Multiplicity100" )
 
 
 
 # Tracking --------------------------------------------------------------
 if not doMBTracking:
-  uabasetree.tracks   = cms.untracked.VInputTag("generalTracks")
+  uabasetree.tracks   = cms.untracked.VInputTag("generalTracks","selectTracks")
   uabasetree.vertices = cms.untracked.VInputTag("offlinePrimaryVertices")
 else:
-  uabasetree.tracks   = cms.untracked.VInputTag("allTracks","generalPlusMinBiasTracks")
+  uabasetree.tracks   = cms.untracked.VInputTag("allTracks","generalPlusMinBiasTracks","generalTracks","selectTracks")
   uabasetree.vertices = cms.untracked.VInputTag("offlinePrimaryVertices","pixel3Vertices","generalVertices","allVertices","mergedVertices","offlinePrimaryVerticesWithMBTracks")
 
 
@@ -80,34 +115,26 @@ if useMITFilter:
 # dijetcoll : if you want to have the Dijet class done for each jetcoll. Need to provide the exact same string as the correction, #mapkey included. Example : "ak5PFL1Fastjet#fastjet"
 
 if storeJets:
-#  if isMonteCarlo:
+  if isMonteCarlo:
     storeTracksInPFJets  = cms.untracked.bool(True)	#stores tracks used to construct the PFJet in the PFJet.vtrack member. Only if the RefTracks are present. 
 
  
     uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),  
-                                                        corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL1Offset','ak5PFL1Fastjet','ak5PFL1L2L3','ak5PFL1FastL2L3'),
-							#dijetcoll   = cms.untracked.string('ak5PFL2L3')    #needs to be exactly the same as the string for the correction
+                                                        corrections = cms.untracked.vstring('ak5PFL2L3')
                                                        )  
 				              )
-    uabasetree.vcalojets = cms.untracked.VPSet(cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
-	 						corrections = cms.untracked.vstring('ak5CaloL2L3'),
-							calojetid   = cms.untracked.InputTag('ak5JetID'),
-							#dijetcoll   = cms.untracked.string('ak5CaloL2L3')
+
+  else:
+    uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),
+							corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL2L3Residual')
 						       )
 					      )
-#  else:
-#    uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),
-#                                                        corrections = cms.untracked.vstring('ak5PFL2L3Residual','ak5PFL1Offset','ak5PFL1Fastjet','ak5PFL1L2L3Residual','ak5PFL1FastL2L3Residual'),
-#                                                        #dijetcoll   = cms.untracked.string('ak5PFL2L3Residual')
-#                                                       )
-#                                              )
-#    uabasetree.vcalojets = cms.untracked.VPSet(cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
-#                                                        corrections = cms.untracked.vstring('ak5CaloL2L3Residual'),
-#                                                        calojetid   = cms.untracked.InputTag('ak5JetID'),
-#                                                        #dijetcoll   = cms.untracked.string('ak5CaloL2L3Residual')
-#                                                       )
-#                                              )
-
+					      
+#basic jets:
+uabasetree.basicjets = cms.untracked.VInputTag("ueSisCone5TracksJet500","ueAk5TracksJet500")
+if isMonteCarlo:
+  uabasetree.basicjets.insert(0,"ueSisCone5ChgGenJet500")
+  uabasetree.basicjets.insert(0,"ueAk5ChgGenJet500")
 
 # MET Collections --------------------------------------------------------------------
 
