@@ -1,4 +1,4 @@
-// $Id: ProducerEvtSelData.cc,v 1.13 2010/08/24 22:14:48 edwenger Exp $
+// $Id: ProducerEvtSelData.cc,v 1.1 2012/04/25 15:18:02 rougny Exp $
 
 #include "UATree/MitEdm/interface/ProducerEvtSelData.h"
 #include "UATree/MitEdm/interface/EvtSelData.h"
@@ -22,7 +22,7 @@
 #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
 #include "Geometry/TrackerGeometryBuilder/interface/PixelGeomDetUnit.h"
 #include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"
-#include "Geometry/TrackerTopology/interface/RectangularPixelTopology.h"
+#include "Geometry/TrackerGeometryBuilder/interface/RectangularPixelTopology.h"
 #include <TMath.h>
 
 using namespace std;
