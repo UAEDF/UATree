@@ -6,24 +6,36 @@ Bool_t UABaseTree::FilterEvents(){
   
   
   //L1 CUT
-  if(storeL1Trig_){
+ /* if(storeL1Trig_){
     if(    L1Trig.GetTechDecisionBefore(36)
         || L1Trig.GetTechDecisionBefore(37)
         || L1Trig.GetTechDecisionBefore(38)
         || L1Trig.GetTechDecisionBefore(39)
       ) return 0;
-  }
+  }*/
   
   //HLT CUT
-  if(HLTrig.HLTmap.size() > 0){
+  /*if(HLTrig.HLTmap.size() > 0){
     if(! (   HLTrig.HLTmap["HLT_L1_BscMinBiasOR_BptxPlusORMinus"] 
           || HLTrig.HLTmap["HLT_PixelTracks_Multiplicity40"]
           || HLTrig.HLTmap["HLT_PixelTracks_Multiplicity70"]
           || HLTrig.HLTmap["HLT_PixelTracks_Multiplicity85"]
 	  || HLTrig.HLTmap["HLT_MinBiasPixel_SingleTrack"]   )
       )  return 0;
+  }*/
+  //2.76TeV Menu
+  if(HLTrig.HLTmap.size() > 0){
+    if(! (   HLTrig.HLTmap["HLT_Jet20_v1"]
+          || HLTrig.HLTmap["HLT_Jet40_v1"] 
+          || HLTrig.HLTmap["HLT_Jet60_v1"] 
+          || HLTrig.HLTmap["HLT_L1BscMinBiasORBptxPlusANDMinus_v1"]
+          || HLTrig.HLTmap["HLT_PixelTracks_Multiplicity50_Loose"]
+          || HLTrig.HLTmap["HLT_PixelTracks_Multiplicity60_Loose"]
+          || HLTrig.HLTmap["HLT_PixelTracks_Multiplicity70_Loose"]
+          || HLTrig.HLTmap["HLT_ZeroBiasPixel_SingleTrack_v1"]
+	  || HLTrig.HLTmap["HLT_ZeroBias_v1"]   )
+      )  return 0;
   }
-  
   
   //Vtx cut 
   Double_t vtxz_cut = 30.;
