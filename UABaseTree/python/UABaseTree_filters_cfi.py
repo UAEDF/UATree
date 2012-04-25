@@ -14,7 +14,7 @@ noscraping = cms.EDFilter("FilterOutScraping",
 
 #evtSelData production + MiTFilter 
 from UATree.UABaseTree.UABaseTree_tracking_cfi import * 
-from MitEdm.Producers.evtSelData_cfi import *
-from MitEdm.Filters.FilterEvtSel_cff import *
+from UATree.MitEdm.evtSelData_cfi import *
+from UATree.MitEdm.FilterEvtSel_cff import *
 mitfilter = cms.Sequence(redoSiHits * evtSelData * looseEvtSelFilter)
 
