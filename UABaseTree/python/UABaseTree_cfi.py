@@ -136,6 +136,10 @@ if isMonteCarlo:
   uabasetree.basicjets.insert(0,"ueSisCone5ChgGenJet500")
   uabasetree.basicjets.insert(0,"ueAk5ChgGenJet500")
 
+#trackjets
+uabasetree.trackjets = cms.untracked.VInputTag("ueSisCone5TracksJet500#TrackJetSisCone","ueAk5TracksJet500#TrackJetAntiKt")
+uabasetree.vtxcoll_for_trackjets = cms.untracked.string("offlinePrimaryVertices")
+
 # MET Collections --------------------------------------------------------------------
 
 if storeMET:					     

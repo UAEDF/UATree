@@ -28,6 +28,9 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    vpfjets_        = iConfig.getUntrackedParameter<vector<PSet> >("vpfjets",vector<PSet>());
    genjets_        = iConfig.getUntrackedParameter<vector<InputTag> >("genjets",vector<InputTag>());
    basicjets_      = iConfig.getUntrackedParameter<vector<InputTag> >("basicjets",vector<InputTag>());
+
+   trackjets_      = iConfig.getUntrackedParameter<vector<InputTag> >("trackjets",vector<InputTag>());
+   vtxcoll_for_trackjets_ = iConfig.getUntrackedParameter<string>("vtxcoll_for_trackjets","");
    
    castorrechits_  = iConfig.getUntrackedParameter<InputTag>("castorrechits",InputTag());
    castorjets_     = iConfig.getUntrackedParameter<InputTag>("castorjets",InputTag());

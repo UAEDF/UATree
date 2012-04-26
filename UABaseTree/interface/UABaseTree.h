@@ -32,11 +32,12 @@
 
 // Track
 #include "DataFormats/TrackReco/interface/Track.h"
+#include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 
 
 
-// ChPartTree Analysis class decleration
+// UATree Analysis class declaration
 
 #include "UATree/UADataFormat/src/MassParticles.h"
 
@@ -64,6 +65,7 @@
 
 // Jets
 #include "UATree/UADataFormat/src/MyCaloJet.h"
+#include "UATree/UADataFormat/src/MyTrackJet.h"
 #include "UATree/UADataFormat/src/MyPFJet.h"
 #include "UATree/UADataFormat/src/MyGenJet.h"
 
@@ -150,6 +152,10 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetBasicJet    ( const Event& , const InputTag& , vector<MyBaseJet>& );
       virtual void GetAllBasicJets( const Event& );
 
+      virtual void GetTrackJet     ( const Event& , const InputTag& , vector<MyTrackJet>& );
+      virtual void GetAllTrackJets ( const Event& );
+      virtual int  GetVertexId     ( const Vertex& );
+
       virtual void GetCastorRecHit( const Event& ); 
       virtual void GetCastorJet(    const Event& ); 
       virtual void GetCastorDigi(   const Event& , const EventSetup& ); 
@@ -223,6 +229,8 @@ class UABaseTree : public EDAnalyzer {
       vector<PSet>     vpfjets_;
       vector<InputTag> genjets_;
       vector<InputTag> basicjets_;
+      vector<InputTag> trackjets_;
+      string           vtxcoll_for_trackjets_;
       vector<InputTag> electrons_;
       vector<InputTag> muons_;
       vector<InputTag> pfcands_;
@@ -307,8 +315,9 @@ class UABaseTree : public EDAnalyzer {
       map<string,vector<MyCaloJet> > allCaloJets;
       map<string,vector<MyPFJet> >   allPFJets;
       
-      map<string,vector<MyGenJet> >  allGenJets;
-      map<string,vector<MyBaseJet> > allBasicJets;
+      map<string,vector<MyGenJet> >   allGenJets;
+      map<string,vector<MyBaseJet> >  allBasicJets;
+      map<string,vector<MyTrackJet> > allTrackJets;
  
       vector<MyCastorRecHit>        castorRecHits;
       vector<MyCastorJet>           castorJets;

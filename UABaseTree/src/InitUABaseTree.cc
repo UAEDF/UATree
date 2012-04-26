@@ -109,6 +109,13 @@ void UABaseTree::Init(){
     this->tree->Branch( branch.c_str() , &(this->allBasicJets[icoll->label()]) );
   }
   
+  //TrackJets
+  for(vector<InputTag>::iterator icoll = trackjets_.begin() ; icoll != trackjets_.end() ; ++icoll){
+    branch = GetBranchName(*icoll);
+    this->tree->Branch( branch.c_str() , &(this->allTrackJets[icoll->label()]) );
+  }
+
+
   //Castor
   if(castorrechits_.label().size() > 0)    tree->Branch("castorRecHits",&castorRecHits);
   if(castorjets_.label().size() > 0 &&
