@@ -22,7 +22,7 @@ void MyBaseJet::Print(){
 
 void MyBaseJet::Reset(){
   this->MyPart::Reset();
-  
+ 
   jec     = 0;
   jec_unc = 0;
   

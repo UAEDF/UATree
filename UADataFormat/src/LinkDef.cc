@@ -26,6 +26,7 @@
 #include "MyMuon.h"
 #include "MyJet.h"
 #include "MyCaloJet.h"
+#include "MyTrackJet.h"
 #include "MyPFJet.h"
 #include "MyPFCand.h"
 #include "MyCaloTower.h"

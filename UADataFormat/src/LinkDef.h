@@ -57,6 +57,8 @@
 #pragma link C++ class vector<MyJet>+;
 #pragma link C++ class MyCaloJet+;
 #pragma link C++ class vector<MyCaloJet>+;
+#pragma link C++ class MyTrackJet+;
+#pragma link C++ class vector<MyTrackJet>+;
 #pragma link C++ class MyPFJet+;
 #pragma link C++ class vector<MyPFJet>+;
 #pragma link C++ class MyPFCand+;

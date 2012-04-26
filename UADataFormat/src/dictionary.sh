@@ -1,4 +1,7 @@
 #!/bin/bash
+
+if [ ! -f LinkDef.h ];then mv LinkDefh LinkDef.h;fi
+
 rootcint -f eventdict.cc -c -p \
      MassParticles.h \
      MyBeamSpot.h \
@@ -27,7 +30,13 @@ rootcint -f eventdict.cc -c -p \
      MyBaseJet.h \
      MyJet.h \
      MyCaloJet.h \
+     MyTrackJet.h \
      MyPFJet.h \
      MyPFCand.h \
      MyCaloTower.h \
      LinkDef.h \
+
+mv LinkDef.h LinkDefh
+
+
+
