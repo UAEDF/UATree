@@ -18,6 +18,7 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "DataFormats/Common/interface/Handle.h"
 #include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
@@ -35,6 +36,8 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 
+//L1
+#include "L1Trigger/GlobalTriggerAnalyzer/interface/L1GtUtils.h"
 
 
 // UATree Analysis class declaration
@@ -152,9 +155,9 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetBasicJet    ( const Event& , const InputTag& , vector<MyBaseJet>& );
       virtual void GetAllBasicJets( const Event& );
 
-      virtual void GetTrackJet     ( const Event& , const InputTag& , vector<MyTrackJet>& );
-      virtual void GetAllTrackJets ( const Event& );
-      virtual int  GetVertexId     ( const Vertex& );
+      virtual void GetRecoTrackJets( const Event& , const EventSetup& , const PSet& ,  vector<MyTrackJet>& );
+      virtual void GetAllTrackJets ( const Event& , const EventSetup& );
+      //      virtual int  GetVertexId     ( const Vertex& );
 
       virtual void GetCastorRecHit( const Event& ); 
       virtual void GetCastorJet(    const Event& ); 
@@ -227,6 +230,7 @@ class UABaseTree : public EDAnalyzer {
       vector<InputTag> vertices_ ;
       vector<PSet>     vcalojets_;
       vector<PSet>     vpfjets_;
+      vector<PSet>     vtrackjets_;
       vector<InputTag> genjets_;
       vector<InputTag> basicjets_;
       vector<InputTag> trackjets_;

@@ -10,16 +10,16 @@ from JetMETCorrections.Configuration.DefaultJEC_cff import *
 #########################
 
 ##-------------------- Disable the CondDB for the L1Offset (until they are included in a new global tag) -------
-ak5CaloL1Offset.useCondDB = False
-ak5PFL1Offset.useCondDB = False
+#ak5CaloL1Offset.useCondDB = False
+#ak5PFL1Offset.useCondDB = False
 
 ##########################
 ## L1 FastJet Correction #
 ##########################
 
 ##-------------------- Disable the CondDB for the L1FastJet (until they are included in a new global tag) -------
-ak5CaloL1Fastjet.useCondDB = False
-ak5PFL1Fastjet.useCondDB = False
+#ak5CaloL1Fastjet.useCondDB = False
+#ak5PFL1Fastjet.useCondDB = False
 
 ##-------------------- Import the Jet RECO modules -----------------------
 from RecoJets.Configuration.RecoPFJets_cff import *

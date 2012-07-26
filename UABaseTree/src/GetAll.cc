@@ -20,7 +20,7 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   if(storePUSumInfo_)               GetPUSumInfo(iEvent);
 
   if(hlt_paths_.size() > 0)         GetHLTrig(iEvent,iSetup);
-  if(storeL1Trig_)		    GetL1Trig(iEvent,iSetup);
+  //  if(storeL1Trig_)		    GetL1Trig(iEvent,iSetup,iRun);
   if(storeL1TrigOld_)		    GetL1TrigOld(iEvent);
   
  
@@ -38,7 +38,7 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   GetAllPFJets(iEvent,iSetup); 
   GetAllGenJets(iEvent); 
   GetAllBasicJets(iEvent); 
-  GetAllTrackJets(iEvent); 
+  GetAllTrackJets(iEvent, iSetup); 
   
   if(castorrechits_.label().size() > 0) GetCastorRecHit(iEvent);
   if(castorjets_.label().size() > 0 &&

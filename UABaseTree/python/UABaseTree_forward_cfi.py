@@ -7,16 +7,20 @@ import FWCore.ParameterSet.Config as cms
 
 # General switches --------------------------------------------------------------------
 
-isMonteCarlo = True		#if running on Monte-Carlo file
+isMonteCarlo = False		#if running on Monte-Carlo file
 doDAvertex   = False		#if you want to enable the AnnealingVertexing + stores it
 doMBTracking = False		#does the low-pt tracking + merging with generalTracks + vertices + stores them. If false, store only generalTracks & offlinePrimaryVertices.
 useMITFilter = False		#Not the official CMS one, but cleans better. Needed for low-pt tracking. If off, no filter is used. //the standard "noscraping" filter is used.
-storeJets    = False		#stores jets. Need to choose which collections and corrections to store, and if do the Dijets.
-storeMET     = False		#stores "met", "pfMet" and "tcMet". If isMonteCarlo=true , also stores "genMetTrue".
+storeJets    = True		#stores jets. Need to choose which collections and corrections to store, and if do the Dijets.
+storeMET     = True		#stores "met", "pfMet" and "tcMet". If isMonteCarlo=true , also stores "genMetTrue".
 storeCastor  = False 		#stores castorrechits , castorjets
 keepCMSData  = False 		#make another CMSSW root files with all the collections from the input file and those created in the path
 
-
+###
+storePFCands = True
+storeCaloObjects = True
+storeMuons = True
+storeElectrons = True
 
 # Standard Parameters For UABaseTree Process   ----------------------------------------
 
@@ -26,36 +30,63 @@ uabasetree = cms.EDAnalyzer('UABaseTree',
   storeFwdGap = cms.untracked.bool(False),
   storeL1Trig = cms.untracked.bool(False),
   storeL1TrigOld = cms.untracked.bool(True),		#old simple version. Deprecated.
-  hlt_paths = cms.untracked.vstring( 'HLT_DoubleMu3_v3',
-                                     'HLT_Ele8_v2' ,
-                                     'HLT_Jet20_v1' ,
-                                     'HLT_Jet40_v1' ,
-                                     'HLT_Jet60_v1' ,
-                                     'HLT_L1DoubleForJet32_EtaOpp_v1' ,
-                                     'HLT_L1DoubleForJet8_EtaOpp_v1' ,
-                                     'HLT_L1DoubleMu0_v1' ,
-                                     'HLT_L2DoubleMu0_v2' ,
-                                     'HLT_L1SingleEG12_v1',
-                                     "HLT_L1SingleEG5_v1",
-                                     "HLT_L1SingleJet36_v1",
-                                     "HLT_L1SingleMuOpen_AntiBPTX_v1",
-                                     "HLT_L1SingleMuOpen_DT_v1",
-                                     "HLT_L1SingleMuOpen_v1" ,
-                                     'HLT_L1BscMinBiasORBptxPlusANDMinus_v1' ,
-                                     'HLT_Mu0_v3' ,
-                                     'HLT_Mu3_v3' ,
-                                     'HLT_Mu5_v3' ,
-                                     'HLT_Photon10_CaloIdVL_v1' ,
-                                     'HLT_Photon15_CaloIdVL_v1' ,
-                                     'HLT_PixelTracks_Multiplicity50_Loose' ,
-                                     'HLT_PixelTracks_Multiplicity60_Loose' ,
-                                     'HLT_PixelTracks_Multiplicity70_Loose' ,
-                                     'HLT_ZeroBiasPixel_SingleTrack_v1' ,
-                                     'HLT_ZeroBias_v1',
+  #hlt_paths = cms.untracked.vstring( 'HLT_DoubleMu3_v3',
+  #                                   'HLT_Ele8_v2' ,
+  #                                   'HLT_Jet20_v1' ,
+  #                                   'HLT_Jet40_v1' ,
+  #                                   'HLT_Jet60_v1' ,
+  #                                   'HLT_L1DoubleForJet32_EtaOpp_v1' ,
+  #                                   'HLT_L1DoubleForJet8_EtaOpp_v1' ,
+  #                                   'HLT_L1DoubleMu0_v1' ,
+  #                                   'HLT_L2DoubleMu0_v2' ,
+  #                                   'HLT_L1SingleEG12_v1',
+  #                                   "HLT_L1SingleEG5_v1",
+  #                                   "HLT_L1SingleJet36_v1",
+  #                                   "HLT_L1SingleMuOpen_AntiBPTX_v1",
+  #                                   "HLT_L1SingleMuOpen_DT_v1",
+  #                                   "HLT_L1SingleMuOpen_v1" ,
+  #                                   'HLT_L1BscMinBiasORBptxPlusANDMinus_v1' ,
+  #                                   'HLT_Mu0_v3' ,
+  #                                   'HLT_Mu3_v3' ,
+  #                                   'HLT_Mu5_v3' ,
+  #                                   'HLT_Photon10_CaloIdVL_v1' ,
+  #                                   'HLT_Photon15_CaloIdVL_v1' ,
+  #                                   'HLT_PixelTracks_Multiplicity50_Loose' ,
+  #                                   'HLT_PixelTracks_Multiplicity60_Loose' ,
+  #                                   'HLT_PixelTracks_Multiplicity70_Loose' ,
+  #                                   'HLT_ZeroBiasPixel_SingleTrack_v1' ,
+  #                                   'HLT_ZeroBias_v1',
+  #                                   'HLT_L1Tech53_MB_1_v1',
+  #                                   'HLT_L1Tech53_MB_2_v1')
+  #hlt_paths = cms.untracked.vstring( 'HLT_ZeroBias_v6',
+  #                                   'HLT_L1Tech54_ZeroBias_v1',
+  #                                   'HLT_L1Tech40_BPTXAND_1_v1',
+  #                                   'HLT_L1Tech53_MB_1_v1',
+  #                                   'HLT_L1Tech40_BPTXAND_2_v1',
+  #                                   'HLT_L1Tech53_MB_2_v1', 
+  #                                   'HLT_SingleJetC5_BHC_v1',
+  #                                   'HLT_SingleJetC5_HF_v1',
+  #                                   'HLT_TripleTrack02_BHC_v1',
+  #                                   'LT_TripleTrack02_HF_v1',
+  #                                   'HLT_L1RomanPots_OR_v1',
+  #                                   'HLT_SingleForJet15_BHC_v1',
+  #                                   'HLT_SingleForJet15_HF_v1' )  
+  hlt_paths = cms.untracked.vstring( 'HLT_L1DoubleEG3_FwdVeto_v1',
+                                     'HLT_L1DoubleMu0_v1',
+                                     'HLT_L1DoubleJet20_RomanPotsOR_v1',
+                                     'HLT_L1DoubleJet20part1_v1',
+                                     'HLT_L1DoubleJet24_v1',
+                                     'HLT_L1DoubleJet20part2_v1',
+                                     'HLT_L1Tech40_BPTXAND_v1',
                                      'HLT_L1Tech53_MB_1_v1',
-                                     'HLT_L1Tech53_MB_2_v1')
-
-				     
+                                     'HLT_L1Tech_HF9OR10_v1',
+                                     'HLT_T1minbias_Tech55_v1',
+                                     'HLT_L1Tech53_MB_2_v1',
+                                     'HLT_L1Tech53_MB_3_v1',
+                                     'HLT_RomanPots_Tech52_v1',
+                                     'HLT_L1Tech54_ZeroBias_v1',
+                                     'HLT_ZeroBias_v7'
+                                     ) 
 )
 
 # Monte-Carlo -----------------------------------------------------------------------
@@ -82,8 +113,6 @@ if isMonteCarlo:
                                     "HLT_PixelTracks_Multiplicity85",
                                     "HLT_PixelTracks_Multiplicity100" )
 
-
-
 # Tracking --------------------------------------------------------------
 if not doMBTracking:
   uabasetree.tracks   = cms.untracked.VInputTag("generalTracks","selectTracks")
@@ -92,21 +121,15 @@ else:
   uabasetree.tracks   = cms.untracked.VInputTag("allTracks","generalPlusMinBiasTracks","generalTracks","selectTracks")
   uabasetree.vertices = cms.untracked.VInputTag("offlinePrimaryVertices","pixel3Vertices","generalVertices","allVertices","mergedVertices","offlinePrimaryVerticesWithMBTracks")
 
-
-
 # DA Vertex -------------------------------------------------------------------------
 
 if doDAvertex:
    uabasetree.vertices.insert(0,'offlinePrimaryVerticesDA')
 
-
-
 # Beam Scrapping filter -------------------------------------------------------------
 
 if useMITFilter:
   uabasetree.storeMITEvtSel = cms.untracked.bool(True)
-
-
 
 # Jet Collections -------------------------------------------------------------------
 
@@ -118,19 +141,14 @@ if useMITFilter:
 
 if storeJets:
   if isMonteCarlo:
-    storeTracksInPFJets  = cms.untracked.bool(True)	#stores tracks used to construct the PFJet in the PFJet.vtrack member. Only if the RefTracks are present. 
-
- 
-    uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),  
-                                                        corrections = cms.untracked.vstring('ak5PFL2L3')
-                                                       )  
-				              )
+    # stores tracks used to construct the PFJet in the PFJet.vtrack member. Only if the RefTracks are present. 
+    storeTracksInPFJets  = cms.untracked.bool(True)
+    uabasetree.vpfjets   = cms.untracked.VPSet( cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),  
+                                                          corrections = cms.untracked.vstring('ak5PFL2L3') ) )
 
   else:
-    uabasetree.vpfjets   = cms.untracked.VPSet(cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),
-							corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL2L3Residual')
-						       )
-					      )
+    uabasetree.vpfjets   = cms.untracked.VPSet( cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),
+							  corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL2L3Residual') ) )
 					      
 #basic jets:
 uabasetree.basicjets = cms.untracked.VInputTag("ueSisCone5TracksJet500","ueAk5TracksJet500")
@@ -146,11 +164,8 @@ uabasetree.vtxcoll_for_trackjets = cms.untracked.string("offlinePrimaryVertices"
 
 if storeMET:					     
   uabasetree.mets = cms.untracked.VInputTag("met" , "pfMet" , "tcMet")
-
   if isMonteCarlo:
     uabasetree.mets.insert(0,"genMetTrue")
-
-
 
 # CASTOR -----------------------------------------------------------------------------
 					     
@@ -160,4 +175,19 @@ if storeCastor:
    uabasetree.castorjetid   = cms.untracked.InputTag('ak7CastorJetID')
    #uabasetree.castordigis   = cms.untracked.InputTag('castorDigis')
 
+# PF candidates
+if storePFCands:					     
+   uabasetree.pfcands = cms.untracked.VInputTag("particleFlow")
 
+# Calo towers
+if storeCaloObjects:
+   uabasetree.storeCaloObjects = cms.untracked.bool(True)
+   uabasetree.calotowercoll = cms.untracked.InputTag("towerMaker")
+
+# Reco muons
+if storeMuons:
+   uabasetree.muons = cms.untracked.VInputTag("muons")
+
+# Reco electrons
+if storeElectrons:
+   uabasetree.electrons = cms.untracked.VInputTag("gsfElectrons")

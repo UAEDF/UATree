@@ -158,43 +158,43 @@ void UABaseTree::Init(){
 }
 
 
-
 const string UABaseTree::GetBranchName(InputTag& itag , Bool_t deleteBranchFromString){
-  
+ 
   // string is delimited by #
   vector<std::string> tokens = tokenize(itag.label() , "#");
   size_t nwords = tokens.size();
   if(nwords == 0) return "";
-  if(nwords > 2) {
+  else if(nwords > 2) {
     cout << "[UABaseTree::getBranchName] You have too many # in the InputTag " << itag << endl;
     cout << "                            " << tokens[0] << "returned & stored in InputTag !" << endl;
     itag = InputTag(tokens[0] , itag.instance() , itag.process());
     return tokens[0];
   }
-  if(nwords == 1) return tokens[0];
-  if(nwords == 2){
-    if(deleteBranchFromString)
-      itag = InputTag(tokens[0] , itag.instance() , itag.process());
+  else if(nwords == 1) return tokens[0];
+  else if(nwords == 2){
+    if(deleteBranchFromString) itag = InputTag(tokens[0] , itag.instance() , itag.process());
     return tokens[1];
   }
+  else return 0;
 }
 
 const string UABaseTree::GetCollName(const string& str){
   
   // string is delimited by #
-  vector<std::string> tokens      = tokenize(str , "#");
+  vector<std::string> tokens  = tokenize(str , "#");
   size_t nwords = tokens.size();
   if(nwords == 0) return "";
-  if(nwords > 2) {
+  else if(nwords > 2) {
     cout << "[UABaseTree::GetCollName] You have too many # in the string " << str << endl;
     cout << "                          " << tokens[0] << "returned !" << endl;
     return tokens[0];
   }
-  if(nwords == 1) return tokens[0];
-  if(nwords == 2){
+  else if(nwords == 1) return tokens[0];
+  else if(nwords == 2){
     vector<std::string> tokens_itag = tokenize(tokens[1] , ":");
     return tokens_itag[0];
   }
+  else return 0;
 }
 
 
@@ -217,13 +217,13 @@ const InputTag UABaseTree::GetCollInputTag(const string& str){
   vector<std::string> tokens      = tokenize(str , "#");
   size_t nwords = tokens.size();
   if(nwords == 0) return InputTag();
-  if(nwords > 2) {
+  else if(nwords > 2) {
     cout << "[UABaseTree::GetCollInputTag] You have too many # in the string " << str << endl;
     cout << "                              " << tokens[0] << "returned !" << endl;
     return tokens[0];
   }
-  if(nwords == 1) return InputTag(tokens[0]);
-  if(nwords == 2){
+  else if(nwords == 1) return InputTag(tokens[0]);
+  else if(nwords == 2){
     vector<std::string> tokens_itag = tokenize(tokens[1] , ":");
     
     if(tokens_itag.size() > 3){
@@ -231,12 +231,14 @@ const InputTag UABaseTree::GetCollInputTag(const string& str){
       cout << "                              " << tokens[0] << "returned as InputTag !" << endl;
       return InputTag(tokens[0]);
     }
-    
-    for(unsigned s = 1 ; s < tokens_itag.size() ; ++s)\
+   
+    for(unsigned s = 1 ; s < tokens_itag.size() ; ++s)
       tokens[0] += ":" + tokens_itag[s];
     return tokens[0];
   }
+  else return InputTag();
 }
+
 
 
 //------ NOT NEEDED ==> Parameters should always be input tags !!!

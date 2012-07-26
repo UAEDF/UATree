@@ -141,12 +141,12 @@ process.source = cms.Source("PoolSource",
 # configure modules via Global Tag --------------------------------------------------
 # https://twiki.cern.ch/twiki/bin/view/CMS/SWGuideFrontierConditions
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
-#process.GlobalTag.globaltag = 'GR_R_36X_V12A::All'
-process.GlobalTag.globaltag = 'START50_V16A::All'
+process.GlobalTag.globaltag = 'GR_R_52_V8::All'
 
 
 #Geometry --------------------------------------------------------------------------
-process.load("Configuration.StandardSequences.Geometry_cff")
+#process.load("Configuration.StandardSequences.Geometry_cff")
+process.load("Configuration.Geometry.GeometryIdeal_cff")
 process.load("Configuration.StandardSequences.MagneticField_cff")
 
 
@@ -168,11 +168,13 @@ process.hltPhysicsDeclared.L1GtReadoutRecordTag = 'gtDigis'
 #process.mypath=cms.Path(process.hltPhysicsDeclared+<my_other_things_here>)
 
 
-from UATree.UABaseTree.UABaseTree_cfi import *
-process.load("UATree.UABaseTree.UABaseTree_cfi")
+#from UATree.UABaseTree.UABaseTree_cfi import *
+#process.load("UATree.UABaseTree.UABaseTree_cfi")
+from UATree.UABaseTree.UABaseTree_forward_cfi import *
+process.load("UATree.UABaseTree.UABaseTree_forward_cfi")
 
 #FileName of the output of the UATree. Needed here for AutoCrab.
-process.uabasetree.outputfilename = cms.untracked.string("UABaseTree_MC_Z2star_8TeV_CMS-TOTEM.root")
+process.uabasetree.outputfilename = cms.untracked.string("UABaseTree_CMS-TOTEM.root")
 
 process.path = cms.Sequence()
 
@@ -180,8 +182,8 @@ process.path = cms.Sequence()
 #  ----------------------------   Filters   ----------------------------
 process.load('UATree.UABaseTree.UABaseTree_filters_cfi')
 
-if not(isMonteCarlo):
-   process.path = cms.Sequence(process.path * process.hltPhysicsDeclared)
+#if not(isMonteCarlo):
+#   process.path = cms.Sequence(process.path * process.hltPhysicsDeclared)
 
 if useMITFilter:
    process.path = cms.Sequence(process.path * process.mitfilter)
@@ -196,7 +198,7 @@ if isMonteCarlo:
    process.myTTRHBuilderWithoutAngle4PixelTriplets.ComputeCoarseLocalPositionFromDisk = True
    process.source.fileNames = cms.untracked.vstring('file:/tmp/katsas/STEP2_RAW2DIGI_L1Reco_RECO_VALIDATION_DQM_421_1_tVN.root')
    
-   process.GlobalTag.globaltag = 'START50_V16A::All'
+   process.GlobalTag.globaltag = 'START52_V10::All'
    #process.source.fileNames = cms.untracked.vstring('dcap:///pnfs/iihe/cms/store/user/xjanssen/data//CMSSW_3_9_7/DataCopy_397/__GluGluToHToWWTo2L2Nu_M-160_7TeV-powheg-pythia6__Winter10-E7TeV_ProbDist_2011Flat_BX156_START39_V8-v1__GEN-SIM-RECO/DataCopy_397__CMSSW_3_9_7__GluGluToHToWWTo2L2Nu_M-160_7TeV-powheg-pythia6__Winter10-E7TeV_ProbDist_2011Flat_BX156_START39_V8-v1__GEN-SIM-RECO_1_1_RJI.root')
    #process.source.fileNames = cms.untracked.vstring('file:/user/selvaggi/step2_RAW2DIGI_L1Reco_RECO_9_1_XqK.root')
    
@@ -221,7 +223,7 @@ if doMBTracking:
 #  ----------------------------   Jets   ----------------------------
 if storeJets:
    process.load("UATree.UABaseTree.UABaseTree_jets_cfi")
-#   process.path = cms.Sequence(process.path * process.L1FastJet )
+   process.path = cms.Sequence(process.path * process.L1FastJet )
 
 
 

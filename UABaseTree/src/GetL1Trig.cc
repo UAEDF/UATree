@@ -31,25 +31,33 @@
 
 bool L1TrigDebug = false;
 
+//void UABaseTree::GetL1Trig(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
 void UABaseTree::GetL1Trig(const edm::Event& iEvent, const edm::EventSetup& iSetup) {
+
 
   using namespace std;
   using namespace edm;
 
   L1Trig.Reset();
 
+  /*  moved to beginRun() 
    //-- L1 Global Trigger Utility
-
-  L1GtUtils L1GTUtility;
-  L1GTUtility.retrieveL1EventSetup(iSetup);
+   
+   L1GtUtils L1GTUtility;
+   L1GTUtility.retrieveL1EventSetup(iSetup);
 
   //-- input tag for L1GtTriggerMenuLite retrieved from provenance
   edm::InputTag l1GtTriggerMenuLiteInputTag("l1GtTriggerMenuLite");
   //L1GTUtility.getL1GtTriggerMenuLiteInputTag(iEvent, l1GtTriggerMenuLiteInputTag);
-  L1GTUtility.retrieveL1GtTriggerMenuLite(iEvent, l1GtTriggerMenuLiteInputTag);
+  //  L1GTUtility.retrieveL1GtTriggerMenuLite(iEvent, l1GtTriggerMenuLiteInputTag);
+  L1GTUtility.retrieveL1GtTriggerMenuLite(iRun, l1GtTriggerMenuLiteInputTag); 
+  */
 
   //-- input tag for L1GtTriggerMenuLite explicitly given
   //else L1GTUtility.retrieveL1GtTriggerMenuLite(iEvent,L1GT_TrigMenuLite_);
+
+  L1GtUtils L1GTUtility;                                                                                                                                
+  L1GTUtility.retrieveL1EventSetup(iSetup); 
 
   ESHandle< L1GtTriggerMenu > L1GTTM;
   iSetup.get< L1GtTriggerMenuRcd >().get(L1GTTM);
@@ -65,10 +73,10 @@ void UABaseTree::GetL1Trig(const edm::Event& iEvent, const edm::EventSetup& iSet
       cout<<"error L1 Physical Trigger "<<iphys->second.algoName()<<" has bit number "<<iphys->second.algoBitNumber()<<" > 127 \n"<<"Skipping";
       continue;
     }
-
+    
     L1GtUtils::TriggerCategory category;
     int bit;
-
+    
     if (!L1GTUtility.l1AlgoTechTrigBitNumber(iphys->second.algoName(),category,bit)) {
       cout<<"error L1 Physical Trigger "<<iphys->second.algoName()<<" not found in the L1 menu \n"<<"Skipping";
       continue;
