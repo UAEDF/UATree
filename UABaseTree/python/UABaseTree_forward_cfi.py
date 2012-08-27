@@ -7,7 +7,7 @@ import FWCore.ParameterSet.Config as cms
 
 # General switches --------------------------------------------------------------------
 
-isMonteCarlo = False		#if running on Monte-Carlo file
+isMonteCarlo = True		#if running on Monte-Carlo file
 doDAvertex   = False		#if you want to enable the AnnealingVertexing + stores it
 doMBTracking = False		#does the low-pt tracking + merging with generalTracks + vertices + stores them. If false, store only generalTracks & offlinePrimaryVertices.
 useMITFilter = False		#Not the official CMS one, but cleans better. Needed for low-pt tracking. If off, no filter is used. //the standard "noscraping" filter is used.
@@ -93,7 +93,7 @@ uabasetree = cms.EDAnalyzer('UABaseTree',
 
 if isMonteCarlo:
   uabasetree.filterEvents                  = cms.untracked.bool(False) #all MC events are stored.
-  uabasetree.storeGenKin                   = cms.untracked.bool(False) 
+  uabasetree.storeGenKin                   = cms.untracked.bool(True) 
   uabasetree.storeGenPart                  = cms.untracked.bool(True)
   uabasetree.saveMothersAndDaughters       = cms.untracked.bool(False) #saves the 2 mothers & 2 daughters for each genPart. USeless if not all genParts are stored (ie if 1 of the 3 switch below is on
   uabasetree.saveGenPartsInDifferentColls  = cms.untracked.bool(False) #saves status=3 in genPart, and status=1 Electrons, Muons and Neutrinos in genElec, genMu, genNu
@@ -117,7 +117,10 @@ if isMonteCarlo:
 
 # Tracking --------------------------------------------------------------
 if not doMBTracking:
-  uabasetree.tracks   = cms.untracked.VInputTag("generalTracks","selectTracks")
+  if not isMonteCarlo: 
+      uabasetree.tracks   = cms.untracked.VInputTag("generalTracks","selectTracks")
+  else:
+      uabasetree.tracks   = cms.untracked.VInputTag("generalTracks")
   uabasetree.vertices = cms.untracked.VInputTag("offlinePrimaryVertices")
 else:
   uabasetree.tracks   = cms.untracked.VInputTag("allTracks","generalPlusMinBiasTracks","generalTracks","selectTracks")
@@ -147,16 +150,16 @@ if storeJets:
     storeTracksInPFJets  = cms.untracked.bool(True)
     uabasetree.vpfjets   = cms.untracked.VPSet(
 	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),
-		      corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL2L3') ),
+		      corrections = cms.untracked.vstring('ak5PFL2L3') ),
 	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7PFJets"),
-		      corrections = cms.untracked.vstring('ak7PFL2L3','ak7PFL2L3') ),
+		      corrections = cms.untracked.vstring('ak7PFL2L3') ),
 	    )
-    uabasetree.vcalojets = cms.untracked.VPSet(
-	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
-		      corrections = cms.untracked.vstring('ak5CaloL2L3','ak5CaloL2L3') ),
-	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7CaloJets"),
-		      corrections = cms.untracked.vstring('ak7CaloL2L3','ak7CaloL2L3') ),
-	    )
+#    uabasetree.vcalojets = cms.untracked.VPSet(
+#	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
+#		      corrections = cms.untracked.vstring('ak5CaloL2L3') ),
+#	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7CaloJets"),
+#		      corrections = cms.untracked.vstring('ak7CaloL2L3') ),
+#	    )
     uabasetree.genjets = cms.untracked.VInputTag("ak5GenJets","ak7GenJets")
 
   else:
@@ -167,32 +170,35 @@ if storeJets:
 	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7PFJets"),
 		      corrections = cms.untracked.vstring('ak7PFL2L3','ak7PFL2L3Residual') ),
 	    )
-    uabasetree.vcalojets = cms.untracked.VPSet(
-	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
-		      corrections = cms.untracked.vstring('ak5CaloL2L3','ak5CaloL2L3Residual') ),
-	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7CaloJets"),
-		      corrections = cms.untracked.vstring('ak7CaloL2L3','ak7CaloL2L3Residual') ),
-	    )
+#    uabasetree.vcalojets = cms.untracked.VPSet(
+#	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
+#		      corrections = cms.untracked.vstring('ak5CaloL2L3','ak5CaloL2L3Residual') ),
+#	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7CaloJets"),
+#		      corrections = cms.untracked.vstring('ak7CaloL2L3','ak7CaloL2L3Residual') ),
+#	    )
 					      
 # Basic jets:
-uabasetree.basicjets = cms.untracked.VInputTag("ueSisCone5TracksJet500","ueAk5TracksJet500")
-if isMonteCarlo:
-  uabasetree.basicjets.insert(0,"ueSisCone5ChgGenJet500")
-  uabasetree.basicjets.insert(0,"ueAk5ChgGenJet500")
+if not isMonteCarlo:
+    uabasetree.basicjets = cms.untracked.VInputTag("ueSisCone5TracksJet500","ueAk5TracksJet500")
+else:
+    pass
+    #uabasetree.basicjets = cms.untracked.VInputTag("ueSisCone5TracksJet500","ueAk5TracksJet500")
+    #uabasetree.basicjets.insert(0,"ueSisCone5ChgGenJet500")
+    #uabasetree.basicjets.insert(0,"ueAk5ChgGenJet500")
 
 # Track jets
-uabasetree.trackjets = cms.untracked.VInputTag("ueSisCone5TracksJet500#TrackJetSisCone","ueAk5TracksJet500#TrackJetAntiKt")
+if not isMonteCarlo:
+    uabasetree.trackjets = cms.untracked.VInputTag("ueSisCone5TracksJet500#TrackJetSisCone","ueAk5TracksJet500#TrackJetAntiKt")
+
 uabasetree.vtxcoll_for_trackjets = cms.untracked.string("offlinePrimaryVertices")
 
 # MET Collections --------------------------------------------------------------------
-
 if storeMET:					     
   uabasetree.mets = cms.untracked.VInputTag("met" , "pfMet" , "tcMet")
   if isMonteCarlo:
     uabasetree.mets.insert(0,"genMetTrue")
 
 # CASTOR -----------------------------------------------------------------------------
-					     
 if storeCastor:
    uabasetree.castorrechits = cms.untracked.InputTag('castorreco')
    uabasetree.basicjets     = cms.untracked.InputTag('ak7BasicJets')

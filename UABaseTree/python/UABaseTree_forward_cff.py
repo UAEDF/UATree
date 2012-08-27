@@ -196,11 +196,7 @@ else:
 if isMonteCarlo:
    process.load('UATree.UABaseTree.UABaseTree_MC_cfi')
    process.myTTRHBuilderWithoutAngle4PixelTriplets.ComputeCoarseLocalPositionFromDisk = True
-   process.source.fileNames = cms.untracked.vstring('file:/tmp/katsas/STEP2_RAW2DIGI_L1Reco_RECO_VALIDATION_DQM_421_1_tVN.root')
-   
-   process.GlobalTag.globaltag = 'START52_V10::All'
-   #process.source.fileNames = cms.untracked.vstring('dcap:///pnfs/iihe/cms/store/user/xjanssen/data//CMSSW_3_9_7/DataCopy_397/__GluGluToHToWWTo2L2Nu_M-160_7TeV-powheg-pythia6__Winter10-E7TeV_ProbDist_2011Flat_BX156_START39_V8-v1__GEN-SIM-RECO/DataCopy_397__CMSSW_3_9_7__GluGluToHToWWTo2L2Nu_M-160_7TeV-powheg-pythia6__Winter10-E7TeV_ProbDist_2011Flat_BX156_START39_V8-v1__GEN-SIM-RECO_1_1_RJI.root')
-   #process.source.fileNames = cms.untracked.vstring('file:/user/selvaggi/step2_RAW2DIGI_L1Reco_RECO_9_1_XqK.root')
+   #process.GlobalTag.globaltag = 'START52_V10::All'
    
  
 #  ----------------------------  Vertex  ----------------------------
@@ -226,7 +222,6 @@ if storeJets:
    process.path = cms.Sequence(process.path * process.L1FastJet )
 
 
-
 #  ----------------------------   Castor   ----------------------------
 #if storeCastor:
    #process.castorDigis.InputLabel = 'source'
@@ -235,7 +230,6 @@ if storeJets:
    #process.load("RecoJets.JetProducers.ak7CastorJets_cfi")    #-- redo jet
    #process.load("RecoJets.JetProducers.ak7CastorJetID_cfi")   #-- redo jetid
    #process.path = cms.Sequence(process.path  * process.castorDigis*process.castorreco*process.CastorCellReco*process.CastorTowerReco*process.ak7BasicJets*process.ak7CastorJetID)
-
 
 
 #  ----------------------------  UE Stuff
@@ -247,25 +241,25 @@ process.ueSisCone5TracksJet500.DzTrVtxMax = cms.double(1000)
 process.ueSisCone5TracksJet500.DxyTrVtxMax = cms.double(1000)
 process.chargeParticles.cut = cms.string('charge != 0 & pt > 0.5 & status = 1')
 
-process.path = cms.Sequence(process.path * process.UEAnalysisTracks * process.ueSisCone5TracksJet500 * process.UEAnalysisJetsAkOnlyReco)
-#process.path = cms.Sequence(process.path * process.ueSisCone5TracksJet500)
-if isMonteCarlo:
-  process.path = cms.Sequence(process.path * process.UEAnalysisParticles * process.ueSisCone5ChgGenJet500 * process.UEAnalysisJetsAkOnlyMC)
+if not isMonteCarlo:
+    process.path = cms.Sequence(process.path * process.UEAnalysisTracks * process.ueSisCone5TracksJet500 * process.UEAnalysisJetsAkOnlyReco)
+    #process.path = cms.Sequence(process.path * process.ueSisCone5TracksJet500)
+elif isMonteCarlo:
+    #process.path = cms.Sequence(process.path * process.UEAnalysisParticles * process.ueSisCone5ChgGenJet500 * process.UEAnalysisJetsAkOnlyMC)
+    process.path = cms.Sequence(process.path)
 
 #process.load('UATree.UABaseTree.UEJetChecker_cfi')
 #process.path = cms.Sequence(process.path * process.uejetchecker)
-
 
 # --------------------------- Write CMS data -------------------------------
 
 if keepCMSData:
    process.out = cms.OutputModule("PoolOutputModule",
-       fileName = cms.untracked.string('/tmp/katsas/cmsdata.root')
+       fileName = cms.untracked.string('cmsdata.root')
    )
 
 #  ----------------------------   Final Path   ----------------------------
 process.path = cms.Sequence(process.path * process.uabasetree)
-
 process.p = cms.Path( process.path )
 
 if keepCMSData:
