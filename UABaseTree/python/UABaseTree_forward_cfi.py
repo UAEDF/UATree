@@ -100,18 +100,20 @@ if isMonteCarlo:
   uabasetree.onlyStableGenPart             = cms.untracked.bool(True) #saves only status=1 in genPart
   uabasetree.onlyChargedGenPart            = cms.untracked.bool(True) #saves only charged particles in genPart
   uabasetree.storePUSumInfo                = cms.untracked.bool(True) 
-  uabasetree.hlt_paths = cms.untracked.vstring('HLT_ZeroBias',
-                                    'HLT_ZeroBiasPixel_SingleTrack' ,
-                                    'HLT_MinBiasPixel_SingleTrack' ,
-                                    'HLT_L1_BptxXOR_BscMinBiasOR' ,
-                                    'HLT_L1Tech_BSC_minBias_OR' ,
-                                    'HLT_L1Tech_BSC_minBias' ,
-                                    'HLT_L1Tech_BSC_halo' ,
-                                    'HLT_L1Tech_BSC_halo_forPhysicsBackground' ,
-                                    'HLT_L1Tech_BSC_HighMultiplicity' ,
-                                    'HLT_PixelTracks_Multiplicity70',
-                                    "HLT_PixelTracks_Multiplicity85",
-                                    "HLT_PixelTracks_Multiplicity100" )
+  uabasetree.hlt_paths = cms.untracked.vstring()
+  #uabasetree.hlt_paths = cms.untracked.vstring(
+  #                                  'HLT_ZeroBias',
+  #                                  'HLT_ZeroBiasPixel_SingleTrack' ,
+  #                                  'HLT_MinBiasPixel_SingleTrack' ,
+  #                                  'HLT_L1_BptxXOR_BscMinBiasOR' ,
+  #                                  'HLT_L1Tech_BSC_minBias_OR' ,
+  #                                  'HLT_L1Tech_BSC_minBias' ,
+  #                                  'HLT_L1Tech_BSC_halo' ,
+  #                                  'HLT_L1Tech_BSC_halo_forPhysicsBackground' ,
+  #                                  'HLT_L1Tech_BSC_HighMultiplicity' ,
+  #                                  'HLT_PixelTracks_Multiplicity70',
+  #                                  "HLT_PixelTracks_Multiplicity85",
+  #                                  "HLT_PixelTracks_Multiplicity100" )
 
 # Tracking --------------------------------------------------------------
 if not doMBTracking:
@@ -143,20 +145,42 @@ if storeJets:
   if isMonteCarlo:
     # stores tracks used to construct the PFJet in the PFJet.vtrack member. Only if the RefTracks are present. 
     storeTracksInPFJets  = cms.untracked.bool(True)
-    uabasetree.vpfjets   = cms.untracked.VPSet( cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),  
-                                                          corrections = cms.untracked.vstring('ak5PFL2L3') ) )
+    uabasetree.vpfjets   = cms.untracked.VPSet(
+	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),
+		      corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL2L3') ),
+	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7PFJets"),
+		      corrections = cms.untracked.vstring('ak7PFL2L3','ak7PFL2L3') ),
+	    )
+    uabasetree.vcalojets = cms.untracked.VPSet(
+	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
+		      corrections = cms.untracked.vstring('ak5CaloL2L3','ak5CaloL2L3') ),
+	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7CaloJets"),
+		      corrections = cms.untracked.vstring('ak7CaloL2L3','ak7CaloL2L3') ),
+	    )
+    uabasetree.genjets = cms.untracked.VInputTag("ak5GenJets","ak7GenJets")
 
   else:
-    uabasetree.vpfjets   = cms.untracked.VPSet( cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),
-							  corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL2L3Residual') ) )
+    storeTracksInPFJets  = cms.untracked.bool(True)
+    uabasetree.vpfjets   = cms.untracked.VPSet(
+	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5PFJets"),
+		      corrections = cms.untracked.vstring('ak5PFL2L3','ak5PFL2L3Residual') ),
+	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7PFJets"),
+		      corrections = cms.untracked.vstring('ak7PFL2L3','ak7PFL2L3Residual') ),
+	    )
+    uabasetree.vcalojets = cms.untracked.VPSet(
+	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
+		      corrections = cms.untracked.vstring('ak5CaloL2L3','ak5CaloL2L3Residual') ),
+	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7CaloJets"),
+		      corrections = cms.untracked.vstring('ak7CaloL2L3','ak7CaloL2L3Residual') ),
+	    )
 					      
-#basic jets:
+# Basic jets:
 uabasetree.basicjets = cms.untracked.VInputTag("ueSisCone5TracksJet500","ueAk5TracksJet500")
 if isMonteCarlo:
   uabasetree.basicjets.insert(0,"ueSisCone5ChgGenJet500")
   uabasetree.basicjets.insert(0,"ueAk5ChgGenJet500")
 
-#trackjets
+# Track jets
 uabasetree.trackjets = cms.untracked.VInputTag("ueSisCone5TracksJet500#TrackJetSisCone","ueAk5TracksJet500#TrackJetAntiKt")
 uabasetree.vtxcoll_for_trackjets = cms.untracked.string("offlinePrimaryVertices")
 
