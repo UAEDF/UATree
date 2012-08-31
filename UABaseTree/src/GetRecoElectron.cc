@@ -110,7 +110,7 @@ void UABaseTree::GetRecoElectron(const edm::Event& iEvent, const InputTag& gsfel
       ElecVector[i].expectedInnerHits      =  (*vmEl)[eRef];
     }
     catch ( ... ) {
-      printf("Can't access expectedHitsEle\n");
+      //printf("Can't access expectedHitsEle\n");
     }
    
     

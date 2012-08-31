@@ -77,7 +77,7 @@ void UABaseTree::FillAllMET(const vector<T>& in , vector<MyMet>& out){
 
   for(unsigned int i = 0 ; i < in.size() ; ++i){
     //out[i].SetPxPyPzE( in[i].px() , in[i].py() , in[i].pz() , in[i].energy() );
-    cout << in[i].px() << "  " << in[i].py() << "  " << in[i].pz() << "  " << in[i].energy() << endl;
+    if(METDebug) cout << in[i].px() << "  " << in[i].py() << "  " << in[i].pz() << "  " << in[i].energy() << endl;
     out[i].SetPxPyPzE( in[i].px() , in[i].py() , in[i].pz() , sqrt( pow(in[i].pt(),2) + pow(in[i].pz(),2)) );
     out[i].sumet   = in[i].sumEt();
     out[i].elongit = in[i].e_longitudinal();
