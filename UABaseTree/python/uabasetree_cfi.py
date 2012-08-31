@@ -1,0 +1,71 @@
+#   For all possibilities that are not here (like some of the input collections),
+#   please look at all parameters retrieved in src/GetParameters.cc
+#   All the parameters have anyway a default value !
+
+import FWCore.ParameterSet.Config as cms
+
+# Standard Parameters For UABaseTree Process   ----------------------------------------
+uabasetree = cms.EDAnalyzer('UABaseTree',
+  filterEvents = cms.untracked.bool(False),		#filterEvents for data. Switched Off for MC
+  storeEvtId = cms.untracked.bool(True),		
+  storeFwdGap = cms.untracked.bool(False),
+  storeL1Trig = cms.untracked.bool(False),
+  storeL1TrigOld = cms.untracked.bool(True),		#old simple version. Deprecated.
+  #hlt_paths = cms.untracked.vstring( 'HLT_DoubleMu3_v3',
+  #                                   'HLT_Ele8_v2' ,
+  #                                   'HLT_Jet20_v1' ,
+  #                                   'HLT_Jet40_v1' ,
+  #                                   'HLT_Jet60_v1' ,
+  #                                   'HLT_L1DoubleForJet32_EtaOpp_v1' ,
+  #                                   'HLT_L1DoubleForJet8_EtaOpp_v1' ,
+  #                                   'HLT_L1DoubleMu0_v1' ,
+  #                                   'HLT_L2DoubleMu0_v2' ,
+  #                                   'HLT_L1SingleEG12_v1',
+  #                                   "HLT_L1SingleEG5_v1",
+  #                                   "HLT_L1SingleJet36_v1",
+  #                                   "HLT_L1SingleMuOpen_AntiBPTX_v1",
+  #                                   "HLT_L1SingleMuOpen_DT_v1",
+  #                                   "HLT_L1SingleMuOpen_v1" ,
+  #                                   'HLT_L1BscMinBiasORBptxPlusANDMinus_v1' ,
+  #                                   'HLT_Mu0_v3' ,
+  #                                   'HLT_Mu3_v3' ,
+  #                                   'HLT_Mu5_v3' ,
+  #                                   'HLT_Photon10_CaloIdVL_v1' ,
+  #                                   'HLT_Photon15_CaloIdVL_v1' ,
+  #                                   'HLT_PixelTracks_Multiplicity50_Loose' ,
+  #                                   'HLT_PixelTracks_Multiplicity60_Loose' ,
+  #                                   'HLT_PixelTracks_Multiplicity70_Loose' ,
+  #                                   'HLT_ZeroBiasPixel_SingleTrack_v1' ,
+  #                                   'HLT_ZeroBias_v1',
+  #                                   'HLT_L1Tech53_MB_1_v1',
+  #                                   'HLT_L1Tech53_MB_2_v1')
+  #hlt_paths = cms.untracked.vstring( 'HLT_ZeroBias_v6',
+  #                                   'HLT_L1Tech54_ZeroBias_v1',
+  #                                   'HLT_L1Tech40_BPTXAND_1_v1',
+  #                                   'HLT_L1Tech53_MB_1_v1',
+  #                                   'HLT_L1Tech40_BPTXAND_2_v1',
+  #                                   'HLT_L1Tech53_MB_2_v1', 
+  #                                   'HLT_SingleJetC5_BHC_v1',
+  #                                   'HLT_SingleJetC5_HF_v1',
+  #                                   'HLT_TripleTrack02_BHC_v1',
+  #                                   'LT_TripleTrack02_HF_v1',
+  #                                   'HLT_L1RomanPots_OR_v1',
+  #                                   'HLT_SingleForJet15_BHC_v1',
+  #                                   'HLT_SingleForJet15_HF_v1' )  
+  hlt_paths = cms.untracked.vstring( 'HLT_L1DoubleEG3_FwdVeto_v1',
+                                     'HLT_L1DoubleMu0_v1',
+                                     'HLT_L1DoubleJet20_RomanPotsOR_v1',
+                                     'HLT_L1DoubleJet20part1_v1',
+                                     'HLT_L1DoubleJet24_v1',
+                                     'HLT_L1DoubleJet20part2_v1',
+                                     'HLT_L1Tech40_BPTXAND_v1',
+                                     'HLT_L1Tech53_MB_1_v1',
+                                     'HLT_L1Tech_HF9OR10_v1',
+                                     'HLT_T1minbias_Tech55_v1',
+                                     'HLT_L1Tech53_MB_2_v1',
+                                     'HLT_L1Tech53_MB_3_v1',
+                                     'HLT_RomanPots_Tech52_v1',
+                                     'HLT_L1Tech54_ZeroBias_v1',
+                                     'HLT_ZeroBias_v7'
+                                     ) 
+)
