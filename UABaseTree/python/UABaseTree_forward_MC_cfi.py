@@ -7,13 +7,19 @@ import FWCore.ParameterSet.Config as cms
 from UABaseTree_forward_cfi import *
 
 # Monte Carlo specific configuration
-uabasetree.filterEvents                  = cms.untracked.bool(False) #all MC events are stored.
+# All MC events are stored.
+uabasetree.filterEvents                  = cms.untracked.bool(False)
 uabasetree.storeGenKin                   = cms.untracked.bool(True) 
 uabasetree.storeGenPart                  = cms.untracked.bool(True)
-uabasetree.saveMothersAndDaughters       = cms.untracked.bool(False) #saves the 2 mothers & 2 daughters for each genPart. USeless if not all genParts are stored (ie if 1 of the 3 switch below is on
-uabasetree.saveGenPartsInDifferentColls  = cms.untracked.bool(False) #saves status=3 in genPart, and status=1 Electrons, Muons and Neutrinos in genElec, genMu, genNu
-uabasetree.onlyStableGenPart             = cms.untracked.bool(True) #saves only status=1 in genPart
-uabasetree.onlyChargedGenPart            = cms.untracked.bool(True) #saves only charged particles in genPart
+# Saves the 2 mothers & 2 daughters for each genPart. 
+# Useless if not all genParts are stored (ie if 1 of the 3 switches below is on)
+uabasetree.saveMothersAndDaughters       = cms.untracked.bool(False)
+# Saves status=3 in genPart, and status=1 Electrons, Muons and Neutrinos in genElec, genMu, genNu
+uabasetree.saveGenPartsInDifferentColls  = cms.untracked.bool(False)
+# Saves only status=1 in genPart
+uabasetree.onlyStableGenPart             = cms.untracked.bool(True)
+# Saves only charged particles in genPart
+uabasetree.onlyChargedGenPart            = cms.untracked.bool(False)
 uabasetree.storePUSumInfo                = cms.untracked.bool(True) 
 uabasetree.hlt_paths = cms.untracked.vstring()
 
@@ -31,12 +37,14 @@ if storeJets:
 	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7PFJets"),
 		      corrections = cms.untracked.vstring('ak7PFL2L3') ),
 	    )
-#    uabasetree.vcalojets = cms.untracked.VPSet(
-#	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
-#		      corrections = cms.untracked.vstring('ak5CaloL2L3') ),
-#	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7CaloJets"),
-#		      corrections = cms.untracked.vstring('ak7CaloL2L3') ),
-#	    )
+    uabasetree.vcalojets = cms.untracked.VPSet(
+	    cms.PSet( jetcoll     = cms.untracked.InputTag("ak5CaloJets"),
+	              calojetid   = cms.untracked.InputTag("ak5JetID"),
+		      corrections = cms.untracked.vstring('ak5CaloL2L3','ak5CaloL2L3Residual') ),
+	    cms.PSet( jetcoll     = cms.untracked.InputTag("ak7CaloJets"),
+	              calojetid   = cms.untracked.InputTag("ak7JetID"),
+		      corrections = cms.untracked.vstring('ak7CaloL2L3','ak7CaloL2L3Residual') ),
+	    )
     uabasetree.genjets = cms.untracked.VInputTag("ak5GenJets","ak7GenJets")
 
 # Basic jets:
@@ -50,3 +58,8 @@ uabasetree.trackjets = cms.untracked.VInputTag()
 # MET Collections --------------------------------------------------------------------
 if storeMET:					     
     uabasetree.mets.insert(0,"genMetTrue")
+
+if storeFSC:
+    uabasetree.storeFSCInfo = cms.untracked.bool(False)
+    uabasetree.storeFSCHits = cms.untracked.bool(False)
+    uabasetree.fscrechits   = cms.untracked.InputTag()

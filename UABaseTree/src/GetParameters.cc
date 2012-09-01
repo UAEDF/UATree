@@ -46,6 +46,10 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    calotowercoll_     = iConfig.getUntrackedParameter<InputTag>("calotowercoll",InputTag("towerMaker"));
    storeCaloObjects_  = iConfig.getUntrackedParameter<bool>("storeCaloObjects",false);
    
+   // FSC
+   storeFSCInfo_ = iConfig.getUntrackedParameter<bool>("storeFSCInfo",false);
+   storeFSCHits_ = iConfig.getUntrackedParameter<bool>("storeFSCHits",false);
+   fscrechits_   = iConfig.getUntrackedParameter<InputTag>("fscrechits",InputTag());
 
    //Specific for fwdGap
    energyThresholdHB_ = iConfig.getUntrackedParameter<double>("EnergyThresholdHB",1.5) ;

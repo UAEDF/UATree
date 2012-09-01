@@ -34,9 +34,8 @@ rootcint -f eventdict.cc -c -p \
      MyPFJet.h \
      MyPFCand.h \
      MyCaloTower.h \
+     MyFSCHit.h \
+     MyFSCInfo.h \
      LinkDef.h \
 
 mv LinkDef.h LinkDefh
-
-
-

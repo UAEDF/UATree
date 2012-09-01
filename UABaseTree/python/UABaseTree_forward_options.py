@@ -10,7 +10,8 @@ storeCastor  = False 		#stores castorrechits , castorjets
 keepCMSData  = False 		#make another CMSSW root files with all the collections from the input file and those created in the path
 
 ###
-storePFCands = True
+storePFCands     = True
 storeCaloObjects = True
-storeMuons = True
-storeElectrons = True
+storeMuons       = True
+storeElectrons   = True
+storeFSC         = True

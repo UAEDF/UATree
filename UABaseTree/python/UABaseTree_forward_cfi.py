@@ -42,12 +42,14 @@ if storeJets:
 	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7PFJets"),
 		      corrections = cms.untracked.vstring('ak7PFL2L3','ak7PFL2L3Residual') ),
 	    )
-#    uabasetree.vcalojets = cms.untracked.VPSet(
-#	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak5CaloJets"),
-#		      corrections = cms.untracked.vstring('ak5CaloL2L3','ak5CaloL2L3Residual') ),
-#	    cms.PSet( jetcoll    = cms.untracked.InputTag("ak7CaloJets"),
-#		      corrections = cms.untracked.vstring('ak7CaloL2L3','ak7CaloL2L3Residual') ),
-#	    )
+    uabasetree.vcalojets = cms.untracked.VPSet(
+	    cms.PSet( jetcoll     = cms.untracked.InputTag("ak5CaloJets"),
+	              calojetid   = cms.untracked.InputTag("ak5JetID"),
+		      corrections = cms.untracked.vstring('ak5CaloL2L3','ak5CaloL2L3Residual') ),
+	    cms.PSet( jetcoll     = cms.untracked.InputTag("ak7CaloJets"),
+	              calojetid   = cms.untracked.InputTag("ak7JetID"),
+		      corrections = cms.untracked.vstring('ak7CaloL2L3','ak7CaloL2L3Residual') ),
+	    )
 					      
 # Basic jets:
 uabasetree.basicjets = cms.untracked.VInputTag("ueSisCone5TracksJet500","ueAk5TracksJet500")
@@ -83,3 +85,8 @@ if storeMuons:
 # Reco electrons
 if storeElectrons:
     uabasetree.electrons = cms.untracked.VInputTag("gsfElectrons")
+
+if storeFSC:
+    uabasetree.storeFSCInfo = cms.untracked.bool(True)
+    uabasetree.storeFSCHits = cms.untracked.bool(True)
+    uabasetree.fscrechits   = cms.untracked.InputTag('zdcreco')

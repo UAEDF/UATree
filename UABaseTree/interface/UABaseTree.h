@@ -83,11 +83,14 @@
 #include "UATree/UADataFormat/src/MyMuon.h"
 #include "UATree/UADataFormat/src/MyPFCand.h"
 
-
 #include "UATree/UADataFormat/src/MyMet.h"
 
 //CaloObjects
 #include "UATree/UADataFormat/src/MyCaloTower.h"
+
+// FSC
+#include "UATree/UADataFormat/src/MyFSCHit.h"
+#include "UATree/UADataFormat/src/MyFSCInfo.h"
 
 using namespace std;
 using namespace edm;
@@ -172,21 +175,18 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetRecoPFCand(   const Event& , const InputTag& , vector<MyPFCand>& ); 
       virtual void GetAllPFCands(   const Event& ); 
       
-      
       virtual void GetMET(          const Event& , const string& , vector<MyMet>& );
       virtual void GetAllMETs(      const Event& );
       template <class T>
       void FillAllMET(              const vector<T>& , vector<MyMet>& );
       
-      
       virtual void GetCaloTower(    const Event& ); 
 
+      virtual void GetFSCInfo( const Event& ); 
 
-      
       // --------------------   Get All Parameters   --------------------
       virtual void GetParameters( const ParameterSet& );
      
-
       // --------------------   Init All Branches   --------------------
       virtual void Init();
       
@@ -204,12 +204,7 @@ class UABaseTree : public EDAnalyzer {
       const string GetColl(const string&);
       const InputTag GetCollInputTag(const string&);
 
-
-      // ------------------------------------------------------------------------------------------------------------------------
-      
-      
-      
-      
+      // -------------------------------------------------------------------
       // --------------------   Vars From Config File   --------------------
       
       vector<InputTag> beamspots_ ;
@@ -242,13 +237,17 @@ class UABaseTree : public EDAnalyzer {
       InputTag         calotowercoll_;
       Bool_t           storeCaloObjects_;
       
+      // Castor Stuff
       InputTag         castorrechits_;
       InputTag         castorjets_;
       InputTag         castorjetid_;
       InputTag         castordigis_;
       
-      //Castor Stuff
-      
+      // FSC
+      Bool_t           storeFSCHits_;
+      Bool_t           storeFSCInfo_;
+      InputTag         fscrechits_;
+
       //for fwdGap
       double energyThresholdHB_ ;
       double energyThresholdHE_ ;
@@ -315,7 +314,6 @@ class UABaseTree : public EDAnalyzer {
       map<string,vector<MyTracks> > allTracks;
       map<string,vector<MyVertex> > allVertices;
 
-
       map<string,vector<MyCaloJet> > allCaloJets;
       map<string,vector<MyPFJet> >   allPFJets;
       
@@ -328,44 +326,32 @@ class UABaseTree : public EDAnalyzer {
       vector<MyCastorDigi>          castorDigis;
       map<string , MyDiJet>         allDiJets;
 
-
       map<string,vector<MyElectron> > allElectrons;
       map<string,vector<MyMuon> >     allMuons;
       map<string,vector<MyPFCand> >   allPFCands;
 
       map<string,vector<MyMet> >      allMETs;
 
-
       vector<MyCaloTower>             caloTowers;
 
+      // FSC
+      vector<MyFSCHit> fscHits;
+      MyFSCInfo        fscInfo;
 
-
-      // ------------------------------------------------------------------------------------------------------------------------
-      
-      
-      
-      
-
+      // -------------------------------------------------------
       // --------------------   Vertex Id   --------------------
       Int_t vtxid;
       vector<math::XYZPoint> vtxid_xyz;
 
-
       // map<int,string> HLT_map;
-
 
       // --------------------   Needed For HLT   --------------------
       bool isValidHltConfig_;
       HLTConfigProvider hltConfig;
       
-      
       // --------------------   File & Tree   --------------------
-      
       TFile*   fout;
       TTree*   tree;
-
-
-
 };
 
 #include "TemplateFunctions_jets.h"

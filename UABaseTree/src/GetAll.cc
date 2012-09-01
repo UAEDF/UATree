@@ -5,11 +5,9 @@
 
 bool AllDebug = false;
 
-
 void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup){
 
   // General Info
-
                                     GetAllBeamSpots(iEvent);
   if(storeEvtId_)                   GetEvtId(iEvent);
   if(storeFwdGap_)                  GetFwdGap(iEvent); 
@@ -23,9 +21,7 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
   //  if(storeL1Trig_)		    GetL1Trig(iEvent,iSetup,iRun);
   if(storeL1TrigOld_)		    GetL1TrigOld(iEvent);
   
- 
   if(storeMITEvtSel_)               GetMITEvtSel(iEvent);
-
 
   // Reset vtx id and vector
   vtxid = 0;
@@ -45,7 +41,6 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
      castorjetid_.label().size() > 0)   GetCastorJet(iEvent); 
   if(castordigis_.label().size() > 0)   GetCastorDigi(iEvent,iSetup);
   
-  
   GetAllElectrons(iEvent); 
   GetAllMuons(iEvent); 
   GetAllPFCands(iEvent); 
@@ -54,6 +49,5 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
 
   if(storeCaloObjects_) GetCaloTower(iEvent);
 
-
+  if(storeFSCInfo_ && fscrechits_.label().size() > 0) GetFSCInfo(iEvent);
 }
-
