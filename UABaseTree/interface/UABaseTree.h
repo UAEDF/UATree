@@ -90,6 +90,7 @@
 
 // FSC
 #include "UATree/UADataFormat/src/MyFSCHit.h"
+#include "UATree/UADataFormat/src/MyFSCDigi.h"
 #include "UATree/UADataFormat/src/MyFSCInfo.h"
 
 using namespace std;
@@ -99,24 +100,19 @@ using namespace reco;
 typedef ParameterSet PSet;
 
 //
-// class decleration
+// Class declaration
 //
-
-
 
 class UABaseTree : public EDAnalyzer {
    public:
       explicit UABaseTree(const ParameterSet&);
       ~UABaseTree();
 
-
    private:
       virtual void beginJob() ;
       virtual void beginRun(Run const &, EventSetup const&) ;
       virtual void analyze(const Event&, const EventSetup&);
       virtual void endJob() ;
-      
-      
 
       // --------------------   Getters   --------------------
       virtual void GetAll(          const Event& , const EventSetup& );
@@ -167,7 +163,6 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetCastorDigi(   const Event& , const EventSetup& ); 
       virtual void GetCentralDiJet( const vector<MyJet*>& , const string , MyDiJet& ); 
       
-      
       virtual void GetRecoElectron( const Event& , const InputTag& , vector<MyElectron>& ); 
       virtual void GetAllElectrons( const Event& ); 
       virtual void GetRecoMuon(     const Event& , const InputTag& , vector<MyMuon>& ); 
@@ -182,7 +177,7 @@ class UABaseTree : public EDAnalyzer {
       
       virtual void GetCaloTower(    const Event& ); 
 
-      virtual void GetFSCInfo( const Event& ); 
+      virtual void GetFSCInfo( const Event&, const EventSetup& ); 
 
       // --------------------   Get All Parameters   --------------------
       virtual void GetParameters( const ParameterSet& );
@@ -245,8 +240,10 @@ class UABaseTree : public EDAnalyzer {
       
       // FSC
       Bool_t           storeFSCHits_;
+      Bool_t           storeFSCDigis_;
       Bool_t           storeFSCInfo_;
       InputTag         fscrechits_;
+      InputTag         fscdigis_;
 
       //for fwdGap
       double energyThresholdHB_ ;
@@ -279,16 +276,7 @@ class UABaseTree : public EDAnalyzer {
       
       string outputfilename_ ;
 
-
-
-
-
-      // ------------------------------------------------------------------------------------------------------------------------
-      
-      
-      
-      
-
+      // ----------------------------------------------------------
       // --------------------   Tree Content   --------------------
      
       map<string,MyBeamSpot>        allBeamSpots;
@@ -335,8 +323,9 @@ class UABaseTree : public EDAnalyzer {
       vector<MyCaloTower>             caloTowers;
 
       // FSC
-      vector<MyFSCHit> fscHits;
-      MyFSCInfo        fscInfo;
+      vector<MyFSCHit>  fscHits;
+      vector<MyFSCDigi> fscDigis;
+      MyFSCInfo         fscInfo;
 
       // -------------------------------------------------------
       // --------------------   Vertex Id   --------------------

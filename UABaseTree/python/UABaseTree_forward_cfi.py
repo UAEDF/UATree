@@ -87,6 +87,8 @@ if storeElectrons:
     uabasetree.electrons = cms.untracked.VInputTag("gsfElectrons")
 
 if storeFSC:
-    uabasetree.storeFSCInfo = cms.untracked.bool(True)
-    uabasetree.storeFSCHits = cms.untracked.bool(True)
-    uabasetree.fscrechits   = cms.untracked.InputTag('zdcreco')
+    uabasetree.storeFSCInfo  = cms.untracked.bool(True)
+    uabasetree.storeFSCHits  = cms.untracked.bool(True)
+    uabasetree.storeFSCDigis = cms.untracked.bool(True)
+    uabasetree.fscrechits    = cms.untracked.InputTag('zdcreco')
+    uabasetree.fscdigis      = cms.untracked.InputTag('hcalDigis')

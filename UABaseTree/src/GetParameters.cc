@@ -47,9 +47,11 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    storeCaloObjects_  = iConfig.getUntrackedParameter<bool>("storeCaloObjects",false);
    
    // FSC
-   storeFSCInfo_ = iConfig.getUntrackedParameter<bool>("storeFSCInfo",false);
-   storeFSCHits_ = iConfig.getUntrackedParameter<bool>("storeFSCHits",false);
-   fscrechits_   = iConfig.getUntrackedParameter<InputTag>("fscrechits",InputTag());
+   storeFSCInfo_  = iConfig.getUntrackedParameter<bool>("storeFSCInfo",false);
+   storeFSCHits_  = iConfig.getUntrackedParameter<bool>("storeFSCHits",false);
+   storeFSCDigis_ = iConfig.getUntrackedParameter<bool>("storeFSCDigis",false);
+   fscrechits_    = iConfig.getUntrackedParameter<InputTag>("fscrechits",InputTag());
+   fscdigis_      = iConfig.getUntrackedParameter<InputTag>("fscdigis",InputTag());
 
    //Specific for fwdGap
    energyThresholdHB_ = iConfig.getUntrackedParameter<double>("EnergyThresholdHB",1.5) ;

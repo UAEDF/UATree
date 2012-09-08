@@ -65,6 +65,12 @@
 #pragma link C++ class vector<MyPFCand>+;
 #pragma link C++ class MyCaloTower+;
 #pragma link C++ class vector<MyCaloTower>+;
+#pragma link C++ class MyFSCHit+;
+#pragma link C++ class vector<MyFSCHit>+;
+#pragma link C++ class MyFSCDigi+;
+#pragma link C++ class vector<MyFSCDigi>+;
+#pragma link C++ class MyFSCInfo+;
+#pragma link C++ class vector<MyFSCInfo>+;
 
 #endif
 

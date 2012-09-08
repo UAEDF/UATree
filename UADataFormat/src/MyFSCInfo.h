@@ -3,6 +3,8 @@
 
 #include "TObject.h"
 
+#include <map>
+
 class MyFSCInfo : public TObject {
   
  public :
@@ -12,11 +14,13 @@ class MyFSCInfo : public TObject {
   void Reset();
   void Print();
  
-  Int_t    nHits;
+  /*Int_t    nHits;
   Double_t sumEnergyEMPlus;
   Double_t sumEnergyEMMinus;
   Double_t sumEnergyHADPlus;
-  Double_t sumEnergyHADMinus;
+  Double_t sumEnergyHADMinus;*/
+  std::map<int,int>    nHitsPerChannel;
+  std::map<int,double> sumEnergyPerChannel;
 
  private:
   ClassDef (MyFSCInfo,1)

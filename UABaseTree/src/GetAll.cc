@@ -49,5 +49,7 @@ void UABaseTree::GetAll(const edm::Event& iEvent , const edm::EventSetup& iSetup
 
   if(storeCaloObjects_) GetCaloTower(iEvent);
 
-  if(storeFSCInfo_ && fscrechits_.label().size() > 0) GetFSCInfo(iEvent);
+  if( (storeFSCInfo_  && fscrechits_.label().size() > 0) ||
+      (storeFSCHits_  && fscrechits_.label().size() > 0) ||
+      (storeFSCDigis_ && fscdigis_.label().size() > 0) ) GetFSCInfo(iEvent,iSetup);
 }
