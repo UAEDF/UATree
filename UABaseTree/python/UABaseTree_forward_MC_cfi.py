@@ -63,6 +63,6 @@ if storeFSC:
     uabasetree.storeFSCInfo  = cms.untracked.bool(False)
     uabasetree.storeFSCHits  = cms.untracked.bool(False)
     uabasetree.storeFSCDigis = cms.untracked.bool(False)
-    uabasetree.fscrechits    = cms.untracked.InputTag()
-    uabasetree.fscdigis      = cms.untracked.InputTag()
+    uabasetree.fscrechits    = cms.untracked.InputTag("")
+    uabasetree.fscdigis      = cms.untracked.InputTag("")
 
