@@ -47,17 +47,19 @@ void UABaseTree::GetGenKin(const edm::Event& iEvent)
    
    if( genEvtInfoH.isValid() ){
       genKin.MCProcId = genEvtInfoH->signalProcessID();
-      genKin.PtHat = genEvtInfoH->binningValues()[0];
+      const std::vector<double>& binningValues = genEvtInfoH->binningValues();
+      if( binningValues.size() ) genKin.PtHat = binningValues.at(0);
       genKin.genWeight = genEvtInfoH->weight();
 
       //-- PDF Info
       gen::PdfInfo const* pdfInfo = genEvtInfoH->pdf();
-
-      genKin.x1      = pdfInfo->x.first;
-      genKin.x2      = pdfInfo->x.second;
-      genKin.Q       = pdfInfo->scalePDF;
-      genKin.Part1Id = pdfInfo->id.first;
-      genKin.Part2Id = pdfInfo->id.second;
+      if(pdfInfo){
+	 genKin.x1      = pdfInfo->x.first;
+	 genKin.x2      = pdfInfo->x.second;
+	 genKin.Q       = pdfInfo->scalePDF;
+	 genKin.Part1Id = pdfInfo->id.first;
+	 genKin.Part2Id = pdfInfo->id.second;
+      }
    }
 
    //K Factor For Signal
