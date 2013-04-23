@@ -88,6 +88,11 @@
 //CaloObjects
 #include "UATree/UADataFormat/src/MyCaloTower.h"
 
+// ZDC
+#include "UATree/UADataFormat/src/MyZDCHit.h"
+#include "UATree/UADataFormat/src/MyZDCDigi.h"
+#include "UATree/UADataFormat/src/MyZDCInfo.h"
+
 // FSC
 #include "UATree/UADataFormat/src/MyFSCHit.h"
 #include "UATree/UADataFormat/src/MyFSCDigi.h"
@@ -177,6 +182,8 @@ class UABaseTree : public EDAnalyzer {
       
       virtual void GetCaloTower(    const Event& ); 
 
+      virtual void GetZDCInfo( const Event&, const EventSetup& ); 
+
       virtual void GetFSCInfo( const Event&, const EventSetup& ); 
 
       // --------------------   Get All Parameters   --------------------
@@ -238,6 +245,13 @@ class UABaseTree : public EDAnalyzer {
       InputTag         castorjetid_;
       InputTag         castordigis_;
       
+      // ZDC
+      Bool_t           storeZDCHits_;
+      Bool_t           storeZDCDigis_;
+      Bool_t           storeZDCInfo_;
+      InputTag         zdcrechits_;
+      InputTag         zdcdigis_;
+
       // FSC
       Bool_t           storeFSCHits_;
       Bool_t           storeFSCDigis_;
@@ -321,6 +335,11 @@ class UABaseTree : public EDAnalyzer {
       map<string,vector<MyMet> >      allMETs;
 
       vector<MyCaloTower>             caloTowers;
+
+      // ZDC
+      vector<MyZDCHit>  zdcHits;
+      vector<MyZDCDigi> zdcDigis;
+      MyZDCInfo         zdcInfo;
 
       // FSC
       vector<MyFSCHit>  fscHits;

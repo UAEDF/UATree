@@ -87,9 +87,27 @@ if storeMuons:
 if storeElectrons:
     uabasetree.electrons = cms.untracked.VInputTag("gsfElectrons")
 
+# ZDC
+if storeZDC:
+    uabasetree.storeZDCInfo  = cms.untracked.bool(True)
+    uabasetree.storeZDCHits  = cms.untracked.bool(True)
+    uabasetree.storeZDCDigis = cms.untracked.bool(True)
+    uabasetree.zdcrechits    = cms.untracked.InputTag('zdcreco')
+    uabasetree.zdcdigis      = cms.untracked.InputTag('hcalDigis')
+else:
+    uabasetree.storeZDCInfo  = cms.untracked.bool(False)
+    uabasetree.storeZDCHits  = cms.untracked.bool(False)
+    uabasetree.storeZDCDigis = cms.untracked.bool(False)
+
+# FSC
 if storeFSC:
-    uabasetree.storeFSCInfo  = cms.untracked.bool(True)
-    uabasetree.storeFSCHits  = cms.untracked.bool(True)
+    uabasetree.storeFSCInfo  = cms.untracked.bool(False)
+    uabasetree.storeFSCHits  = cms.untracked.bool(False)
     uabasetree.storeFSCDigis = cms.untracked.bool(True)
-    uabasetree.fscrechits    = cms.untracked.InputTag('zdcreco')
+    uabasetree.fscrechits    = cms.untracked.InputTag()
     uabasetree.fscdigis      = cms.untracked.InputTag('hcalDigis')
+else:
+    uabasetree.storeFSCInfo  = cms.untracked.bool(False)
+    uabasetree.storeFSCHits  = cms.untracked.bool(False)
+    uabasetree.storeFSCDigis = cms.untracked.bool(False)
+

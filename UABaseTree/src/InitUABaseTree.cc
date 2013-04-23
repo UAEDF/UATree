@@ -155,6 +155,11 @@ void UABaseTree::Init(){
   //CaloObjects
   if(storeCaloObjects_) this->tree->Branch( "caloTowers" , &caloTowers );
    
+  // ZDC 
+  if(storeZDCInfo_  && zdcrechits_.label().size() > 0) this->tree->Branch( "zdcInfo" , &zdcInfo );
+  if(storeZDCHits_  && zdcrechits_.label().size() > 0) this->tree->Branch( "zdcHits" , &zdcHits );
+  if(storeZDCDigis_ && zdcdigis_.label().size() > 0)   this->tree->Branch( "zdcDigis" , &zdcDigis );
+
   // FSC 
   if(storeFSCInfo_  && fscrechits_.label().size() > 0) this->tree->Branch( "fscInfo" , &fscInfo );
   if(storeFSCHits_  && fscrechits_.label().size() > 0) this->tree->Branch( "fscHits" , &fscHits );

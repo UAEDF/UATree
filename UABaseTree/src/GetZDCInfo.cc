@@ -1,4 +1,4 @@
-//-- Description: Function to retrieve FSC rec. hit information
+//-- Description: Function to retrieve ZDC information
 
 //-- Dataformats
 #include "DataFormats/HcalDigi/interface/HcalDigiCollections.h"
@@ -10,32 +10,32 @@
 
 #include "UATree/UABaseTree/interface/UABaseTree.h"
 
-bool FSCInfoDebug = false;
+bool ZDCInfoDebug = false;
 
-void UABaseTree::GetFSCInfo(const edm::Event& event, const edm::EventSetup& setup) {
+void UABaseTree::GetZDCInfo(const edm::Event& event, const edm::EventSetup& setup) {
 
-   fscInfo.Reset();
-   fscHits.clear();
-   fscDigis.clear();
+   zdcInfo.Reset();
+   zdcHits.clear();
+   zdcDigis.clear();
 
    // Get the ZDC rechits collection from the event
    edm::Handle<ZDCRecHitCollection> zdcHitsH;
-   event.getByLabel(fscrechits_, zdcHitsH);
+   event.getByLabel(zdcrechits_, zdcHitsH);
 
-   std::map<int,int> nHitsFSCPerChannel;
-   std::map<int,double> sumEnergyFSCPerChannel;
+   std::map<int,int> nHitsZDCPerChannel;
+   std::map<int,double> sumEnergyZDCPerChannel;
 
    if( zdcHitsH.isValid() ){ 
 
       const ZDCRecHitCollection* zdchits = zdcHitsH.product();
       ZDCRecHitCollection::const_iterator zdchit;
 
-      MyFSCHit myfschit;
-      /*int nFSChitCand = 0;
-	double FSCsumHADminus = 0.;
-	double FSCsumEMminus = 0.;
-	double FSCsumHADplus = 0.;
-	double FSCsumEMplus = 0.;*/
+      MyZDCHit myzdchit;
+      /*int nZDChitCand = 0;
+	double ZDCsumHADminus = 0.;
+	double ZDCsumEMminus = 0.;
+	double ZDCsumHADplus = 0.;
+	double ZDCsumEMplus = 0.;*/
       for ( zdchit = zdchits->begin(); zdchit != zdchits->end(); ++zdchit )
       {
 	 HcalZDCDetId id(zdchit->id());
@@ -46,34 +46,34 @@ void UABaseTree::GetFSCInfo(const edm::Event& event, const edm::EventSetup& setu
 	 double energy = zdchit->energy();
 	 double time = zdchit->time();
 
-	 /*if((section == 1) && (side == 1))  FSCsumEMplus   += energy;
-	   if((section == 1) && (side == -1)) FSCsumEMminus  += energy;
-	   if((section == 2) && (side == 1))  FSCsumHADplus  += energy;
-	   if((section == 2) && (side == -1)) FSCsumHADminus += energy;
-	   ++nFSChitCand;*/
-         if(nHitsFSCPerChannel.find(channelId) == nHitsFSCPerChannel.end()){
-            nHitsFSCPerChannel[channelId] = 0; 
-            sumEnergyFSCPerChannel[channelId] = 0.;
+	 /*if((section == 1) && (side == 1))  ZDCsumEMplus   += energy;
+	   if((section == 1) && (side == -1)) ZDCsumEMminus  += energy;
+	   if((section == 2) && (side == 1))  ZDCsumHADplus  += energy;
+	   if((section == 2) && (side == -1)) ZDCsumHADminus += energy;
+	   ++nZDChitCand;*/
+         if(nHitsZDCPerChannel.find(channelId) == nHitsZDCPerChannel.end()){
+            nHitsZDCPerChannel[channelId] = 0; 
+            sumEnergyZDCPerChannel[channelId] = 0.;
          }
-         ++nHitsFSCPerChannel[channelId];
-         sumEnergyFSCPerChannel[channelId] += energy;
+         ++nHitsZDCPerChannel[channelId];
+         sumEnergyZDCPerChannel[channelId] += energy;
 
-	 if(storeFSCHits_){
-	    myfschit.Reset();
-	    myfschit.side = side;
-	    myfschit.section = section;
-	    myfschit.channel = channel;
-	    myfschit.channelId = channelId;
-	    myfschit.energy = energy;
-	    myfschit.time = time;
-	    fscHits.push_back(myfschit);
-	    if (FSCInfoDebug) fscHits.back().Print();   
+	 if(storeZDCHits_){
+	    myzdchit.Reset();
+	    myzdchit.side = side;
+	    myzdchit.section = section;
+	    myzdchit.channel = channel;
+	    myzdchit.channelId = channelId;
+	    myzdchit.energy = energy;
+	    myzdchit.time = time;
+	    zdcHits.push_back(myzdchit);
+	    if (ZDCInfoDebug) zdcHits.back().Print();   
 	 }
       }
    }
 
    edm::Handle<ZDCDigiCollection> zdcDigisH;
-   event.getByLabel(fscdigis_, zdcDigisH);
+   event.getByLabel(zdcdigis_, zdcDigisH);
 
    if( zdcDigisH.isValid() ){
 
@@ -83,7 +83,7 @@ void UABaseTree::GetFSCInfo(const edm::Event& event, const edm::EventSetup& setu
       edm::ESHandle<HcalDbService> conditions;
       setup.get<HcalDbRecord>().get(conditions);
 
-      MyFSCDigi myfscdigi;
+      MyZDCDigi myzdcdigi;
       for(zdcdigi = zdcdigis->begin(); zdcdigi != zdcdigis->end(); ++zdcdigi){
          /*
          const ZDCDataFrame digi = (const ZDCDataFrame)(*j);		
@@ -100,11 +100,7 @@ void UABaseTree::GetFSCInfo(const edm::Event& event, const edm::EventSetup& setu
 	 int side      = 1+2*(12-digi.elecId().spigot());
 	 int section   = digi.id().section();
 	 int channel   = digi.id().channel();
-	 //int channelId = (section-1)*5+(side+1)/2*9+(channel-1);
-
-	 bool isFsc    = (digi[0].fiber()<2||digi[0].fiberChan()<6);
-	 int fscCh     = isFsc?(9+(side+1)/2*17+(digi[0].fiber()-4)*3+digi[0].fiberChan()):0;
-         int channelId = fscCh;
+	 int channelId = (section-1)*5+(side+1)/2*9+(channel-1);
 
          /*
          const HcalQIEShape* qieshape=conditions->getHcalShape();
@@ -126,48 +122,40 @@ void UABaseTree::GetFSCInfo(const edm::Event& event, const edm::EventSetup& setu
 	 }
          */
 
-         if( !isFsc ) continue;
+	 if( !section ) continue; 
 
-	 /*const HcalQIEShape* qieshape=conditions->getHcalShape();
+	 const HcalQIEShape* qieshape=conditions->getHcalShape();
 	 const HcalQIECoder* qiecoder=conditions->getHcalCoder(digi.id());
 	 CaloSamples caldigi;
 	 HcalCoderDb coder(*qiecoder,*qieshape);
 
-	 coder.adc2fC(digi,caldigi);*/
+	 coder.adc2fC(digi,caldigi);
 
 	 int fTS = digi.size();
          std::vector<int> digiADC(fTS);
          std::vector<float> digifC(fTS);
 	 for(int iTS = 0; iTS < fTS; ++iTS) {
             digiADC[iTS] = digi[iTS].adc();
-            //digifC[iTS]  = caldigi[iTS];
-            digifC[iTS]  = digi[iTS].nominal_fC();
-	    /*DigiDatafC[i+chid*10] = caldigi[i];
-	    DigiDataADC[i+chid*10] = digi[i].adc();*/
+            digifC[iTS]  = caldigi[iTS];
 	 }
 
-	 if(storeFSCDigis_){
-	    myfscdigi.Reset();
-	    myfscdigi.side = side;
-	    myfscdigi.section = section;
-	    myfscdigi.channel = channel;
-	    myfscdigi.channelId = channelId;
-	    myfscdigi.digiADC = digiADC;
-	    myfscdigi.digifC = digifC;
-	    fscDigis.push_back(myfscdigi);
-	    if (FSCInfoDebug) fscDigis.back().Print();   
+	 if(storeZDCDigis_){
+	    myzdcdigi.Reset();
+	    myzdcdigi.side = side;
+	    myzdcdigi.section = section;
+	    myzdcdigi.channel = channel;
+	    myzdcdigi.channelId = channelId;
+	    myzdcdigi.digiADC = digiADC;
+	    myzdcdigi.digifC = digifC;
+	    zdcDigis.push_back(myzdcdigi);
+	    if (ZDCInfoDebug) zdcDigis.back().Print();   
 	 }
       }
    }
  
-   if(storeFSCInfo_){
-      /*fscInfo.nHits = nFSChitCand;
-      fscInfo.sumEnergyEMPlus = FSCsumEMplus;
-      fscInfo.sumEnergyEMMinus = FSCsumEMminus;
-      fscInfo.sumEnergyHADPlus = FSCsumHADplus;
-      fscInfo.sumEnergyHADMinus = FSCsumHADminus;*/
-      fscInfo.nHitsPerChannel = nHitsFSCPerChannel;
-      fscInfo.sumEnergyPerChannel = sumEnergyFSCPerChannel;
-      if (FSCInfoDebug) fscInfo.Print();   
+   if(storeZDCInfo_){
+      zdcInfo.nHitsPerChannel = nHitsZDCPerChannel;
+      zdcInfo.sumEnergyPerChannel = sumEnergyZDCPerChannel;
+      if (ZDCInfoDebug) zdcInfo.Print();   
    }
 }

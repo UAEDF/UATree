@@ -14,4 +14,5 @@ storePFCands     = True
 storeCaloObjects = True
 storeMuons       = True
 storeElectrons   = True
-storeFSC         = True
+storeZDC         = True
+storeFSC         = False

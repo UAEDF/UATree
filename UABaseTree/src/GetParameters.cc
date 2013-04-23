@@ -46,6 +46,13 @@ void UABaseTree::GetParameters(const edm::ParameterSet& iConfig){
    calotowercoll_     = iConfig.getUntrackedParameter<InputTag>("calotowercoll",InputTag("towerMaker"));
    storeCaloObjects_  = iConfig.getUntrackedParameter<bool>("storeCaloObjects",false);
    
+   // ZDC
+   storeZDCInfo_  = iConfig.getUntrackedParameter<bool>("storeZDCInfo",false);
+   storeZDCHits_  = iConfig.getUntrackedParameter<bool>("storeZDCHits",false);
+   storeZDCDigis_ = iConfig.getUntrackedParameter<bool>("storeZDCDigis",false);
+   zdcrechits_    = iConfig.getUntrackedParameter<InputTag>("zdcrechits",InputTag());
+   zdcdigis_      = iConfig.getUntrackedParameter<InputTag>("zdcdigis",InputTag());
+
    // FSC
    storeFSCInfo_  = iConfig.getUntrackedParameter<bool>("storeFSCInfo",false);
    storeFSCHits_  = iConfig.getUntrackedParameter<bool>("storeFSCHits",false);
