@@ -65,7 +65,8 @@ if storeMET:
 # CASTOR -----------------------------------------------------------------------------
 if storeCastor:
     uabasetree.castorrechits = cms.untracked.InputTag('castorreco')
-    uabasetree.basicjets     = cms.untracked.InputTag('ak7BasicJets')
+    #uabasetree.basicjets     = cms.untracked.InputTag('ak7BasicJets')
+    uabasetree.basicjets.append('ak7BasicJets')
     uabasetree.castorjetid   = cms.untracked.InputTag('ak7CastorJetID')
     #uabasetree.castordigis   = cms.untracked.InputTag('castorDigis')
 
