@@ -34,6 +34,9 @@ rootcint -f eventdict.cc -c -p \
      MyPFJet.h \
      MyPFCand.h \
      MyCaloTower.h \
+     MyZDCHit.h \
+     MyZDCDigi.h \
+     MyZDCInfo.h \
      MyFSCHit.h \
      MyFSCDigi.h \
      MyFSCInfo.h \
