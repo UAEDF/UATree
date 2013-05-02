@@ -100,7 +100,8 @@ void UABaseTree::GetZDCInfo(const edm::Event& event, const edm::EventSetup& setu
 	 int side      = 1+2*(12-digi.elecId().spigot());
 	 int section   = digi.id().section();
 	 int channel   = digi.id().channel();
-	 int channelId = (section-1)*5+(side+1)/2*9+(channel-1);
+	 //int channelId = (section-1)*5+(side+1)/2*9+(channel-1);
+	 int channelId = (section-1)*5+(side+1)/2*17+(channel-1);
 
          /*
          const HcalQIEShape* qieshape=conditions->getHcalShape();

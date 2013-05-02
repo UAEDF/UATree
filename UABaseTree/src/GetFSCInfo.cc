@@ -126,7 +126,7 @@ void UABaseTree::GetFSCInfo(const edm::Event& event, const edm::EventSetup& setu
 	 }
          */
 
-         if( !isFsc ) continue;
+         if( section || !isFsc ) continue;
 
 	 /*const HcalQIEShape* qieshape=conditions->getHcalShape();
 	 const HcalQIECoder* qiecoder=conditions->getHcalCoder(digi.id());
