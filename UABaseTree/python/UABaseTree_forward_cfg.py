@@ -122,6 +122,34 @@ if doMBTracking:
 #process.load('UATree.UABaseTree.UEJetChecker_cfi')
 #process.reco_sequence = cms.Sequence(process.reco_sequence * process.uejetchecker)
 
+#  ----------------------------   ZDC   ----------------------------
+if storeZDC:
+    ##-- Customized conditions
+    from CondCore.DBCommon.CondDBSetup_cfi import *
+    process.hcalZDCASCIICalib = cms.ESSource("HcalTextCalibrations",
+	    input = cms.VPSet(
+		cms.PSet(
+		    object = cms.string('Gains'),
+		    file =
+		    cms.FileInPath('UATree/UABaseTree/data/Gains_Run210498_211831.txt')
+		    ),
+		cms.PSet(
+		    object = cms.string('LongRecoParams'),
+		    file =
+		    cms.FileInPath('UATree/UABaseTree/data/LongRecoParams_Runs210737_211831.txt')
+		    ),
+		cms.PSet(
+		    object = cms.string('MCParams'),
+		    file =
+		    cms.FileInPath('UATree/UABaseTree/data/DumpMCParams_Run211831.txt')
+		    )
+		)
+	    )
+    process.es_prefer_hcalZDCASCIICalib = cms.ESPrefer('HcalTextCalibrations','hcalZDCASCIICalib')
+    process.zdcreco.lowGainFrac = 8.6
+    process.reco_sequence = cms.Sequence(process.reco_sequence * process.zdcreco)
+
+
 process.reco_sequence = cms.Sequence(process.reco_sequence *
                                      process.UEAnalysisTracks * 
                                      process.ueSisCone5TracksJet500 * process.UEAnalysisJetsAkOnlyReco)
