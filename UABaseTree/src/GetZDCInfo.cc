@@ -127,7 +127,7 @@ void UABaseTree::GetZDCInfo(const edm::Event& event, const edm::EventSetup& setu
 
 	 if( !section ) continue; 
 
-	 const HcalQIEShape* qieshape=conditions->getHcalShape();
+	 const HcalQIEShape* qieshape=conditions->getHcalShape(digi.id());
 	 const HcalQIECoder* qiecoder=conditions->getHcalCoder(digi.id());
 	 CaloSamples caldigi;
 	 HcalCoderDb coder(*qiecoder,*qieshape);

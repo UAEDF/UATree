@@ -1,7 +1,7 @@
 import FWCore.ParameterSet.Config as cms
 
 
-selectTracks = cms.EDFilter("RecoTrackSelector",
+selectTracks = cms.EDProducer("RecoTrackSelector",
     src = cms.InputTag("generalTracks"),
     	maxChi2 = cms.double(10000.0),
     tip = cms.double(3),                     #d0/sigmad0
