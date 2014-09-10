@@ -21,11 +21,11 @@ keepCMSData  = False 		#make another CMSSW root files with all the collections f
 # Standard Parameters For UABaseTree Process   ----------------------------------------
 
 uabasetree = cms.EDAnalyzer('UABaseTree',
-  filterEvents = cms.untracked.bool(True),		#filterEvents for data. Switched Off for MC
+  filterEvents = cms.untracked.bool(False),		#filterEvents for data. Switched Off for MC
   storeEvtId = cms.untracked.bool(True),		
   storeFwdGap = cms.untracked.bool(False),
-  storeL1Trig = cms.untracked.bool(True),
-  storeL1TrigOld = cms.untracked.bool(False),		#old simple version. Deprecated.
+  storeL1Trig = cms.untracked.bool(False),
+  storeL1TrigOld = cms.untracked.bool(True),		#old simple version. Deprecated.
   hlt_paths = cms.untracked.vstring( 'HLT_DoubleMu3_v3',
                                      'HLT_Ele8_v2' ,
                                      'HLT_Jet20_v1' ,
@@ -51,7 +51,9 @@ uabasetree = cms.EDAnalyzer('UABaseTree',
                                      'HLT_PixelTracks_Multiplicity60_Loose' ,
                                      'HLT_PixelTracks_Multiplicity70_Loose' ,
                                      'HLT_ZeroBiasPixel_SingleTrack_v1' ,
-                                     'HLT_ZeroBias_v1' )
+                                     'HLT_ZeroBias_v1',
+                                     'HLT_L1Tech53_MB_1_v1',
+                                     'HLT_L1Tech53_MB_2_v1')
 
 				     
 )
@@ -60,7 +62,7 @@ uabasetree = cms.EDAnalyzer('UABaseTree',
 
 if isMonteCarlo:
   uabasetree.filterEvents                  = cms.untracked.bool(False) #all MC events are stored.
-  uabasetree.storeGenKin                   = cms.untracked.bool(True) 
+  uabasetree.storeGenKin                   = cms.untracked.bool(False) 
   uabasetree.storeGenPart                  = cms.untracked.bool(True)
   uabasetree.saveMothersAndDaughters       = cms.untracked.bool(False) #saves the 2 mothers & 2 daughters for each genPart. USeless if not all genParts are stored (ie if 1 of the 3 switch below is on
   uabasetree.saveGenPartsInDifferentColls  = cms.untracked.bool(False) #saves status=3 in genPart, and status=1 Electrons, Muons and Neutrinos in genElec, genMu, genNu

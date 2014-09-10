@@ -16,6 +16,7 @@ class MyGenKin : public TObject {
   // General Info
   Int_t    MCProcId ;   
   Double_t PtHat  ;
+  Double_t genWeight  ;
 
   //-- Pdf Info
   Double_t x1;        //-- fraction of beam momentum carried by first parton 

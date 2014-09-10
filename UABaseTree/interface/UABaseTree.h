@@ -18,6 +18,7 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "DataFormats/Common/interface/Handle.h"
 #include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/Run.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 
@@ -35,6 +36,8 @@
 #include "DataFormats/VertexReco/interface/Vertex.h"
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 
+//L1
+#include "L1Trigger/GlobalTriggerAnalyzer/interface/L1GtUtils.h"
 
 
 // UATree Analysis class declaration
@@ -80,11 +83,20 @@
 #include "UATree/UADataFormat/src/MyMuon.h"
 #include "UATree/UADataFormat/src/MyPFCand.h"
 
-
 #include "UATree/UADataFormat/src/MyMet.h"
 
 //CaloObjects
 #include "UATree/UADataFormat/src/MyCaloTower.h"
+
+// ZDC
+#include "UATree/UADataFormat/src/MyZDCHit.h"
+#include "UATree/UADataFormat/src/MyZDCDigi.h"
+#include "UATree/UADataFormat/src/MyZDCInfo.h"
+
+// FSC
+#include "UATree/UADataFormat/src/MyFSCHit.h"
+#include "UATree/UADataFormat/src/MyFSCDigi.h"
+#include "UATree/UADataFormat/src/MyFSCInfo.h"
 
 using namespace std;
 using namespace edm;
@@ -93,24 +105,19 @@ using namespace reco;
 typedef ParameterSet PSet;
 
 //
-// class decleration
+// Class declaration
 //
-
-
 
 class UABaseTree : public EDAnalyzer {
    public:
       explicit UABaseTree(const ParameterSet&);
       ~UABaseTree();
 
-
    private:
       virtual void beginJob() ;
       virtual void beginRun(Run const &, EventSetup const&) ;
       virtual void analyze(const Event&, const EventSetup&);
       virtual void endJob() ;
-      
-      
 
       // --------------------   Getters   --------------------
       virtual void GetAll(          const Event& , const EventSetup& );
@@ -152,15 +159,14 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetBasicJet    ( const Event& , const InputTag& , vector<MyBaseJet>& );
       virtual void GetAllBasicJets( const Event& );
 
-      virtual void GetTrackJet     ( const Event& , const InputTag& , vector<MyTrackJet>& );
-      virtual void GetAllTrackJets ( const Event& );
-      virtual int  GetVertexId     ( const Vertex& );
+      virtual void GetRecoTrackJets( const Event& , const EventSetup& , const PSet& ,  vector<MyTrackJet>& );
+      virtual void GetAllTrackJets ( const Event& , const EventSetup& );
+      //      virtual int  GetVertexId     ( const Vertex& );
 
       virtual void GetCastorRecHit( const Event& ); 
       virtual void GetCastorJet(    const Event& ); 
       virtual void GetCastorDigi(   const Event& , const EventSetup& ); 
       virtual void GetCentralDiJet( const vector<MyJet*>& , const string , MyDiJet& ); 
-      
       
       virtual void GetRecoElectron( const Event& , const InputTag& , vector<MyElectron>& ); 
       virtual void GetAllElectrons( const Event& ); 
@@ -169,21 +175,20 @@ class UABaseTree : public EDAnalyzer {
       virtual void GetRecoPFCand(   const Event& , const InputTag& , vector<MyPFCand>& ); 
       virtual void GetAllPFCands(   const Event& ); 
       
-      
       virtual void GetMET(          const Event& , const string& , vector<MyMet>& );
       virtual void GetAllMETs(      const Event& );
       template <class T>
       void FillAllMET(              const vector<T>& , vector<MyMet>& );
       
-      
       virtual void GetCaloTower(    const Event& ); 
 
+      virtual void GetZDCInfo( const Event&, const EventSetup& ); 
 
-      
+      virtual void GetFSCInfo( const Event&, const EventSetup& ); 
+
       // --------------------   Get All Parameters   --------------------
       virtual void GetParameters( const ParameterSet& );
      
-
       // --------------------   Init All Branches   --------------------
       virtual void Init();
       
@@ -201,12 +206,7 @@ class UABaseTree : public EDAnalyzer {
       const string GetColl(const string&);
       const InputTag GetCollInputTag(const string&);
 
-
-      // ------------------------------------------------------------------------------------------------------------------------
-      
-      
-      
-      
+      // -------------------------------------------------------------------
       // --------------------   Vars From Config File   --------------------
       
       vector<InputTag> beamspots_ ;
@@ -227,6 +227,7 @@ class UABaseTree : public EDAnalyzer {
       vector<InputTag> vertices_ ;
       vector<PSet>     vcalojets_;
       vector<PSet>     vpfjets_;
+      vector<PSet>     vtrackjets_;
       vector<InputTag> genjets_;
       vector<InputTag> basicjets_;
       vector<InputTag> trackjets_;
@@ -238,13 +239,26 @@ class UABaseTree : public EDAnalyzer {
       InputTag         calotowercoll_;
       Bool_t           storeCaloObjects_;
       
+      // Castor Stuff
       InputTag         castorrechits_;
       InputTag         castorjets_;
       InputTag         castorjetid_;
       InputTag         castordigis_;
       
-      //Castor Stuff
-      
+      // ZDC
+      Bool_t           storeZDCHits_;
+      Bool_t           storeZDCDigis_;
+      Bool_t           storeZDCInfo_;
+      InputTag         zdcrechits_;
+      InputTag         zdcdigis_;
+
+      // FSC
+      Bool_t           storeFSCHits_;
+      Bool_t           storeFSCDigis_;
+      Bool_t           storeFSCInfo_;
+      InputTag         fscrechits_;
+      InputTag         fscdigis_;
+
       //for fwdGap
       double energyThresholdHB_ ;
       double energyThresholdHE_ ;
@@ -276,16 +290,7 @@ class UABaseTree : public EDAnalyzer {
       
       string outputfilename_ ;
 
-
-
-
-
-      // ------------------------------------------------------------------------------------------------------------------------
-      
-      
-      
-      
-
+      // ----------------------------------------------------------
       // --------------------   Tree Content   --------------------
      
       map<string,MyBeamSpot>        allBeamSpots;
@@ -311,7 +316,6 @@ class UABaseTree : public EDAnalyzer {
       map<string,vector<MyTracks> > allTracks;
       map<string,vector<MyVertex> > allVertices;
 
-
       map<string,vector<MyCaloJet> > allCaloJets;
       map<string,vector<MyPFJet> >   allPFJets;
       
@@ -324,44 +328,38 @@ class UABaseTree : public EDAnalyzer {
       vector<MyCastorDigi>          castorDigis;
       map<string , MyDiJet>         allDiJets;
 
-
       map<string,vector<MyElectron> > allElectrons;
       map<string,vector<MyMuon> >     allMuons;
       map<string,vector<MyPFCand> >   allPFCands;
 
       map<string,vector<MyMet> >      allMETs;
 
-
       vector<MyCaloTower>             caloTowers;
 
+      // ZDC
+      vector<MyZDCHit>  zdcHits;
+      vector<MyZDCDigi> zdcDigis;
+      MyZDCInfo         zdcInfo;
 
+      // FSC
+      vector<MyFSCHit>  fscHits;
+      vector<MyFSCDigi> fscDigis;
+      MyFSCInfo         fscInfo;
 
-      // ------------------------------------------------------------------------------------------------------------------------
-      
-      
-      
-      
-
+      // -------------------------------------------------------
       // --------------------   Vertex Id   --------------------
       Int_t vtxid;
       vector<math::XYZPoint> vtxid_xyz;
 
-
       // map<int,string> HLT_map;
-
 
       // --------------------   Needed For HLT   --------------------
       bool isValidHltConfig_;
       HLTConfigProvider hltConfig;
       
-      
       // --------------------   File & Tree   --------------------
-      
       TFile*   fout;
       TTree*   tree;
-
-
-
 };
 
 #include "TemplateFunctions_jets.h"

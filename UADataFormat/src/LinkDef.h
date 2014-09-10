@@ -65,6 +65,18 @@
 #pragma link C++ class vector<MyPFCand>+;
 #pragma link C++ class MyCaloTower+;
 #pragma link C++ class vector<MyCaloTower>+;
+#pragma link C++ class MyZDCHit+;
+#pragma link C++ class vector<MyZDCHit>+;
+#pragma link C++ class MyZDCDigi+;
+#pragma link C++ class vector<MyZDCDigi>+;
+#pragma link C++ class MyZDCInfo+;
+#pragma link C++ class vector<MyZDCInfo>+;
+#pragma link C++ class MyFSCHit+;
+#pragma link C++ class vector<MyFSCHit>+;
+#pragma link C++ class MyFSCDigi+;
+#pragma link C++ class vector<MyFSCDigi>+;
+#pragma link C++ class MyFSCInfo+;
+#pragma link C++ class vector<MyFSCInfo>+;
 
 #endif
 

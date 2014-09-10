@@ -32,8 +32,6 @@
 <use   name="CondFormats/CastorObjects"/>
 <use   name="CondFormats/JetMETObjects"/>
 <use   name="CalibFormats/CastorObjects"/>
+<use   name="CalibFormats/HcalObjects"/>
 <use   name="rootrflx"/>
-<export>
-  <lib   name="1"/>
-</export>
 <flags   EDM_PLUGIN="1"/>

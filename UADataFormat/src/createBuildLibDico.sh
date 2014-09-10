@@ -43,5 +43,7 @@ echo "  gROOT->ProcessLine(\".L $1/MyPFCand.cc+\");" 		>> BuildLibDico.cc
 echo "  gROOT->ProcessLine(\".L $1/MyPFJet.cc+\");" 		>> BuildLibDico.cc
 echo "  gROOT->ProcessLine(\".L $1/MyPUSumInfo.cc+\");" 	>> BuildLibDico.cc
 echo "  gROOT->ProcessLine(\".L $1/MySimVertex.cc+\");" 	>> BuildLibDico.cc
+echo "  gROOT->ProcessLine(\".L $1/MyTrackJet.cc+\");" 		>> BuildLibDico.cc
+echo "  gROOT->ProcessLine(\".L $1/MyCaloTower.cc+\");"		>> BuildLibDico.cc
 echo "  gROOT->ProcessLine(\".L $1/LinkDef.cc+\");" 		>> BuildLibDico.cc
 echo "}" >> BuildLibDico.cc

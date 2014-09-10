@@ -30,5 +30,11 @@
 #include "MyPFJet.h"
 #include "MyPFCand.h"
 #include "MyCaloTower.h"
+#include "MyZDCHit.h"
+#include "MyZDCDigi.h"
+#include "MyZDCInfo.h"
+#include "MyFSCHit.h"
+#include "MyFSCDigi.h"
+#include "MyFSCInfo.h"
 
 #include "LinkDef.h"

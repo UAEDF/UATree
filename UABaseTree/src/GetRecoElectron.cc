@@ -81,7 +81,7 @@ void UABaseTree::GetRecoElectron(const edm::Event& iEvent, const InputTag& gsfel
     ElecVector[i].dPhiSupClusTrVtx   = iElectron->deltaPhiSuperClusterTrackAtVtx()  ; 
     ElecVector[i].dPhiSeedClusTrCalo = iElectron->deltaPhiSeedClusterTrackAtCalo()  ; 
     ElecVector[i].isEScaleCorr       = iElectron->isEnergyScaleCorrected()	    ; 
-    ElecVector[i].isMomentumCorr     = iElectron->isMomentumCorrected() 	    ; 
+    //    ElecVector[i].isMomentumCorr     = iElectron->isMomentumCorrected() 	    ;  deprecated !
     ElecVector[i].isEcalDriven       = iElectron->ecalDrivenSeed()		    ;
     ElecVector[i].isTrackerDriven    = iElectron->trackerDrivenSeed()		    ;
     ElecVector[i].nClus 	     = iElectron->basicClustersSize()		    ; 
@@ -110,7 +110,7 @@ void UABaseTree::GetRecoElectron(const edm::Event& iEvent, const InputTag& gsfel
       ElecVector[i].expectedInnerHits      =  (*vmEl)[eRef];
     }
     catch ( ... ) {
-      printf("Can't access expectedHitsEle\n");
+      //printf("Can't access expectedHitsEle\n");
     }
    
     

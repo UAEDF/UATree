@@ -40,20 +40,21 @@ mergedVertices = UserCode.FerencSiklerVertexing.NewVertexProducer_cfi.newVertice
 mergedVertices.TrackCollection = 'generalPlusMinBiasTracks'
 mergedVertices.PtMin = cms.double(0.0)
 
-
 # Standard vertexing on merged tracks ------------------------------------------------------------
 
 from RecoVertex.PrimaryVertexProducer.OfflinePrimaryVertices_cfi import *
 offlinePrimaryVerticesWithMBTracks = offlinePrimaryVertices.clone(
     TrackLabel = cms.InputTag('generalPlusMinBiasTracks')
 )
-offlinePrimaryVerticesWithMBTracks.PVSelParameters.maxDistanceToBeam = 2
+#offlinePrimaryVerticesWithMBTracks.PVSelParameters.maxDistanceToBeam = 2  # ! changed in 5.2.4
+offlinePrimaryVerticesWithMBTracks.vertexCollections.maxDistanceToBeam = 2  
 offlinePrimaryVerticesWithMBTracks.TkFilterParameters.maxNormalizedChi2 = 20
 offlinePrimaryVerticesWithMBTracks.TkFilterParameters.maxD0Significance = 100
 offlinePrimaryVerticesWithMBTracks.TkFilterParameters.minPixelLayersWithHits = 2
 offlinePrimaryVerticesWithMBTracks.TkFilterParameters.minSiliconLayersWithHits = 5
-offlinePrimaryVerticesWithMBTracks.TkClusParameters.TkGapClusParameters.zSeparation = 1
-
+#offlinePrimaryVerticesWithMBTracks.TkClusParameters.zSeparation = 1
+#offlinePrimaryVerticesWithMBTracks.TkClusParameters.TkGapClusParameters.zSeparation = 1
+#offlinePrimaryVerticesWithMBTracks.TkGapClusParameters.zSeparation = 1
 
 redoSiHits = cms.Sequence(
                          siPixelRecHits *
