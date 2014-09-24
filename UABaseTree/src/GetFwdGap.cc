@@ -61,25 +61,25 @@ void UABaseTree::GetFwdGap(const edm::Event& iEvent)
   CaloTowerCollection::const_iterator calotower = towerCollection.begin();
   CaloTowerCollection::const_iterator calotowers_end = towerCollection.end();
   for(; calotower != calotowers_end; ++calotower) {
-     bool hasHCAL = false;
+     //bool hasHCAL = false;
      bool hasHF = false;
      bool hasHE = false;
      bool hasHB = false;
-     bool hasHO = false;
-     bool hasECAL = false;
+     //bool hasHO = false;
+     //bool hasECAL = false;
      bool hasEE = false;
      bool hasEB = false;     
      for(size_t iconst = 0; iconst < calotower->constituentsSize(); iconst++){
         DetId detId = calotower->constituent(iconst);
         if(detId.det()==DetId::Hcal){
-           hasHCAL = true;
+           //hasHCAL = true;
            HcalDetId hcalDetId(detId);
            if(hcalDetId.subdet()==HcalForward) hasHF = true;
            else if(hcalDetId.subdet()==HcalEndcap) hasHE = true;
            else if(hcalDetId.subdet()==HcalBarrel) hasHB = true;
-           else if(hcalDetId.subdet()==HcalOuter) hasHO = true;  
+           //else if(hcalDetId.subdet()==HcalOuter) hasHO = true;  
         } else if(detId.det()==DetId::Ecal){
-           hasECAL = true;
+           //hasECAL = true;
            EcalSubdetector ecalSubDet = (EcalSubdetector)detId.subdetId();
            if(ecalSubDet == EcalEndcap) hasEE = true;
            else if(ecalSubDet == EcalBarrel) hasEB = true;
